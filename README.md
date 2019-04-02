@@ -6,8 +6,7 @@ We are very open-minded to be corrected.
 Please correct our code or give us some advice if there is the better way to code.
 
 ### Goal
-1. Our first goal
-1.1. "To do List" with calendar.
+1. "To do List" with calendar.
 
 ### Program flow
 1. Log in
