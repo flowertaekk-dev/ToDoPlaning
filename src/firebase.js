@@ -1,6 +1,6 @@
 import firebase from 'firebase';
 
-// flowertaekk
+// flowertaekk.dev
 // initialize database
 const config = {
     apiKey: "",
