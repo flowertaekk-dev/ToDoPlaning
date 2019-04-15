@@ -15,17 +15,24 @@ Please correct our code or give us some advice if there is the better way to cod
 ### JSON format
 ```
 {
-    user: {
-        date: {
-            todo: ...,
-            todo: ...,
-            todo: ...,
-                .
-                .
-                .
-        }
-    }
+  "todoList" : {
+    "user1" : [
+      {
+        "date" : "20190101",
+        "todo" : "crossFit"
+      },
+      {
+        "date" : "20190101",
+        "todo" : "study"
+      }
+    ],
+    "user2" : [],
+    .
+    .
+    .
+  }
 }
+
 ```
 
 ### Coding rule
