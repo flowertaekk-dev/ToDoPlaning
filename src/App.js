@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import TodoList from './todoList/TodoList';
+import Login from './login/Login';
 import './App.css';
 
 class App extends Component {
@@ -14,6 +15,13 @@ class App extends Component {
     }
   }
 
+  // saves login information
+  _updateLoginState = () => {
+    this.setState({
+      didSignIn: true
+    })
+  }
+
   render() {
     return (
       <Fragment>
@@ -22,7 +30,7 @@ class App extends Component {
           <h2>It's ToDoPlanning!</h2>
         </div>
         <div className='App'>
-          {this.state.didSignIn ? <TodoList /> : 'Need to log in'}
+          { this.state.didSignIn ? <TodoList /> : <Login success={this._updateLoginState} /> }
         </div>
       </Fragment>
     );
