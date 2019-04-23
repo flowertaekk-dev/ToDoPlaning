@@ -24,7 +24,7 @@ class Login extends Component {
         const { id, password } = e.target;
 
         // checks if there is empty input
-        if (!this._emptyInputValidator(id, password)) {
+        if (!this._emptyInputValidator(id.value, password.value)) {
             return 
         }
 
@@ -57,26 +57,13 @@ class Login extends Component {
     _emptyInputValidator = (id, password) => {
         let result = true;
 
-        if (!id.value) {
-            this.setState({
-                idMessage: 'Enter ID'
-            })
-            result = false;
-        } else {
-            this.setState({
-                idMessage: ''
-            })
-        }
+        this.setState({
+            idMessage: id ? '' : 'Enter ID',
+            passwordMessage: password ? '' : 'Enter password'
+        })
 
-        if(!password.value) {
-            this.setState({
-                passwordMessage: 'Enter password'
-            })
-            result = false;
-        } else {
-            this.setState({
-                passwordMessage: ''
-            })
+        if(!id || !password) {
+            result = false
         }
 
         return result;

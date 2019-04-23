@@ -19,38 +19,48 @@ class SignUp extends Component {
     _emptyInputValidator = (id, email, password) => {
         let result = true
 
-        if(!id) {
-            this.setState({
-                idMessage: 'Enter ID'
-            })
+        this.setState({
+            idMessage: id ? '' : 'Enter ID',
+            emailMessage: email ? '' : 'Enter Email',
+            passwordMessage: password ? '' : 'ENter Password'
+        })
+
+        if(!id || !email || !password) {
             result = false
-        } else {
-            this.setState({
-                idMessage: ''
-            })
-        }
-            
-        if(!email) {
-            this.setState({
-                emailMessage: 'Enter Email'
-            })
-            result = false
-        } else {
-            this.setState({
-                emailMessage: ''
-            })
         }
 
-        if(!password) {
-            this.setState({
-                passwordMessage: 'Enter password'
-            })
-            result = false
-        } else {
-            this.setState({
-                passwordMessage: ''
-            })
-        }
+        // if(!id) {
+        //     this.setState({
+        //         idMessage: 'Enter ID'
+        //     })
+        //     result = false
+        // } else {
+        //     this.setState({
+        //         idMessage: ''
+        //     })
+        // }
+            
+        // if(!email) {
+        //     this.setState({
+        //         emailMessage: 'Enter Email'
+        //     })
+        //     result = false
+        // } else {
+        //     this.setState({
+        //         emailMessage: ''
+        //     })
+        // }
+
+        // if(!password) {
+        //     this.setState({
+        //         passwordMessage: 'Enter password'
+        //     })
+        //     result = false
+        // } else {
+        //     this.setState({
+        //         passwordMessage: ''
+        //     })
+        // }
 
         return result
     }
