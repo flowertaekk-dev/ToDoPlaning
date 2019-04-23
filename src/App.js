@@ -30,7 +30,7 @@ class App extends Component {
           <h2>It's ToDoPlanning!</h2>
         </div>
         <div className='App'>
-          { this.state.didSignIn ? <TodoList /> : <Login success={this._updateLoginState} /> }
+          { this.state.didSignIn ? <TodoList /> : <Login logInSuccess={this._updateLoginState} /> }
         </div>
       </Fragment>
     );

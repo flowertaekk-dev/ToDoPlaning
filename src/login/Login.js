@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import SignUp from './SignUp';
 import { Base64 } from 'js-base64';
 import firebase from '../firebase';
 import './Login.css';
@@ -11,7 +12,8 @@ class Login extends Component {
 
         this.state = {
             idMessage: '',
-            passwordMessage: ''
+            passwordMessage: '',
+            signUp: false
         }
     }
 
@@ -27,7 +29,8 @@ class Login extends Component {
         }
 
         // checks id and validate password
-        const userInfoRef = firebase.database().ref().child('userInfo/' + id.value)
+        const rootRef = firebase.database().ref().child('todoList')
+        const userInfoRef = rootRef.child('userInfo/' + id.value)
         userInfoRef.once('value').then(snap => {
 
             // when ID is wrong
@@ -40,7 +43,7 @@ class Login extends Component {
 
             // FIXME need to think about password.value more... How can it be null at this point?
             if (password.value && password.value === Base64.decode(snap.val().password)){
-                this.props.success()
+                this.props.logInSuccess()
             } else {
                 // when Password wrong
                 this.setState({
@@ -79,27 +82,37 @@ class Login extends Component {
         return result;
     }
 
+    _onClickSignUp = () => {
+        this.setState({
+            signUp: !this.state.signUp
+        })
+    }
+
     render() {
         return (
-            <div id='wrap' className='login-border'>
-                <form onSubmit={this._singIn}>
-                    <div id='user-info'>
-                        <p>
-                            <span>ID</span>
-                            <input type='text' name='id' />
-                            <span>{this.state.idMessage}</span>
-                        </p>
-                        <p>
-                            <span>password</span>
-                            <input type='password' name='password' />
-                            <span>{this.state.passwordMessage}</span>
-                        </p>
-                    </div>
-                    <div id='btn'>
-                        <button>Sign in</button>
-                    </div>
-                </form>
-            </div>
+            <Fragment>
+                <div id='wrap' className='login-border'>
+                    <form onSubmit={this._singIn}>
+                        <div id='user-info'>
+                            <p>
+                                <span>ID</span>
+                                <input type='text' name='id' />
+                                <span>{this.state.idMessage}</span>
+                            </p>
+                            <p>
+                                <span>password</span>
+                                <input type='password' name='password' />
+                                <span>{this.state.passwordMessage}</span>
+                            </p>
+                        </div>
+                        <div id='btn'>
+                            <button>Sign in</button>
+                        </div>
+                    </form>
+                    <button onClick={this._onClickSignUp}>Sign up</button>
+                </div>
+                {this.state.signUp ? <SignUp logInSuccess={this.props.logInSuccess} /> : ''}
+            </Fragment>
         );
     }
 }
