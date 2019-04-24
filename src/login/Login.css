@@ -2,12 +2,3 @@
     margin: 0;
     padding: 0;
 }
-#wrap {
-    margin: 0 auto;
-    width: 50%; 
-    border: 5px solid black;
-
-}
-#user-info p span {
-    margin-right: 10px;
-}

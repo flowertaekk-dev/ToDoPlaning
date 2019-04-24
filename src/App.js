@@ -16,8 +16,9 @@ class App extends Component {
   }
 
   // saves login information
-  _updateLoginState = () => {
+  _updateLoginState = (id) => {
     this.setState({
+      userId: id,
       didSignIn: true
     })
   }
@@ -26,11 +27,11 @@ class App extends Component {
     return (
       <Fragment>
         <div className="App">
-          <h1>Hello World!</h1>
+          <h1>Hello world!</h1>
           <h2>It's ToDoPlanning!</h2>
         </div>
         <div className='App'>
-          { this.state.didSignIn ? <TodoList /> : <Login logInSuccess={this._updateLoginState} /> }
+          { this.state.didSignIn ? <TodoList userId={this.state.userId} /> : <Login logInSuccess={this._updateLoginState} /> }
         </div>
       </Fragment>
     );

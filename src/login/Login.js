@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import SignUp from './SignUp';
+import SignUp, { ErrorMessage } from './SignUp';
 import { Base64 } from 'js-base64';
 import firebase from '../firebase';
 import './Login.css';
@@ -20,6 +20,9 @@ class Login extends Component {
     _singIn = (e) => {
         // prevents browser from refreshing
         e.preventDefault()
+
+        // stops process when the process is "Sign up"
+        if(e.target.signUp) return
 
         const { id, password } = e.target;
 
@@ -43,7 +46,7 @@ class Login extends Component {
 
             // FIXME need to think about password.value more... How can it be null at this point?
             if (password.value && password.value === Base64.decode(snap.val().password)){
-                this.props.logInSuccess()
+                this.props.logInSuccess(id.value)
             } else {
                 // when Password wrong
                 this.setState({
@@ -80,23 +83,37 @@ class Login extends Component {
             <Fragment>
                 <div id='wrap' className='login-border'>
                     <form onSubmit={this._singIn}>
-                        <div id='user-info'>
-                            <p>
-                                <span>ID</span>
-                                <input type='text' name='id' />
-                                <span>{this.state.idMessage}</span>
-                            </p>
-                            <p>
-                                <span>password</span>
-                                <input type='password' name='password' />
-                                <span>{this.state.passwordMessage}</span>
-                            </p>
-                        </div>
-                        <div id='btn'>
-                            <button>Sign in</button>
-                        </div>
+                        <table>
+                            <caption>Login</caption>
+                            <thead>
+                                <tr>
+                                    <th scope='col'>Explanation</th>
+                                    <th scope='col'>Input</th>
+                                    <th scope='col'>Error message</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ID</td>
+                                    <td><input type='text' name='id' /></td>
+                                    <ErrorMessage msg={this.state.idMessage} />
+                                </tr>
+                                <tr>
+                                    <td>Password</td>
+                                    <td><input type='password' name='password' /></td>
+                                    <ErrorMessage msg={this.state.passwordMessage} />
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colSpan='2'>
+                                        <button type='submit' name='submit'>Sign in</button>
+                                        <button type='button' name='signUpBtn' onClick={this._onClickSignUp}>Sign up</button>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
                     </form>
-                    <button onClick={this._onClickSignUp}>Sign up</button>
                 </div>
                 {this.state.signUp ? <SignUp logInSuccess={this.props.logInSuccess} /> : ''}
             </Fragment>

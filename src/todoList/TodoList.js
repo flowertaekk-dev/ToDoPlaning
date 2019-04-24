@@ -16,7 +16,7 @@ class TodoList extends Component {
     // reads data from firebase with user_id
     _readData = () => {
         const rootRef = firebase.database().ref().child('todoList')
-        const userRef = rootRef.child('user1') // userID
+        const userRef = rootRef.child(this.props.userId) // userID
         userRef.on('value', snap => {
             this.setState({
             data: snap.val()
@@ -46,7 +46,7 @@ class TodoList extends Component {
         return (
             <Fragment>
                 <div>
-                    {this.state.data ? this._renderData() : 'loading..'}
+                    {this.state.data ? this._renderData() : 'nothing to show'}
                 </div>
             </Fragment>
         );

@@ -22,45 +22,12 @@ class SignUp extends Component {
         this.setState({
             idMessage: id ? '' : 'Enter ID',
             emailMessage: email ? '' : 'Enter Email',
-            passwordMessage: password ? '' : 'ENter Password'
+            passwordMessage: password ? '' : 'Enter Password'
         })
 
         if(!id || !email || !password) {
             result = false
         }
-
-        // if(!id) {
-        //     this.setState({
-        //         idMessage: 'Enter ID'
-        //     })
-        //     result = false
-        // } else {
-        //     this.setState({
-        //         idMessage: ''
-        //     })
-        // }
-            
-        // if(!email) {
-        //     this.setState({
-        //         emailMessage: 'Enter Email'
-        //     })
-        //     result = false
-        // } else {
-        //     this.setState({
-        //         emailMessage: ''
-        //     })
-        // }
-
-        // if(!password) {
-        //     this.setState({
-        //         passwordMessage: 'Enter password'
-        //     })
-        //     result = false
-        // } else {
-        //     this.setState({
-        //         passwordMessage: ''
-        //     })
-        // }
 
         return result
     }
@@ -167,7 +134,7 @@ class SignUp extends Component {
     }
 }
 
-const ErrorMessage = (props) => {
+export const ErrorMessage = (props) => {
     return (
         <td>
             <p>{props.msg}</p>
