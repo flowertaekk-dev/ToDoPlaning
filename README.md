@@ -2,9 +2,6 @@
 
 ## It is a planing application.
 
-We are very open-minded to be corrected.
-Please correct our code or give us some advice if there is the better way to code.
-
 ### Goal
 1. "To do List" with calendar.
 
@@ -16,20 +13,44 @@ Please correct our code or give us some advice if there is the better way to cod
 ```
 {
   "todoList" : {
-    "user1" : [
-      {
-        "date" : "20190101",
-        "todo" : "crossFit"
+    "userId": {
+      "hashCode1": {
+        completeRate: ...,
+        date: "YYYYmmDD",
+        deadLine: "YYYYmmDD",
+        priority: ...,
+        taskDetails: ...,
+        todo: ...
       },
-      {
-        "date" : "20190101",
-        "todo" : "study"
+      "hashCode2": {
+        completeRate: ...,
+        date: "YYYYmmDD",
+        deadLine: "YYYYmmDD",
+        priority: ...,
+        taskDetails: ...,
+        todo: ...
       }
-    ],
-    "user2" : [],
-    .
-    .
-    .
+    },
+    "anotherUserId": {
+      "hashCode1": {
+        completeRate: ...,
+        date: "YYYYmmDD",
+        deadLine: "YYYYmmDD",
+        priority: ...,
+        taskDetails: ...,
+        todo: ...
+      }
+    },
+    "userInfo": {
+      "userId1": {
+        "email": ...,
+        "password": ...
+      },
+      "userId2": {
+        "email": ...,
+        "password": ...
+      }
+    }
   }
 }
 
@@ -38,6 +59,14 @@ Please correct our code or give us some advice if there is the better way to cod
 ### Coding rule
 1. Use the camel case.
 2. Use tab to indent.
+3. Place an white space between variables and braces.
+  example)
+  ```
+  testFunction () {
+    ...
+  }
+  ```
+4. Leave your gitHub ID in where you edit or add code.
 
 ### Git
 We are using "git flow" strategy.
