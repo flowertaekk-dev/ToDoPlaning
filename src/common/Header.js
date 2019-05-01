@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import './Header.css';
 
 class Header extends Component {
 
@@ -12,4 +13,4 @@ class Header extends Component {
     }
  }
 
- export default Header
+export default Header

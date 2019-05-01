@@ -1,3 +1,12 @@
+html, body, * {
+  margin: 0;
+  padding: 0;
+}
+h1,h2,h3,h4,h5,h6,body,span,table,caption,td,th,button {
+  font-size: 12px;
+  color: #555;
+}
+
 .App {
   text-align: center;
 }
@@ -13,11 +22,5 @@
   color: white;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+
+

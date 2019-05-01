@@ -11,7 +11,7 @@ class Todo extends Component {
     }
 
     _css = {
-        border: '5px solid black',
+        border: '5px solid #888',
         margin: '20px',
         padding: '10px',
         listStyle: 'none'
