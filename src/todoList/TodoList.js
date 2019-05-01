@@ -16,7 +16,12 @@ class TodoList extends Component {
     }
 
     componentDidMount() {
+        this.hasMounted = true
         this._getData()
+    }
+
+    componentWillUnmount() {
+        this.hasMounted = false
     }
 
     // reads data from firebase with user ID
@@ -24,12 +29,14 @@ class TodoList extends Component {
         const rootRef = firebase.database().ref().child('todoList')
         const userRef = rootRef.child(this.props.userId)
         userRef.on('value', snap => {
-            this.setState({
-                data: _filter(
-                        snap.val(),
-                        (val) => { return val.date === this.state.selectedDate }
-                    )
-            })
+            if(this.hasMounted) {
+                this.setState({
+                    data: _filter(
+                            snap.val(),
+                            (val) => { return val.date === this.state.selectedDate }
+                        )
+                })
+            }
         })
     }
 
