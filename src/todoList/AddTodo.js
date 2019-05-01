@@ -17,10 +17,10 @@ class AddTodo extends Component {
         const updateTodo = {
             date: _replaceHyphen(e.target.date.value),
             todo: e.target.todo.value,
-            completeRate: e.target.completeRate.value,
+            completeRate: '',
             deadLine: _replaceHyphen(e.target.deadLine.value),
             priority: e.target.priority.value,
-            taskDetauls: e.target.taskDetail.value
+            taskDetails: e.target.taskDetail.value
         }
 
         todoRef.update(updateTodo)
@@ -31,7 +31,6 @@ class AddTodo extends Component {
     _initializeInputs = (e) => {
         e.target.date.value = ''
         e.target.todo.value = ''
-        e.target.completeRate.value = ''
         e.target.deadLine.value = ''
         e.target.priority.value = 'normal'
         e.target.taskDetail.value = ''
@@ -61,13 +60,6 @@ class AddTodo extends Component {
                             <tr>
                                 <td><p>To do</p></td>
                                 <td><p><input type='type' name='todo' /></p></td>
-                                <ErrorMessage />
-                            </tr>
-
-                            <tr>
-                                {/* TODO need to think about that whether or not it should be here */}
-                                <td><p>Complete rate</p></td>
-                                <td><p><input type='type' name='completeRate' /></p></td>
                                 <ErrorMessage />
                             </tr>
 
