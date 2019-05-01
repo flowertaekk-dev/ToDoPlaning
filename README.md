@@ -66,7 +66,7 @@
     ...
   }
   ```
-4. Leave your gitHub ID in where you edit or add code.
+4. Write your gitHub ID in where you edit or add code.
 
 ### Git
 We are using "git flow" strategy.
