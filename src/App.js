@@ -26,10 +26,12 @@ class App extends Component {
   render() {
     return (
       <Fragment>
-        <div className="App">
-          <h1>Hello world!</h1>
+        <div className="App-header">
           <h2>It's ToDoPlanning!</h2>
         </div>
+
+        <hr />
+
         <div className='App'>
           { this.state.didSignIn ? <TodoList userId={this.state.userId} /> : <Login logInSuccess={this._updateLoginState} /> }
         </div>
