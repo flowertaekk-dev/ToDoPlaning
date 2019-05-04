@@ -1,4 +1,4 @@
-/* common */
+/* COMMON */
 
 html, body {
   width: 100%;
@@ -14,13 +14,24 @@ body,h1,h2,h3,h4,h5,h6,input,select,textarea,button,th,td {
   color: #555;
 }
 
-/* ... */
+/* TABLE */
+
+table caption {
+  text-indent: -9999px;
+}
 
 th, td {
   margin: 10px;
   padding: 5px;
   border: 1px solid #E5E5E5;
 }
+
+td input {
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+}
+
+/* ... */
 
 .App {
   text-align: center;

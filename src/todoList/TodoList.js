@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { _filter, _replaceHyphen } from '../_';
+import { _filter, _mapWithKeys } from '../_';
 import Todo from './Todo';
 import AddTodo from './AddTodo';
 import firebase from '../firebase';
@@ -17,7 +17,7 @@ class TodoList extends Component {
 
     componentDidMount() {
         this.hasMounted = true
-        this._getData()
+        this._readData()
     }
 
     componentWillUnmount() {
@@ -25,14 +25,14 @@ class TodoList extends Component {
     }
 
     // reads data from firebase with user ID
-    _readData = () => {
+    _readData = async () => {
         const rootRef = firebase.database().ref().child('todoList')
         const userRef = rootRef.child(this.props.userId)
-        userRef.on('value', snap => {
+        await userRef.on('value', snap => {
             if(this.hasMounted) {
                 this.setState({
                     data: _filter(
-                            snap.val(),
+                            _mapWithKeys(snap.val()),
                             (val) => { return val.date === this.state.selectedDate }
                         )
                 })
@@ -40,33 +40,15 @@ class TodoList extends Component {
         })
     }
 
-    // sets data to this.state
-    _getData = async() => {
-        const data = await this._readData()
-        this.setState({
-            data
-        })
-    }
-
-    // renders data to browser
-    _renderData = () => {
-        const _dailyList = this.state.data.filter(data => data.date === this.state.selectedDate);
-        const result = _dailyList.map((todo, index) => {
-            return <p key={index}> {todo.todo} </p>
-        })
-
-        return result
-    }
-
     // saves the current selected date to retrieve certain data
     _onSelectDate = async(e) => {
         await this.setState({
-            // replaces "-" with white space
-            [e.target.name]: _replaceHyphen(e.target.value)
+            [e.target.name]: e.target.value
         })
         this._readData()
     }
 
+    // AddTodo.js
     _onAddTodo = () => {
         this.setState({
             addTodo: !this.state.addTodo
@@ -88,8 +70,8 @@ class TodoList extends Component {
                         this.state.data ? 
                             <ul>
                                 {
-                                    this.state.data.map((todo, index) => {
-                                        return <Todo {...todo} key={index}/>
+                                    this.state.data.map((todo) => {
+                                        return <Todo {...todo} key={todo.index} />
                                     })
                                 }
                             </ul>

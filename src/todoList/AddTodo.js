@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import { ErrorMessage } from '../login/SignUp'; 
-import { _replaceHyphen } from '../_';
 import firebase from '../firebase';
 
 // flowertaekk.dev
@@ -15,10 +14,10 @@ class AddTodo extends Component {
         const todoRef = userRef.child(key)
 
         const updateTodo = {
-            date: _replaceHyphen(e.target.date.value),
+            date: e.target.date.value,
             todo: e.target.todo.value,
             completeRate: '',
-            deadLine: _replaceHyphen(e.target.deadLine.value),
+            deadLine: e.target.deadLine.value,
             priority: e.target.priority.value,
             taskDetails: e.target.taskDetail.value
         }
