@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import firebase from '../firebase';
 import { Base64 } from 'js-base64';
-import './SignUp.css';
 
 class SignUp extends Component {
 

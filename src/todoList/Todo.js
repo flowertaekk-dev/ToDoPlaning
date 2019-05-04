@@ -10,31 +10,38 @@ class Todo extends Component {
         this.state = {}
     }
 
-    _css = {
-        border: '5px solid #888',
+    _border = {
+        border: '1px solid #E5E5E5',
         margin: '20px',
         padding: '10px',
-        listStyle: 'none'
+        listStyle: 'none',
+        borderRadius: '10px'
+    }
+
+    _table = {
+        border:  '1px solid #E5E5E5',
+        margin: '10px',
+        padding: '5px'
     }
 
     render() {
         return(
-            <li style={this._css}>
+            <li style={this._border}>
 
                 <table>
                     <caption>ToDo</caption>
                     <tbody>
                         <tr>
-                            <th scope='row'>TODO</th>
-                            <td>{this.props.todo}</td>
+                            <th scope='row' className={this._table}>TODO</th>
+                            <td className={this._table}>{this.props.todo}</td>
                         </tr>
                         <tr>
-                            <th scope='row'>Dead-line</th>
-                            <td>{this.props.deadLine}</td>
+                            <th scope='row' className={this._table}>Dead-line</th>
+                            <td className={this._table}>{this.props.deadLine}</td>
                         </tr>
                         <tr>
-                            <th scope='row'>Details</th>
-                            <td>{this.props.taskDetails}</td>
+                            <th scope='row' className={this._table}>Details</th>
+                            <td className={this._table}>{this.props.taskDetails}</td>
                         </tr>
                     </tbody>
                 </table>

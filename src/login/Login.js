@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import SignUp, { ErrorMessage } from './SignUp';
 import { Base64 } from 'js-base64';
 import firebase from '../firebase';
-import './Login.css';
 
 // flowertaekk.dev
 class Login extends Component {
