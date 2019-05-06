@@ -30,14 +30,26 @@ class Todo extends Component {
         })
     }
 
+    _getTodoRef = () => {
+        const rootRef = firebase.database().ref().child('todoList')
+        const userRef = rootRef.child(localStorage.getItem('userId'))
+        const todoRef = userRef.child(this.props.index)
+
+        return todoRef
+    }
+
+    _onDelete = () => {
+        const todoRef = this._getTodoRef()
+        todoRef.remove()
+    }
+
     _saveUpdatedData = () => {
         this.setState({
             isUpdate: !this.state.isUpdate
         })
 
-        const rootRef = firebase.database().ref().child('todoList')
-        const userRef = rootRef.child(localStorage.getItem('userId') + '/' + this.props.index)
-        userRef.update({
+        const todoRef = this._getTodoRef()
+        todoRef.update({
             deadLine: this.state.deadLine,
             taskDetails: this.state.taskDetails
         })
@@ -115,7 +127,7 @@ class Todo extends Component {
                                     </Fragment>
                                     : <Fragment>
                                         <button onClick={this._onClickUpdateBtn} className='common-button'>UPDATE</button>
-                                        <button className='common-button' >DELETE</button>
+                                        <button className='common-button' onClick={this._onDelete}>DELETE</button>
                                     </Fragment>
                                 }
                             </td>
