@@ -1,4 +1,6 @@
-/* COMMON */
+/**********
+  COMMON 
+**********/
 
 html, body {
   width: 100%;
@@ -14,21 +16,243 @@ body,h1,h2,h3,h4,h5,h6,input,select,textarea,button,th,td {
   color: #555;
 }
 
+ul, ol {
+  padding: 0;
+  list-style: none;
+}
+
+.common-border {
+  box-sizing: border-box;
+  margin: 0 auto;
+  margin-top: 10%;
+  background-color: rgba(0, 0, 0, 0);
+  border: 1px solid #E5E5E5;
+  border-radius: 15px;
+  box-shadow: 3px 3px 3px #EFEFEF;
+}
+
+.common-border input {
+  border: 0;
+  outline: none;
+  box-shadow: none;
+  display: block;
+  /* line-height: 30px; */
+  padding: 8px 15px;
+  border-bottom: 1px solid #eee;
+  box-sizing: border-box;
+  margin: 0 auto;
+}
+
+.common-button {
+  display:inline-block;
+  padding: 0.3em 1.2em;
+  margin: 5px 0.1em 0.1em 5px;
+  border: 1px solid #E5E5E5;
+  border-radius: 2em;
+  box-sizing: border-box;
+  text-decoration: none;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+/**********
+  HEADER
+**********/
+
+.header-border {
+  position: fixed;
+  top: 0;
+  background-color: #FFF;
+  border-bottom: 2px solid #E5E5E5;
+  width: 100%;
+}
+
+.header-title {
+  position: absolute;
+  float: left;
+  left: 25%;
+  top: 0;
+  width: 50%;
+  text-align: center;
+  height: 20px;
+}
+
+.header-title h1 {
+  font-size: 2em;
+}
+
+.header-menu {
+  float: right;
+}
+
+/***********
+  LOGIN
+**********/
+
+#login-wrap {
+  margin: 0 auto;
+  margin-top: 60px;
+  padding: 0;
+  width: 90%;
+  box-sizing: border-box;
+}
+
+.login-border {
+  box-sizing: border-box;
+  margin: 0 auto;
+  margin-top: 10%;
+  background-color: rgba(0, 0, 0, 0);
+  border: 1px solid #E5E5E5;
+  border-radius: 15px;
+  box-shadow: 3px 3px 3px #EFEFEF;
+}
+
+.login-border h1 {
+  font-size: 2em;
+}
+
+.login-border input {
+  border: 0;
+  outline: none;
+  box-shadow: none;
+  display: block;
+  line-height: 30px;
+  padding: 8px 15px;
+  border-bottom: 1px solid #eee;
+  box-sizing: border-box;
+  margin: 0 auto;
+}
+
+.login-border button {
+  display:inline-block;
+  padding: 0.3em 1.2em;
+  margin: 10px 0.1em 0.1em 10px;
+  border: 1px solid #E5E5E5;
+  border-radius:2em;
+  box-sizing: border-box;
+  text-decoration:none;
+  text-align:center;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+/* SIGN UP */
+
+#signUp-wrap {
+  margin: 0 auto;
+  margin-top: 10px;
+  padding: 0;
+  width: 90%;
+  box-sizing: border-box;
+}
+
+#signUp-wrap h1 {
+  font-size: 2em;
+}
+
+/* ADD TODO */
+
+#add-todo-wrap {
+  margin: 0 auto;
+  padding: 0;
+  width: 90%;
+}
+
+#add-todo-wrap table {
+  /* box-sizing: content-box; */
+  margin: 0 auto;
+}
+
+/* INPUT[DATE] */
+
+input[type="date"]::-webkit-clear-button {
+  display: none;
+}
+
+input[type="date"]::-webkit-inner-spin-button { 
+  display: none;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  color: #555;
+}
+
+input[type="date"] {
+  appearance: none;
+  -webkit-appearance: none;
+  color: #95a5a6;
+  border:1px solid #E5E5E5;
+  border-radius: 2em;
+  background: rgba(0, 0, 0, 0);
+  padding: 0.3em 1.2em;
+  display: inline-block !important;
+  visibility: visible !important;
+}
+
+input[type="date"], focus {
+  color: #555;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+}
+
+/* SELECT */
+
+.select-style {
+  border: 1px solid #ccc;
+  width: 120px;
+  border-radius: 3px;
+  overflow: hidden;
+  background: #fafafa url("img/arrow.png") no-repeat 90% 50%;
+  background-size: contain;
+}
+
+.select-style select {
+  padding: 5px 8px;
+  width: 130%;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  background-image: none;
+  -webkit-appearance: none;
+}
+
+.select-style select:focus {
+  outline: none;
+}
+
 /* TABLE */
+
+table {
+  margin: 0 auto;
+  box-sizing: border-box;
+  text-align: left;
+}
 
 table caption {
   text-indent: -9999px;
 }
 
+table thead {
+  display: none;
+}
+
 th, td {
   margin: 10px;
   padding: 5px;
-  border: 1px solid #E5E5E5;
+  /* border: 1px solid #E5E5E5; */
 }
 
 td input {
   background-color: rgba(0, 0, 0, 0);
   border: none;
+}
+
+p input {
+  margin: 0;
+}
+
+.td-button-center {
+  text-align: center;
 }
 
 /* ... */

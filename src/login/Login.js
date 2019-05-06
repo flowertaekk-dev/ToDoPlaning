@@ -80,38 +80,28 @@ class Login extends Component {
     render() {
         return (
             <Fragment>
-                <div id='wrap' className='login-border'>
+                <div id='login-wrap' className='login-border'>
                     <form onSubmit={this._singIn}>
-                        <table>
-                            <caption>Login</caption>
-                            <thead>
-                                <tr>
-                                    <th scope='col'>Explanation</th>
-                                    <th scope='col'>Input</th>
-                                    <th scope='col'>Error message</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>ID</td>
-                                    <td><input type='text' name='id' /></td>
-                                    <ErrorMessage msg={this.state.idMessage} />
-                                </tr>
-                                <tr>
-                                    <td>Password</td>
-                                    <td><input type='password' name='password' /></td>
-                                    <ErrorMessage msg={this.state.passwordMessage} />
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colSpan='2'>
-                                        <button type='submit' name='submit'>Sign in</button>
-                                        <button type='button' name='signUpBtn' onClick={this._onClickSignUp}>Sign up</button>
-                                    </td>
-                                </tr>
-                            </tfoot>
-                        </table>
+                    
+                        <div>
+                            <h1>Log in</h1>
+                        </div>
+
+                        <div>
+                            <input type='text' id='id' name='id' placeholder='ID' />
+                            <ErrorMessage msg={this.state.idMessage} />
+                        </div>
+
+                        <div>
+                            <input type='password' id='password' name='password' placeholder='password' />
+                            <ErrorMessage msg={this.state.passwordMessage} />
+                        </div>
+
+                        <div>
+                            <button type='submit' name='submit'>Sign in</button>
+                            <button type='button' name='signUpBtn' onClick={this._onClickSignUp}>Sign up</button>
+                        </div>
+
                     </form>
                 </div>
                 {this.state.signUp ? <SignUp logInSuccess={this.props.logInSuccess} /> : ''}

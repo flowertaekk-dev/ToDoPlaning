@@ -49,7 +49,6 @@ class App extends Component {
     return (
       <Fragment>
         <Header signOut={this._signOut}/>
-        <hr />
 
         <div className='App'>
           { this.state.didSignIn ? <TodoList userId={this.state.userId} /> : <Login logInSuccess={this._updateLoginState} /> }

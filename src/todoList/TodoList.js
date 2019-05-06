@@ -10,7 +10,7 @@ class TodoList extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            selectedDate: '',
+            selectedDate: this._getCurrentDate(),
             addTodo: false
         }
     }
@@ -55,29 +55,54 @@ class TodoList extends Component {
         })
     }
 
+    _getCurrentDate = () => {
+        const today = new Date()
+
+        const year = today.getFullYear()
+        const month = (today.getMonth() + 1) < 10 ? '0' + (today.getMonth() + 1) : today.getMonth() + 1
+        const date = today.getDate() < 10 ? '0' + today.getDate() : today.getDate()
+
+        return (year + '-' + month + '-' + date)
+    }
+
+    _marginTop = {
+        marginTop: '10%'
+    }
+
     render() {
         return (
             <Fragment>
-                <div>
-                    <p><button onClick={this._onAddTodo}>ADD TODO</button></p>
-                    { this.state.addTodo ? <AddTodo userId={this.props.userId} /> : '' }
-                </div>
-                <div>
-                    <p>
-                        <input type='date' name='selectedDate' onChange={this._onSelectDate} />
-                    </p>
+                
+                <div style={this._marginTop}>
+                    <p><button onClick={this._onAddTodo} className='common-button'>ADD TODO</button></p>
                     {
-                        this.state.data ? 
-                            <ul>
-                                {
-                                    this.state.data.map((todo) => {
-                                        return <Todo {...todo} key={todo.index} />
-                                    })
-                                }
-                            </ul>
-                        : 'nothing to show'
+                        this.state.addTodo
+                        ? <AddTodo userId={this.props.userId} />
+                        : '' 
                     }
                 </div>
+                
+                {
+                    this.state.addTodo
+                    ? ''
+                    : 
+                    <div>
+                        <p>
+                            <input type='date' name='selectedDate' value={this.state.selectedDate} onChange={this._onSelectDate} />
+                        </p>
+                        {
+                            this.state.data ? 
+                                <ul>
+                                    {
+                                        this.state.data.map((todo) => {
+                                            return <Todo {...todo} key={todo.index} />
+                                        })
+                                    }
+                                </ul>
+                            : 'nothing to show'
+                        }
+                    </div>
+                }
             </Fragment>
         );
     }

@@ -110,12 +110,12 @@ class Todo extends Component {
                                 {
                                     this.state.isUpdate
                                     ? <Fragment>
-                                        <button onClick={this._saveUpdatedData}>SAVE</button>
-                                        <button onClick={this._onCancelUpdate}>RETURN</button>
+                                        <button onClick={this._saveUpdatedData} className='common-button'>SAVE</button>
+                                        <button onClick={this._onCancelUpdate} className='common-button'>RETURN</button>
                                     </Fragment>
                                     : <Fragment>
-                                        <button onClick={this._onClickUpdateBtn}>UPDATE</button>
-                                        <button>DELETE</button>
+                                        <button onClick={this._onClickUpdateBtn} className='common-button'>UPDATE</button>
+                                        <button className='common-button' >DELETE</button>
                                     </Fragment>
                                 }
                             </td>

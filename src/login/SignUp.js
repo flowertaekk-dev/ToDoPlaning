@@ -76,8 +76,36 @@ class SignUp extends Component {
     render() {
         return (
             <Fragment>
-                <form onSubmit={this._signUp}>
-                    <table style={this.css}>
+                <div id='signUp-wrap' className='common-border'>
+                    <form onSubmit={this._signUp}>
+
+                        <div>
+                            <h1>Sign up</h1>
+                        </div>
+
+                        <div>
+                            <input type='text' name='userId' placeholder='ID' />
+                            <ErrorMessage msg={this.state.idMessage} />
+                        </div>
+
+                        <div>
+                            <input type='email' name='userEmail' placeholder='e-mail' />
+                            <ErrorMessage msg={this.state.emailMessage} />
+                        </div>
+
+                        <div>
+                            <input type='password' name='userPassword' placeholder='password' />
+                            <ErrorMessage msg={this.state.passwordMessage} />
+                        </div>
+
+                        <div>
+                            <button type='submit' className='common-button'>Register</button>
+                        </div>
+
+                    </form>
+                </div>
+
+                    {/* <table style={this.css}>
                         <caption>Sign up</caption>
                         <thead>
                             <tr>
@@ -126,18 +154,22 @@ class SignUp extends Component {
                                 </td>
                             </tr>
                         </tfoot>
-                    </table>
-                </form>
+                    </table> */}
             </Fragment>
         );
     }
 }
 
 export const ErrorMessage = (props) => {
+
+    const _errStyle = {
+        color: 'red'
+    }
+
     return (
-        <td>
-            <p>{props.msg}</p>
-        </td>
+        <p>
+            <span style={_errStyle}>{props.msg}</span>
+        </p>
     );
 };
 
