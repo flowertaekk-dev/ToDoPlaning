@@ -17,7 +17,7 @@ class TodoList extends Component {
 
     componentDidMount() {
         this.hasMounted = true
-        this._readData()
+        if (localStorage.getItem('userId') || this.props.userId) this._readData()
     }
 
     componentWillUnmount() {
@@ -27,7 +27,7 @@ class TodoList extends Component {
     // reads data from firebase with user ID
     _readData = async () => {
         const rootRef = firebase.database().ref().child('todoList')
-        const userRef = rootRef.child(this.props.userId)
+        const userRef = rootRef.child(localStorage.getItem('userId') || this.props.userId)
         await userRef.on('value', snap => {
             if(this.hasMounted) {
                 this.setState({

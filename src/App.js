@@ -28,7 +28,7 @@ class App extends Component {
   }
 
   // saves login information
-  _updateLoginState = (id) => {
+  _updateLoginState = async (id) => {
     this.setState({
       userId: id,
       didSignIn: true

@@ -70,7 +70,7 @@ class SignUp extends Component {
         this._setDataToDB(userInfoRef, userEmail, userPassword)
 
         // after sign up, moves to "To Do List" page
-        this.props.logInSuccess()
+        this.props.logInSuccess(userId.value)
     }
 
     render() {

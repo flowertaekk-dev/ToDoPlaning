@@ -15,8 +15,8 @@ class AddTodo extends Component {
 
         const { date, todo, deadLine, priority, taskDetail } = e.target
 
-        if(!this._emptyInputValidator(date.value, todo.value, deadLine.value)) return
-
+        if (!this._emptyInputValidator(date.value, todo.value, deadLine.value)) return
+        
         const rootRef = firebase.database().ref().child('todoList')
         const userRef = rootRef.child(this.props.userId)
         const key = userRef.push().key
