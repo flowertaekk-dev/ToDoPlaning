@@ -1,3 +1,4 @@
+/* functional programming */
 export function _filter(obj, pred) {
     let result = []
     _each(obj, function(val) {
@@ -39,9 +40,19 @@ export function _replaceHyphen (str) {
     return str.replace(/-/g, '')
 }
 
-// help functions
-
 function _keys(obj) {
     return typeof obj === 'object' && !!obj ? Object.keys(obj) : []
+}
+
+/* help functions */
+
+export function _getCurrentDate() {
+    const today = new Date()
+
+    const year = today.getFullYear()
+    const month = (today.getMonth() + 1) < 10 ? '0' + (today.getMonth() + 1) : today.getMonth() + 1
+    const date = today.getDate() < 10 ? '0' + today.getDate() : today.getDate()
+
+    return (year + '-' + month + '-' + date)
 }
 

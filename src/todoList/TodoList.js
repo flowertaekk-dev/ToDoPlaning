@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { _filter, _mapWithKeys } from '../_';
+import { _filter, _mapWithKeys, _getCurrentDate } from '../_';
 import Todo from './Todo';
 import AddTodo from './AddTodo';
 import firebase from '../firebase';
@@ -10,7 +10,7 @@ class TodoList extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            selectedDate: this._getCurrentDate(),
+            selectedDate: _getCurrentDate(),
             addTodo: false
         }
     }
@@ -55,16 +55,6 @@ class TodoList extends Component {
         })
     }
 
-    _getCurrentDate = () => {
-        const today = new Date()
-
-        const year = today.getFullYear()
-        const month = (today.getMonth() + 1) < 10 ? '0' + (today.getMonth() + 1) : today.getMonth() + 1
-        const date = today.getDate() < 10 ? '0' + today.getDate() : today.getDate()
-
-        return (year + '-' + month + '-' + date)
-    }
-
     _marginTop = {
         marginTop: '10%'
     }
@@ -77,7 +67,7 @@ class TodoList extends Component {
                     <p><button onClick={this._onAddTodo} className='common-button'>ADD TODO</button></p>
                     {
                         this.state.addTodo
-                        ? <AddTodo userId={this.props.userId} />
+                        ? <AddTodo userId={this.props.userId} selectedDate={this.state.selectedDate} />
                         : '' 
                     }
                 </div>

@@ -7,15 +7,17 @@ class AddTodo extends Component {
     constructor (props) {
         super(props)
 
-        this.state = {}
+        this.state = {
+            selectedDate: this.props.selectedDate
+        }
     }
 
     _onSubmit = (e) => {
         e.preventDefault()
 
-        const { date, todo, deadLine, priority, taskDetail } = e.target
+        const { selectedDate, todo, deadLine, priority, taskDetail } = e.target
 
-        if (!this._emptyInputValidator(date.value, todo.value, deadLine.value)) return
+        if (!this._emptyInputValidator(selectedDate.value, todo.value, deadLine.value)) return
         
         const rootRef = firebase.database().ref().child('todoList')
         const userRef = rootRef.child(this.props.userId)
@@ -23,7 +25,7 @@ class AddTodo extends Component {
         const todoRef = userRef.child(key)
 
         const updateTodo = {
-            date: date.value,
+            date: selectedDate.value,
             todo: todo.value,
             completeRate: '',
             deadLine: deadLine.value,
@@ -37,28 +39,34 @@ class AddTodo extends Component {
     }
 
     _initializeInputs = (e) => {
-        const { date, todo, deadLine, priority, taskDetail } = e.target
+        const { selectedDate, todo, deadLine, priority, taskDetail } = e.target
 
-        date.value = ''
+        selectedDate.value = ''
         todo.value = ''
         deadLine.value = ''
         priority.value = 'normal'
         taskDetail.value = ''
     }
 
-    _emptyInputValidator = (date, todo, deadLine) => {
+    _emptyInputValidator = (selectedDate, todo, deadLine) => {
         let result = true
 
         // other inputs are optional
         this.setState({
-            dateMessage: date ? '' : 'Enter Date',
+            dateMessage: selectedDate ? '' : 'Enter Date',
             todoMessage: todo ? '' : 'Enter Todo',
             deadLineMessage: deadLine ? '' : 'Enter deadLine',
         })
 
-        if (!date || !todo || !deadLine) result = false
+        if (!selectedDate || !todo || !deadLine) result = false
 
         return result
+    }
+
+    _editSelectedDate = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
     }
 
     _floatLeft = {
@@ -83,7 +91,17 @@ class AddTodo extends Component {
 
                             <tr>
                                 <td><label htmlFor='date'>Date</label></td>
-                                <td><p style={this._floatLeft}><input type='date' id='date' name='date' /></p></td>
+                                <td>
+                                    <p style={this._floatLeft}>
+                                        <input
+                                            type='date'
+                                            id='date'
+                                            name='selectedDate'
+                                            value={this.state.selectedDate}
+                                            onChange={this._editSelectedDate}
+                                        />
+                                    </p>
+                                </td>
                                 <ErrorMessage msg={this.state.dateMessage} />
                             </tr>
 
