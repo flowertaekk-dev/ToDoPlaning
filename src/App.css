@@ -64,6 +64,7 @@ ul, ol {
   top: 0;
   background-color: #FFF;
   border-bottom: 2px solid #E5E5E5;
+  height: 40px;
   width: 100%;
 }
 
@@ -83,6 +84,11 @@ ul, ol {
 
 .header-menu {
   float: right;
+}
+
+.header-menu li {
+  display: inline-block;
+  margin-right: 5px;
 }
 
 /***********
