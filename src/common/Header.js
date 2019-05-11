@@ -9,11 +9,15 @@ class Header extends Component {
                     <h1>It's ToDoPlanning!</h1>
                 </div>
                 <div className='header-menu'>
-                    <ul>
-                        <li>
-                            <p onClick={this.props.signOut}>sign out</p>
-                        </li>
-                    </ul>
+                    {
+                        this.props.signOut ?
+                        <ul>
+                            <li>
+                                <p onClick={this.props.signOut}>sign out</p>
+                            </li>
+                        </ul>
+                        : null
+                    }
                 </div>
             </div>
         )
