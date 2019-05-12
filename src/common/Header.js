@@ -9,7 +9,8 @@ class Header extends Component {
                     <h1>It's ToDoPlanning!</h1>
                 </div>
                 <div className='header-menu'>
-                    {
+                    {   
+                        // Code modifier - JuYoung Kang
                         this.props.signOut ?
                         <ul>
                             <li>
