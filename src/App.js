@@ -48,7 +48,7 @@ class App extends Component {
   render() {
     return (
       <Fragment>
-        <Header signOut={this._signOut}/>
+        {this.state.didSignIn ? <Header signOut={this._signOut} /> : <Header/>}
 
         <div className='App'>
           { this.state.didSignIn ? <TodoList userId={this.state.userId} /> : <Login logInSuccess={this._updateLoginState} /> }
