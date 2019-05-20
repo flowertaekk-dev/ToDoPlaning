@@ -14,6 +14,9 @@ class Header extends Component {
                         this.props.signOut ?
                         <ul>
                             <li>
+                                <label>{this.props.userId}</label>
+                            </li>
+                            <li>
                                 <p onClick={this.props.signOut}>sign out</p>
                             </li>
                         </ul>
