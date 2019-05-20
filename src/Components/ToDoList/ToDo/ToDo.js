@@ -1,9 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import firebase from '../firebase';
-import '../App.css';
+import firebase from '../../../Utils/Config/firebase';
 
 // flowertaekk.dev
-class Todo extends Component {
+class ToDo extends Component {
 
     constructor (props) {
         super(props)
@@ -59,21 +58,6 @@ class Todo extends Component {
         this.setState({
             [e.target.name]: e.target.value
         })
-    }
-
-    // css
-    _border = {
-        border: '1px solid #E5E5E5',
-        margin: '20px',
-        padding: '10px',
-        listStyle: 'none',
-        borderRadius: '10px'
-    }
-    // css
-    _table = {
-        border:  '1px solid #E5E5E5',
-        margin: '10px',
-        padding: '5px'
     }
 
     render() {
@@ -139,4 +123,4 @@ class Todo extends Component {
     }
 }
 
-export default Todo
+export default ToDo

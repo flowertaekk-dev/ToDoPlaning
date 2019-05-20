@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 
+import './Header.css';
+
 class Header extends Component {
 
     render () {
         return (
-            <div className='header-border'>
-                <div className='header-title'>
+            <div className='Header'>
+                <div className='title'>
                     <h1>It's ToDoPlanning!</h1>
                 </div>
-                <div className='header-menu'>
+                <div className='menu'>
                     {   
                         // Code modifier - JuYoung Kang
                         this.props.signOut ?

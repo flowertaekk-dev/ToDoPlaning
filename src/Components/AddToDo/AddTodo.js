@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import firebase from '../firebase';
+import firebase from '../../Utils/Config/firebase';
 
 // flowertaekk.dev
 class AddTodo extends Component {
@@ -75,7 +75,7 @@ class AddTodo extends Component {
 
     render () {
         return (
-            <div id='add-todo-wrap' className='common-border'>
+            <div className='AddTodo'>
                 <form onSubmit={this._onSubmit}>
 
                     <table>

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import Header from './common/Header';
-import Login from './login/Login';
-import TodoList from './todoList/TodoList';
+import Header from '../Components/Header/Header';
+import Login from '../Components/Login/Login';
+import TodoList from '../Components/ToDoList/TodoList';
 import './App.css';
 
 // flowertaekk.dev
@@ -48,10 +48,20 @@ class App extends Component {
   render() {
     return (
       <Fragment>
-        {this.state.didSignIn ? <Header userId = {this.state.userId} signOut={this._signOut} /> : <Header/>}
+        {
+          this.state.didSignIn
+            ? <Header 
+              userId = {this.state.userId}
+              signOut={this._signOut} />
+            : <Header/>
+        }
 
         <div className='App'>
-          { this.state.didSignIn ? <TodoList userId={this.state.userId} /> : <Login logInSuccess={this._updateLoginState} /> }
+          { 
+            this.state.didSignIn
+              ? <TodoList userId={this.state.userId} /> 
+              : <Login logInSuccess={this._updateLoginState} />
+          }
         </div>
       </Fragment>
     );

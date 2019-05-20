@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import { _filter, _mapWithKeys, _getCurrentDate } from '../_';
-import Todo from './Todo';
-import AddTodo from './AddTodo';
-import firebase from '../firebase';
+import { _filter, _mapWithKeys, _getCurrentDate } from '../../Utils/_';
+import Todo from './ToDo/ToDo';
+import AddTodo from '../AddToDo/AddTodo';
+import firebase from '../../Utils/Config/firebase';
 
 // flowertaekk.dev
 class TodoList extends Component {
@@ -48,26 +48,28 @@ class TodoList extends Component {
         this._readData()
     }
 
-    // AddTodo.js
     _onAddTodo = () => {
+        console.log('TEST');
         this.setState({
             addTodo: !this.state.addTodo
         })
     }
 
-    _marginTop = {
-        marginTop: '10%'
+    _testHandler = () => {
+        console.log('hello')
     }
 
     render() {
         return (
             <Fragment>
-                
                 <div style={this._marginTop}>
-                    <p><button onClick={this._onAddTodo} className='common-button'>ADD TODO</button></p>
+                    <p><button onClick={this._testHandler}>TEST</button></p>
+                    <p><button onClick={this._onAddTodo}>ADD TODO</button></p>
                     {
                         this.state.addTodo
-                        ? <AddTodo userId={this.props.userId} selectedDate={this.state.selectedDate} />
+                        ? <AddTodo 
+                            userId={this.props.userId}
+                            selectedDate={this.state.selectedDate} />
                         : '' 
                     }
                 </div>
@@ -75,8 +77,7 @@ class TodoList extends Component {
                 {
                     this.state.addTodo
                     ? ''
-                    : 
-                    <div>
+                    : <div>
                         <p>
                             <input type='date' name='selectedDate' value={this.state.selectedDate} onChange={this._onSelectDate} />
                         </p>

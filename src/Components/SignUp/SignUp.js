@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import firebase from '../firebase';
 import { Base64 } from 'js-base64';
+
+import firebase from '../../Utils/Config/firebase';
 
 class SignUp extends Component {
 
@@ -104,57 +105,6 @@ class SignUp extends Component {
 
                     </form>
                 </div>
-
-                    {/* <table style={this.css}>
-                        <caption>Sign up</caption>
-                        <thead>
-                            <tr>
-                                <th scope='col'>Explanation</th>
-                                <th scope='col'>Input</th>
-                                <th scope='col'>Error Message</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            <tr>
-                                <td>
-                                    <p>ID</p>
-                                </td>
-                                <td>
-                                    <input type='text' name='userId' placeholder='ID' />
-                                </td>
-                                <ErrorMessage msg={this.state.idMessage} />
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <p>E-mail</p>
-                                </td>
-                                <td>
-                                    <input type='email' name='userEmail' placeholder='e-mail' />
-                                </td> 
-                                <ErrorMessage msg={this.state.emailMessage} />
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <p>Password</p>
-                                </td>
-                                <td>
-                                    <input type='password' name='userPassword' placeholder='password' />
-                                </td>
-                                <ErrorMessage msg={this.state.passwordMessage} />
-                            </tr>
-
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colSpan='2'>
-                                    <button type='submit'>Register</button>
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </table> */}
             </Fragment>
         );
     }

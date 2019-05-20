@@ -1,7 +1,9 @@
 import React, { Component, Fragment } from 'react';
-import SignUp, { ErrorMessage } from './SignUp';
+import SignUp, { ErrorMessage } from '../SignUp/SignUp';
 import { Base64 } from 'js-base64';
-import firebase from '../firebase';
+import firebase from '../../Utils/Config/firebase';
+
+import './Login.css';
 
 // flowertaekk.dev
 class Login extends Component {
@@ -80,7 +82,7 @@ class Login extends Component {
     render() {
         return (
             <Fragment>
-                <div id='login-wrap' className='login-border'>
+                <div className='Login'>
                     <form onSubmit={this._singIn}>
                     
                         <div>

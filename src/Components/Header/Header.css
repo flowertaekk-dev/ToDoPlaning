@@ -1,0 +1,4 @@
+.Header {position:fixed; width: 100%; border-bottom: 2px solid #ccc}
+.Header .title {text-align: center}
+.Header .title h1 {color: #555; line-height: 50px;}
+.Header.menu {}
