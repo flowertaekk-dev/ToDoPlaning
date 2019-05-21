@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { Base64 } from 'js-base64';
-
 import firebase from '../../Utils/Config/firebase';
+
+import './SignUp.css';
 
 class SignUp extends Component {
 
@@ -77,10 +78,10 @@ class SignUp extends Component {
     render() {
         return (
             <Fragment>
-                <div id='signUp-wrap' className='common-border'>
+                <div className='Sign-up'>
                     <form onSubmit={this._signUp}>
 
-                        <div>
+                        <div className='title'>
                             <h1>Sign up</h1>
                         </div>
 
@@ -99,8 +100,8 @@ class SignUp extends Component {
                             <ErrorMessage msg={this.state.passwordMessage} />
                         </div>
 
-                        <div>
-                            <button type='submit' className='common-button'>Register</button>
+                        <div className='btn-container'>
+                            <button type='submit'>Register</button>
                         </div>
 
                     </form>

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import firebase from '../../Utils/Config/firebase';
+import firebase from '../../../Utils/Config/firebase';
+
+import './AddToDo.css';
 
 // flowertaekk.dev
-class AddTodo extends Component {
+class AddToDo extends Component {
 
     constructor (props) {
         super(props)
@@ -164,4 +166,4 @@ export const ErrorMessage = (props) => {
     );
 };
 
-export default AddTodo
+export default AddToDo

@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import firebase from '../../../Utils/Config/firebase';
 
+import './ToDo.css';
+
 // flowertaekk.dev
 class ToDo extends Component {
 
@@ -62,7 +64,7 @@ class ToDo extends Component {
 
     render() {
         return(
-            <li style={this._border}>
+            <li className='ToDo'>
                 <table>
                     <caption>ToDo</caption>
                     <tbody>
@@ -102,16 +104,28 @@ class ToDo extends Component {
                             }
                         </tr>
                         <tr>
-                            <td colSpan='2'>
+                            <td colSpan='2' className='btn-container'>
                                 {
                                     this.state.isUpdate
                                     ? <Fragment>
-                                        <button onClick={this._saveUpdatedData} className='common-button'>SAVE</button>
-                                        <button onClick={this._onCancelUpdate} className='common-button'>RETURN</button>
+                                        <button 
+                                            onClick={this._saveUpdatedData}
+                                            className='btn'>SAVE
+                                        </button>
+                                        <button 
+                                            onClick={this._onCancelUpdate} 
+                                            className='btn'>RETURN
+                                        </button>
                                     </Fragment>
                                     : <Fragment>
-                                        <button onClick={this._onClickUpdateBtn} className='common-button'>UPDATE</button>
-                                        <button className='common-button' onClick={this._onDelete}>DELETE</button>
+                                        <button 
+                                            onClick={this._onClickUpdateBtn} 
+                                            className='btn'>UPDATE
+                                        </button>
+                                        <button
+                                            onClick={this._onDelete}
+                                            className='btn'>DELETE
+                                        </button>
                                     </Fragment>
                                 }
                             </td>

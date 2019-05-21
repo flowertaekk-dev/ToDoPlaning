@@ -18,8 +18,8 @@ class Header extends Component {
                             <li>
                                 <label>{this.props.userId}</label>
                             </li>
-                            <li>
-                                <p onClick={this.props.signOut}>sign out</p>
+                            <li className='cursor'>
+                                <button onClick={this.props.signOut}>sign out</button>
                             </li>
                         </ul>
                         : null

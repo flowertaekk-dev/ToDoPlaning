@@ -1,8 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import { _filter, _mapWithKeys, _getCurrentDate } from '../../Utils/_';
 import Todo from './ToDo/ToDo';
-import AddTodo from '../AddToDo/AddTodo';
+import AddToDo from './AddToDo/AddToDo';
 import firebase from '../../Utils/Config/firebase';
+
+import './TodoList.css';
 
 // flowertaekk.dev
 class TodoList extends Component {
@@ -49,48 +51,52 @@ class TodoList extends Component {
     }
 
     _onAddTodo = () => {
-        console.log('TEST');
         this.setState({
             addTodo: !this.state.addTodo
         })
     }
 
-    _testHandler = () => {
-        console.log('hello')
-    }
-
     render() {
+
+        let dateBtn;
+        if (!this.state.addTodo) {
+            dateBtn = <p className='date'>
+                <input 
+                    type='date'
+                    name='selectedDate'
+                    value={this.state.selectedDate}
+                    onChange={this._onSelectDate} />
+            </p>
+        }
+
         return (
             <Fragment>
-                <div style={this._marginTop}>
-                    <p><button onClick={this._testHandler}>TEST</button></p>
+                <div className='addToDo-btn'>
                     <p><button onClick={this._onAddTodo}>ADD TODO</button></p>
                     {
                         this.state.addTodo
-                        ? <AddTodo 
+                        ? <AddToDo 
                             userId={this.props.userId}
                             selectedDate={this.state.selectedDate} />
                         : '' 
                     }
                 </div>
+                {dateBtn}
                 
                 {
                     this.state.addTodo
                     ? ''
-                    : <div>
-                        <p>
-                            <input type='date' name='selectedDate' value={this.state.selectedDate} onChange={this._onSelectDate} />
-                        </p>
+                    : <div className='todo-list'>
                         {
                             this.state.data ? 
-                                <ul>
+                                <ul className='show-todo'>
                                     {
                                         this.state.data.map((todo) => {
                                             return <Todo {...todo} key={todo.index} />
                                         })
                                     }
                                 </ul>
-                            : 'nothing to show'
+                            : null
                         }
                     </div>
                 }

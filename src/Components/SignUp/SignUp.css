@@ -1,0 +1,8 @@
+.Sign-up{position: absolute; margin: 0 auto; top:68px; width: 100%; text-align: center}
+.Sign-up form {width: 50%; margin: 0 auto; padding: 16px 0 ; border: 1px solid #eee; box-shadow: 0 1px 2px #ccc}
+.Sign-up form h1 {color: #555;}
+.Sign-up form div.title {margin-bottom: 10px}
+.Sign-up form div {margin: 4px 0}
+.Sign-up form div input {border: 1px solid #eee; box-shadow: 0 1px 2px #ccc}
+.Sign-up form div button {border: 1px solid #eee; box-shadow: 0 1px 1px #ccc; padding: 6px; background-color: white; margin-right: 4px}
+.Sign-up form div.btn-container {margin-top: 10px}

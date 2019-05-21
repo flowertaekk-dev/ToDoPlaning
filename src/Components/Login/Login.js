@@ -82,31 +82,34 @@ class Login extends Component {
     render() {
         return (
             <Fragment>
-                <div className='Login'>
-                    <form onSubmit={this._singIn}>
-                    
-                        <div>
-                            <h1>Log in</h1>
-                        </div>
+                {
+                    this.state.signUp
+                        ? <SignUp logInSuccess={this.props.logInSuccess} />
+                        : <div className='Login'>
+                            <form onSubmit={this._singIn}>
+                            
+                                <div className='title'>
+                                    <h1>Log in</h1>
+                                </div>
 
-                        <div>
-                            <input type='text' id='id' name='id' placeholder='ID' />
-                            <ErrorMessage msg={this.state.idMessage} />
-                        </div>
+                                <div>
+                                    <input type='text' id='id' name='id' placeholder='ID' />
+                                    <ErrorMessage msg={this.state.idMessage} />
+                                </div>
 
-                        <div>
-                            <input type='password' id='password' name='password' placeholder='password' />
-                            <ErrorMessage msg={this.state.passwordMessage} />
-                        </div>
+                                <div>
+                                    <input type='password' id='password' name='password' placeholder='password' />
+                                    <ErrorMessage msg={this.state.passwordMessage} />
+                                </div>
 
-                        <div>
-                            <button type='submit' name='submit'>Sign in</button>
-                            <button type='button' name='signUpBtn' onClick={this._onClickSignUp}>Sign up</button>
-                        </div>
+                                <div className='btn-container'>
+                                    <button type='submit' name='submit'>Sign in</button>
+                                    <button type='button' name='signUpBtn' onClick={this._onClickSignUp}>Sign up</button>
+                                </div>
 
-                    </form>
-                </div>
-                {this.state.signUp ? <SignUp logInSuccess={this.props.logInSuccess} /> : ''}
+                            </form>
+                        </div>
+                }
             </Fragment>
         );
     }
