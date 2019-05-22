@@ -33,9 +33,9 @@ class SignUp extends Component {
         return result
     }
 
-    _duplicatedIDValidator = async(userInfoRef) => {
+    _duplicatedIDValidator = async(userRef) => {
         let result = false
-        await userInfoRef.once('value', (snapshot) => {
+        await userRef.once('value', (snapshot) => {
             if(snapshot.exists()) {
                 result = true  
             }
@@ -43,8 +43,8 @@ class SignUp extends Component {
         return result
     }
 
-    _setDataToDB = (userInfoRef, email, password) => {
-        userInfoRef.set({
+    _setDataToDB = (userRef, email, password) => {
+        userRef.set({
             email: email.value,
             password: Base64.encode(password.value)
         })
@@ -58,10 +58,11 @@ class SignUp extends Component {
 
         if(!this._emptyInputValidator(userId.value, userEmail.value, userPassword.value)) return
         
-        const rootRef = firebase.database().ref().child('todoList')
-        const userInfoRef = rootRef.child('userInfo/' + userId.value)
+        const rootRef = firebase.database().ref()
+        const usersRef = rootRef.child('users')
+        const userRef = usersRef.child(userId.value)
         // checks if there is the same ID which user has entered
-        if(await this._duplicatedIDValidator(userInfoRef)) {
+        if(await this._duplicatedIDValidator(userRef)) {
             this.setState({
                 idMessage: 'duplicated ID'
             })
@@ -69,7 +70,7 @@ class SignUp extends Component {
         } 
 
         // sets user data to firebase
-        this._setDataToDB(userInfoRef, userEmail, userPassword)
+        this._setDataToDB(userRef, userEmail, userPassword)
 
         // after sign up, moves to "To Do List" page
         this.props.logInSuccess(userId.value)

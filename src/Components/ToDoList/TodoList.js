@@ -28,9 +28,9 @@ class TodoList extends Component {
 
     // reads data from firebase with user ID
     _readData = async () => {
-        const rootRef = firebase.database().ref().child('todoList')
-        const userRef = rootRef.child(localStorage.getItem('userId') || this.props.userId)
-        await userRef.on('value', snap => {
+        const rootRef = firebase.database().ref().child('todos')
+        const todosRef = rootRef.orderByChild('author').equalTo(localStorage.getItem('userId') || this.props.userId)
+        await todosRef.on('value', snap => {
             if(this.hasMounted) {
                 this.setState({
                     data: _filter(

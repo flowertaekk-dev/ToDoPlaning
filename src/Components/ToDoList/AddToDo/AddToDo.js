@@ -21,18 +21,23 @@ class AddToDo extends Component {
 
         if (!this._emptyInputValidator(selectedDate.value, todo.value, deadLine.value)) return
         
-        const rootRef = firebase.database().ref().child('todoList')
-        const userRef = rootRef.child(this.props.userId)
-        const key = userRef.push().key
-        const todoRef = userRef.child(key)
+        // TODO need to check whether or not its userId really exists???
+
+        const rootRef = firebase.database().ref()
+        const todosRef = rootRef.child('todos')
+        const key = todosRef.push().key
+        const todoRef = todosRef.child(key)
 
         const updateTodo = {
+            key: key,
+            author: this.props.userId,
             date: selectedDate.value,
             todo: todo.value,
             completeRate: '',
             deadLine: deadLine.value,
             priority: priority.value,
-            taskDetails: taskDetail.value
+            details: taskDetail.value,
+            subTodo: [] // TODO 未実装
         }
 
         todoRef.update(updateTodo)

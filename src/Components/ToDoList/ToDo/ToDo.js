@@ -12,7 +12,7 @@ class ToDo extends Component {
         this.state = {
             isUpdate: false,
             deadLine: props.deadLine,
-            taskDetails: props.taskDetails
+            taskDetails: props.details
         }
     }
 
@@ -27,14 +27,14 @@ class ToDo extends Component {
         this.setState({
             isUpdate: !this.state.isUpdate,
             deadLine: this.props.deadLine,
-            taskDetails: this.props.taskDetails
+            taskDetails: this.props.details
         })
     }
 
     _getTodoRef = () => {
-        const rootRef = firebase.database().ref().child('todoList')
-        const userRef = rootRef.child(localStorage.getItem('userId'))
-        const todoRef = userRef.child(this.props.index)
+        const rootRef = firebase.database().ref()
+        const todosRef = rootRef.child('todos')
+        const todoRef = todosRef.child(this.props.index)
 
         return todoRef
     }
@@ -52,7 +52,7 @@ class ToDo extends Component {
         const todoRef = this._getTodoRef()
         todoRef.update({
             deadLine: this.state.deadLine,
-            taskDetails: this.state.taskDetails
+            details: this.state.taskDetails
         })
     }
 

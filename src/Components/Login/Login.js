@@ -33,9 +33,9 @@ class Login extends Component {
         }
 
         // checks id and validate password
-        const rootRef = firebase.database().ref().child('todoList')
-        const userInfoRef = rootRef.child('userInfo/' + id.value)
-        userInfoRef.once('value').then(snap => {
+        const rootRef = firebase.database().ref()
+        const usersRef = rootRef.child('users/' + id.value)
+        usersRef.once('value').then(snap => {
 
             // when ID is wrong
             if(snap.val() === null) {
