@@ -4,7 +4,7 @@ import Todo from './ToDo/ToDo';
 import AddToDo from './AddToDo/AddToDo';
 import firebase from '../../Utils/Config/firebase';
 
-import './TodoList.css';
+import './ToDoList.css';
 
 // flowertaekk.dev
 class TodoList extends Component {
@@ -13,7 +13,7 @@ class TodoList extends Component {
         super(props)
         this.state = {
             selectedDate: _getCurrentDate(),
-            addTodo: false
+            addToDo: false
         }
     }
 
@@ -43,63 +43,69 @@ class TodoList extends Component {
     }
 
     // saves the current selected date to retrieve certain data
-    _onSelectDate = async(e) => {
+    _selectDateHandler = async(e) => {
         await this.setState({
             [e.target.name]: e.target.value
         })
         this._readData()
     }
 
-    _onAddTodo = () => {
+    _addTodoHandler = () => {
         this.setState({
-            addTodo: !this.state.addTodo
+            addToDo: !this.state.addToDo
         })
     }
 
     render() {
 
-        let dateBtn;
-        if (!this.state.addTodo) {
-            dateBtn = <p className='date'>
-                <input 
-                    type='date'
-                    name='selectedDate'
-                    value={this.state.selectedDate}
-                    onChange={this._onSelectDate} />
-            </p>
-        }
+        let dateBtn = this.state.addToDo
+            ? null
+            : (
+                <p className='date'>
+                    <input 
+                        type='date'
+                        name='selectedDate'
+                        value={this.state.selectedDate}
+                        onChange={this._selectDateHandler} />
+                </p>
+            )
+
+        const addToDo = (
+            <div className='addToDo-btn'>
+                <p><button onClick={this._addTodoHandler}>ADD TODO</button></p>
+                {
+                    this.state.addToDo
+                    ? <AddToDo 
+                        userId={this.props.userId}
+                        selectedDate={this.state.selectedDate} />
+                    : null
+                }
+            </div>
+        )
+
+        let toDoList = this.state.addToDo
+            ? null
+            : (
+                <div className='todo-list'>
+                    {
+                        this.state.data ? 
+                            <ul className='show-todo'>
+                                {
+                                    this.state.data.map((todo) => {
+                                        return <Todo {...todo} key={todo.index} />
+                                    })
+                                }
+                            </ul>
+                        : null
+                    }
+                </div>
+            )
 
         return (
             <Fragment>
-                <div className='addToDo-btn'>
-                    <p><button onClick={this._onAddTodo}>ADD TODO</button></p>
-                    {
-                        this.state.addTodo
-                        ? <AddToDo 
-                            userId={this.props.userId}
-                            selectedDate={this.state.selectedDate} />
-                        : '' 
-                    }
-                </div>
+                {addToDo}
                 {dateBtn}
-                
-                {
-                    this.state.addTodo
-                    ? ''
-                    : <div className='todo-list'>
-                        {
-                            this.state.data ? 
-                                <ul className='show-todo'>
-                                    {
-                                        this.state.data.map((todo) => {
-                                            return <Todo {...todo} key={todo.index} />
-                                        })
-                                    }
-                                </ul>
-                            : null
-                        }
-                    </div>
-                }
+                {toDoList}
             </Fragment>
         );
     }
