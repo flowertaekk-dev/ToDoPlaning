@@ -32,12 +32,17 @@ class TodoList extends Component {
         const todosRef = rootRef.orderByChild('author').equalTo(localStorage.getItem('userId') || this.props.userId)
         await todosRef.on('value', snap => {
             if(this.hasMounted) {
+
+                const selectedDate = this.state.selectedDate
                 this.setState({
                     data: _filter(
                             _mapWithKeys(snap.val()),
-                            (val) => { return val.date === this.state.selectedDate }
+                            (val) => { 
+                                return val.date === selectedDate || (val.date <= selectedDate && val.deadLine >= selectedDate)
+                            }
                         )
                 })
+                
             }
         })
     }
