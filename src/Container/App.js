@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import Header from '../Components/Header/Header';
 import Login from '../Components/Login/Login';
-import TodoList from '../Components/ToDoList/TodoList';
+import TodoList from '../Components/ToDoList/ToDoList';
 import './App.css';
 
 // flowertaekk.dev
@@ -28,7 +28,7 @@ class App extends Component {
   }
 
   // saves login information
-  _updateLoginState = async (id) => {
+  _updateLoginHandler = async (id) => {
     this.setState({
       userId: id,
       didSignIn: true
@@ -37,7 +37,7 @@ class App extends Component {
     localStorage.setItem('userId', id)
   }
 
-  _signOut = () => {
+  _signOutHandler = () => {
     this.setState({
       userId: '',
       didSignIn: false
@@ -52,7 +52,7 @@ class App extends Component {
           this.state.didSignIn
             ? <Header 
               userId = {this.state.userId}
-              signOut={this._signOut} />
+              signOut={this._signOutHandler} />
             : <Header/>
         }
 
@@ -60,7 +60,7 @@ class App extends Component {
           { 
             this.state.didSignIn
               ? <TodoList userId={this.state.userId} /> 
-              : <Login logInSuccess={this._updateLoginState} />
+              : <Login logInSuccess={this._updateLoginHandler} />
           }
         </div>
       </Fragment>
