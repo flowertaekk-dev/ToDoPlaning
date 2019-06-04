@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import Aux from '../Auxiliary/Auxiliary'
 import Login from '../../Components/Login/Login';
 import Header from '../../Components/Header/Header'
-import TodoList from '../../Components/ToDoList/ToDoList'
+import TodoList from '../../Components/ToDoList/TodoList'
 
 class Layout extends Component {
 
