@@ -1,4 +1,4 @@
-.Header {position:fixed; width: 100%; border-bottom: 2px solid #ccc}
+.Header {position:fixed; width: 100%; border-bottom: 2px solid #ccc; z-index: 1; background-color: #fff}
 .Header .title {text-align: center}
 .Header .title h1 {color: #555; line-height: 50px}
 .Header .menu {position: absolute; top: 30px; right: 0}

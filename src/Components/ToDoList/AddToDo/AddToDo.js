@@ -6,7 +6,7 @@ import './AddToDo.css';
 // flowertaekk.dev
 class AddToDo extends Component {
 
-    constructor (props) {
+    constructor(props) {
         super(props)
 
         this.state = {
@@ -14,13 +14,14 @@ class AddToDo extends Component {
         }
     }
 
-    _onSubmit = (e) => {
+    onSubmitHandler = (e) => {
         e.preventDefault()
 
+        
         const { selectedDate, todo, deadLine, priority, taskDetail } = e.target
 
         if (!this._emptyInputValidator(selectedDate.value, todo.value, deadLine.value)) return
-        
+
         // TODO need to check whether or not its userId really exists???
 
         const rootRef = firebase.database().ref()
@@ -70,20 +71,83 @@ class AddToDo extends Component {
         return result
     }
 
-    _editSelectedDate = (e) => {
+    editSelectedDateHandler = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         })
     }
 
-    _floatLeft = {
-        float: 'left',
-    }
+    render() {
 
-    render () {
+        const date = (
+            <tr>
+                <td><label htmlFor='date'>Date</label></td>
+                <td>
+                    <p style={this._floatLeft}>
+                        <input
+                            type='date'
+                            id='date'
+                            name='selectedDate'
+                            value={this.state.selectedDate}
+                            onChange={this.editSelectedDateHandler}
+                        />
+                    </p>
+                </td>
+                <ErrorMessage msg={this.state.dateMessage} />
+            </tr>
+        )
+
+        const todo = (
+            <tr>
+                <td><label htmlFor='todo'>To do</label></td>
+                <td><p style={this._floatLeft}><input type='type' id='todo' name='todo' placeholder='TODO' /></p></td>
+                <ErrorMessage msg={this.state.todoMessage} />
+            </tr>
+        )
+
+        const deadLine = (
+            <tr>
+                <td><label htmlFor='deadLine'>Dead-line</label></td>
+                <td><p style={this._floatLeft}><input type='date' id='deadLine' name='deadLine' /></p></td>
+                <ErrorMessage msg={this.state.deadLineMessage} />
+            </tr>
+        )
+
+        const priority = (
+            <tr>
+                <td><label htmlFor='priority'>Priority</label></td>
+                <td>
+                    <div style={this._floatLeft} className='select-style'>
+                        <select defaultValue='normal' id='priority' name='priority' >
+                            <option value='urgent'>urgent</option>
+                            <option value='normal'>normal</option>
+                            <option value='notHUrry'>not in a hurry</option>
+                        </select>
+                    </div>
+                </td>
+            </tr>
+        )
+
+        const taskDetail = (
+            <tr>
+                <td><p>Task detail</p></td>
+                <td>
+                    <textarea name='taskDetail' />
+                </td>
+            </tr>
+        )
+
+        const submitBtn = (
+            <tr>
+                <td colSpan='2' className='td-button-center'>
+                    <button type='submit'>Add</button>
+                </td>
+            </tr>
+        )
+
         return (
             <div className='AddTodo'>
-                <form onSubmit={this._onSubmit}>
+                <form onSubmit={this.onSubmitHandler}>
 
                     <table>
                         <caption>AddTodo</caption>
@@ -96,63 +160,16 @@ class AddToDo extends Component {
                         </thead>
                         <tbody>
 
-                            <tr>
-                                <td><label htmlFor='date'>Date</label></td>
-                                <td>
-                                    <p style={this._floatLeft}>
-                                        <input
-                                            type='date'
-                                            id='date'
-                                            name='selectedDate'
-                                            value={this.state.selectedDate}
-                                            onChange={this._editSelectedDate}
-                                        />
-                                    </p>
-                                </td>
-                                <ErrorMessage msg={this.state.dateMessage} />
-                            </tr>
-
-                            <tr>
-                                <td><label htmlFor='todo'>To do</label></td>
-                                <td><p style={this._floatLeft}><input type='type' id='todo' name='todo' placeholder='TODO' /></p></td>
-                                <ErrorMessage msg={this.state.todoMessage} />
-                            </tr>
-
-                            <tr>
-                                <td><label htmlFor='deadLine'>Dead-line</label></td>
-                                <td><p style={this._floatLeft}><input type='date' id='deadLine' name='deadLine'/></p></td>
-                                <ErrorMessage msg={this.state.deadLineMessage} />
-                            </tr>
-
-                            <tr>
-                                <td><label htmlFor='priority'>Priority</label></td>
-                                <td>
-                                    <div style={this._floatLeft} className='select-style'>
-                                        <select defaultValue='normal' id='priority' name='priority' >
-                                            <option value='urgent'>urgent</option>
-                                            <option value='normal'>normal</option>
-                                            <option value='notHUrry'>not in a hurry</option>
-                                        </select>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td><p>Task detail</p></td>
-                                <td>
-                                    <textarea name='taskDetail' />
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td colSpan='2' className='td-button-center'>
-                                    <button type='submit'>Add</button>
-                                </td>
-                            </tr>
+                            {date}
+                            {todo}
+                            {deadLine}
+                            {priority}
+                            {taskDetail}
+                            {submitBtn}
 
                         </tbody>
                     </table>
-                </form>              
+                </form>
             </div>
         )
     }

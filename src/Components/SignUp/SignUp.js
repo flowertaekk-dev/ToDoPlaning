@@ -51,7 +51,7 @@ class SignUp extends Component {
     }
 
     // inserts data to firebase
-    _signUp = async(e) => {
+    signUpHandler = async(e) => {
         e.preventDefault()
 
         const { userId, userEmail, userPassword } = e.target;
@@ -73,14 +73,14 @@ class SignUp extends Component {
         this._setDataToDB(userRef, userEmail, userPassword)
 
         // after sign up, moves to "To Do List" page
-        this.props.logInSuccess(userId.value)
+        this.props.whenLoginSuccess(userId.value)
     }
 
     render() {
         return (
             <Fragment>
                 <div className='Sign-up'>
-                    <form onSubmit={this._signUp}>
+                    <form onSubmit={this.signUpHandler}>
 
                         <div className='title'>
                             <h1>Sign up</h1>

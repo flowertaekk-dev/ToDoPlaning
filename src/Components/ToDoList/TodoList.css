@@ -1,7 +1,10 @@
 .addToDo-btn {position: relative; top: 68px}
 .addToDo-btn p button {border: 1px solid #eee; box-shadow: 0 1px 1px #ccc; padding: 6px; background-color: white}
 .todo-list .show-todo {position: relative; top:100px}
-/* .todo-list .date {position: relative; top: 72px} */
-/* .todo-list .date input {border: 1px solid #eee; box-shadow: 0 1px 1px #ccc; padding: 4px;} */
 .date {position: relative; top: 72px; margin: 0 auto}
 .date input {border: 1px solid #eee; box-shadow: 0 1px 1px #ccc; padding: 4px}
+.addToDo-btn button,
+.date input {
+    display: block;
+    margin: 0 auto;
+}

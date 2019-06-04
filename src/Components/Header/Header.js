@@ -1,33 +1,29 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import './Header.css';
+import NavigationItems from '../NavigationItems/NavigationItems';
 
-class Header extends Component {
+const header = (props) => {
+    return (
+        <div className='Header'>
 
-    render () {
-        return (
-            <div className='Header'>
-                <div className='title'>
-                    <h1>It's ToDoPlanning!</h1>
-                </div>
-                <div className='menu'>
-                    {   
-                        // Code modifier - JuYoung Kang
-                        this.props.signOut ?
-                        <ul>
-                            <li>
-                                <label>{this.props.userId}</label>
-                            </li>
-                            <li className='cursor'>
-                                <button onClick={this.props.signOut}>sign out</button>
-                            </li>
-                        </ul>
-                        : null
-                    }
-                </div>
+            <div className='title'>
+                <h1>It's ToDoPlanning!</h1>
             </div>
-        )
-    }
- }
 
-export default Header
+            <nav className='menu'>
+                {
+                    // Code modifier - JuYoung Kang
+                    props.didSignin
+                        ? <NavigationItems
+                            signOutClicked={props.signOutClicked}
+                            userId={props.userId} />
+                        : null
+                }
+            </nav>
+
+        </div>
+    )
+}
+
+export default header
