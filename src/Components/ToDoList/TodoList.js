@@ -1,8 +1,9 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { _filter, _mapWithKeys, _getCurrentDate } from '../../Utils/_';
 import Todo from './ToDo/ToDo';
 import AddToDo from './AddToDo/AddToDo';
 import firebase from '../../Utils/Config/firebase';
+import Aux from '../../hoc/Auxiliary/Auxiliary';
 
 import './ToDoList.css';
 
@@ -31,24 +32,24 @@ class TodoList extends Component {
         const rootRef = firebase.database().ref().child('todos')
         const todosRef = rootRef.orderByChild('author').equalTo(localStorage.getItem('userId') || this.props.userId)
         await todosRef.on('value', snap => {
-            if(this.hasMounted) {
+            if (this.hasMounted) {
 
                 const selectedDate = this.state.selectedDate
                 this.setState({
                     data: _filter(
-                            _mapWithKeys(snap.val()),
-                            (val) => { 
-                                return val.date === selectedDate || (val.date <= selectedDate && val.deadLine >= selectedDate)
-                            }
-                        )
+                        _mapWithKeys(snap.val()),
+                        (val) => {
+                            return val.date === selectedDate || (val.date <= selectedDate && val.deadLine >= selectedDate)
+                        }
+                    )
                 })
-                
+
             }
         })
     }
 
     // saves the current selected date to retrieve certain data
-    _selectDateHandler = async(e) => {
+    _selectDateHandler = async (e) => {
         await this.setState({
             [e.target.name]: e.target.value
         })
@@ -63,11 +64,12 @@ class TodoList extends Component {
 
     render() {
 
-        let dateBtn = this.state.addToDo
-            ? null
-            : (
+        let dateBtn, toDoList = null;
+
+        if (!this.state.addToDo) {
+            dateBtn = (
                 <p className='date'>
-                    <input 
+                    <input
                         type='date'
                         name='selectedDate'
                         value={this.state.selectedDate}
@@ -75,25 +77,10 @@ class TodoList extends Component {
                 </p>
             )
 
-        const addToDo = (
-            <div className='addToDo-btn'>
-                <p><button onClick={this._addTodoHandler}>ADD TODO</button></p>
-                {
-                    this.state.addToDo
-                    ? <AddToDo 
-                        userId={this.props.userId}
-                        selectedDate={this.state.selectedDate} />
-                    : null
-                }
-            </div>
-        )
-
-        let toDoList = this.state.addToDo
-            ? null
-            : (
+            toDoList = (
                 <div className='todo-list'>
                     {
-                        this.state.data ? 
+                        this.state.data ?
                             <ul className='show-todo'>
                                 {
                                     this.state.data.map((todo) => {
@@ -101,17 +88,31 @@ class TodoList extends Component {
                                     })
                                 }
                             </ul>
-                        : null
+                            : null
                     }
                 </div>
             )
+        }
+
+        const addToDo = (
+            <div className='addToDo-btn'>
+                <p><button onClick={this._addTodoHandler}>ADD TODO</button></p>
+                {
+                    this.state.addToDo
+                        ? <AddToDo
+                            userId={this.props.userId}
+                            selectedDate={this.state.selectedDate} />
+                        : null
+                }
+            </div>
+        )
 
         return (
-            <Fragment>
+            <Aux>
                 {addToDo}
                 {dateBtn}
                 {toDoList}
-            </Fragment>
+            </Aux>
         );
     }
 }

@@ -1,8 +1,9 @@
 import React from 'react';
 
 import './Header.css';
+import NavigationItems from '../NavigationItems/NavigationItems';
 
-const Header = (props) => {
+const header = (props) => {
     return (
         <div className='Header'>
 
@@ -10,24 +11,19 @@ const Header = (props) => {
                 <h1>It's ToDoPlanning!</h1>
             </div>
 
-            <div className='menu'>
-                {   
+            <nav className='menu'>
+                {
                     // Code modifier - JuYoung Kang
-                    props.signOut ?
-                    <ul>
-                        <li>
-                            <label>{props.userId}</label>
-                        </li>
-                        <li className='cursor'>
-                            <button onClick={props.signOut}>sign out</button>
-                        </li>
-                    </ul>
-                    : null
+                    props.didSignin
+                        ? <NavigationItems
+                            signOutClicked={props.signOutClicked}
+                            userId={props.userId} />
+                        : null
                 }
-            </div>
-            
+            </nav>
+
         </div>
     )
- }
+}
 
-export default Header
+export default header

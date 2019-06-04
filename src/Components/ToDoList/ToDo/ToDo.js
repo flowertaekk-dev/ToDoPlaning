@@ -1,12 +1,12 @@
 import React, { Component, Fragment } from 'react';
-import firebase from '../../../Utils/Config/firebase';
 
+import firebase from '../../../Utils/Config/firebase';
 import './ToDo.css';
 
 // flowertaekk.dev
 class ToDo extends Component {
 
-    constructor (props) {
+    constructor(props) {
         super(props)
 
         this.state = {
@@ -17,13 +17,13 @@ class ToDo extends Component {
     }
 
     // moves to Update mode
-    _onClickUpdateBtn = () => {
+    updateBtnClickedHandler = () => {
         this.setState({
             isUpdate: !this.state.isUpdate
         })
     }
 
-    _onCancelUpdate = () => {
+    cancelUpdateHandler = () => {
         this.setState({
             isUpdate: !this.state.isUpdate,
             deadLine: this.props.deadLine,
@@ -39,12 +39,12 @@ class ToDo extends Component {
         return todoRef
     }
 
-    _onDelete = () => {
+    deleteHandler = () => {
         const todoRef = this._getTodoRef()
         todoRef.remove()
     }
 
-    _saveUpdatedData = () => {
+    saveUpdatedDataHandler = () => {
         this.setState({
             isUpdate: !this.state.isUpdate
         })
@@ -56,80 +56,92 @@ class ToDo extends Component {
         })
     }
 
-    _onChangeData = (e) => {
+    changeDataHandler = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         })
     }
 
     render() {
-        return(
+
+        const todoTitle = (
+            <tr>
+                <th scope='row'>TODO</th>
+                <td>{this.props.todo}</td>
+            </tr>
+        )
+
+        const whenUpdatedClicked = (
+            <Fragment>
+                <tr>
+                    <th scope='row'>Dead-line</th>
+                    <td>
+                        <input
+                            type='date'
+                            name='deadLine'
+                            value={this.state.deadLine}
+                            onChange={this.changeDataHandler} />
+                    </td>
+                </tr>
+                <tr>
+                    <th scope='row'>Details</th>
+                    <td>
+                        <textarea
+                            name='taskDetails'
+                            rows='10'
+                            cols='50'
+                            value={this.state.taskDetails}
+                            onChange={this.changeDataHandler} />
+                    </td>
+                </tr>
+                <tr>
+                    <td colSpan='2' className='btn-container'>
+                        <button
+                            onClick={this.saveUpdatedDataHandler}
+                            className='btn'>SAVE</button>
+                        <button
+                            onClick={this.cancelUpdateHandler}
+                            className='btn'>RETURN</button>
+                    </td>
+                </tr>
+            </Fragment>
+        )
+
+        const todoComponent = (
+            <Fragment>
+                <tr>
+                    <th scope='row'>Dead-line</th>
+                    <td>{this.state.deadLine}</td>
+                </tr>
+                <tr>
+                    <th scope='row'>Details</th>
+                    <td>{this.state.taskDetails}</td>
+                </tr>
+                <tr>
+                    <td colSpan='2' className='btn-container'>
+
+                        <button
+                            onClick={this.updateBtnClickedHandler}
+                            className='btn'>UPDATE</button>
+                        <button
+                            onClick={this.deleteHandler}
+                            className='btn'>DELETE</button>
+                    </td>
+                </tr>
+            </Fragment>
+        )
+
+        return (
             <li className='ToDo'>
                 <table>
                     <caption>ToDo</caption>
                     <tbody>
-                        <tr>
-                            <th scope='row'>TODO</th>
-                            <td>{this.props.todo}</td>
-                        </tr>
-                        <tr>
-                            <th scope='row'>Dead-line</th>
-                            {
-                                this.state.isUpdate
-                                ? <td>
-                                    <input 
-                                        type='date'
-                                        name='deadLine'
-                                        value={this.state.deadLine}
-                                        onChange={this._onChangeData}
-                                    />
-                                </td>
-                                : <td>{this.state.deadLine}</td>
-                            }
-                        </tr>
-                        <tr>
-                            <th scope='row'>Details</th>
-                            {
-                                this.state.isUpdate
-                                ? <td>
-                                    <textarea
-                                        name='taskDetails'
-                                        rows='10'
-                                        cols='50'
-                                        value={this.state.taskDetails}
-                                        onChange={this._onChangeData}
-                                    />
-                                </td>
-                                : <td>{this.state.taskDetails}</td>
-                            }
-                        </tr>
-                        <tr>
-                            <td colSpan='2' className='btn-container'>
-                                {
-                                    this.state.isUpdate
-                                    ? <Fragment>
-                                        <button 
-                                            onClick={this._saveUpdatedData}
-                                            className='btn'>SAVE
-                                        </button>
-                                        <button 
-                                            onClick={this._onCancelUpdate} 
-                                            className='btn'>RETURN
-                                        </button>
-                                    </Fragment>
-                                    : <Fragment>
-                                        <button 
-                                            onClick={this._onClickUpdateBtn} 
-                                            className='btn'>UPDATE
-                                        </button>
-                                        <button
-                                            onClick={this._onDelete}
-                                            className='btn'>DELETE
-                                        </button>
-                                    </Fragment>
-                                }
-                            </td>
-                        </tr>
+                        {todoTitle}
+                        {
+                            this.state.isUpdate
+                            ? whenUpdatedClicked
+                            : todoComponent
+                        }
                     </tbody>
                 </table>
             </li>
