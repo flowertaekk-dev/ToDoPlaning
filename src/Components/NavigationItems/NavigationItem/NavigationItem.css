@@ -1,1 +1,10 @@
-.NavigationItem:hover {font-weight: bold;cursor: pointer;color: #555}
+.NavigationItem:hover,
+.NavigationItem a:hover {
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+  color: #555;
+}
+.NavigationItem a {
+  color: black;
+}

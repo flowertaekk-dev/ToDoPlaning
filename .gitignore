@@ -1,6 +1,9 @@
 # Created by https://www.gitignore.io/api/firebase,reactnative
 # Edit at https://www.gitignore.io/?templates=firebase,reactnative
 
+### IDE ###
+.vscode
+
 ### Firebase ###
 .idea
 **/node_modules/*

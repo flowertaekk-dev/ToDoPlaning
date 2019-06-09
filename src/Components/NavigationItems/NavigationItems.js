@@ -1,23 +1,37 @@
-import React from 'react'
+import React from "react"
+import { withRouter, NavLink } from "react-router-dom"
 
-import NavigationItem from './NavigationItem/NavigationItem'
+import NavigationItem from "./NavigationItem/NavigationItem"
 
-const navigationItems = props => (
+const navigationItems = props => {
+  console.log("[navigationItems]", props)
+
+  const signOutHandler = () => {
+    props.signOutClicked()
+    props.history.push("/")
+  }
+
+  return (
     <ul>
-        {/* Can use it with react-router? */}
-        <NavigationItem
-            link='/'
-            active>UPDATE USER</NavigationItem>
+      {/* Can use it with react-router? */}
 
-        <NavigationItem
-            link='/'
-            clicked={props.signOutClicked}
-            active>SIGN OUT</NavigationItem>
+      <NavigationItem>
+        <NavLink
+          to="/updateUser"
+          activeStyle={{ color: "lightBlue", fontWeight: "bold" }}
+        >
+          UPDATE USER
+        </NavLink>
+      </NavigationItem>
+      {/* <NavigationItem link="/" /> */}
 
-        <li>
-            <strong>{props.userId}</strong>
-        </li>
+      <NavigationItem clicked={signOutHandler}>SIGN OUT</NavigationItem>
+
+      <li>
+        <strong>{props.userId}</strong>
+      </li>
     </ul>
-)
+  )
+}
 
-export default navigationItems
+export default withRouter(navigationItems)
