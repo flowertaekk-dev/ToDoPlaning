@@ -13,8 +13,6 @@ const navigationItems = props => {
 
   return (
     <ul>
-      {/* Can use it with react-router? */}
-
       <NavigationItem>
         <NavLink
           to="/updateUser"
@@ -23,7 +21,15 @@ const navigationItems = props => {
           UPDATE USER
         </NavLink>
       </NavigationItem>
-      {/* <NavigationItem link="/" /> */}
+
+      <NavigationItem>
+        <NavLink
+          to="/addGroup"
+          activeStyle={{ color: "lightBlue", fontWeight: "bold" }}
+        >
+          ADD GROUP
+        </NavLink>
+      </NavigationItem>
 
       <NavigationItem clicked={signOutHandler}>SIGN OUT</NavigationItem>
 

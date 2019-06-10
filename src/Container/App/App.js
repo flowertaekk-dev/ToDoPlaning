@@ -4,9 +4,8 @@ import { Route, withRouter } from "react-router-dom"
 import Layout from "../../hoc/Layout/Layout"
 import Login from "../../Components/Login/Login"
 import TodoList from "../../Components/ToDo/TodoList"
+import AddGroup from "../../Components/Grouping/AddGroup/AddGroup"
 import "./App.css"
-
-// import Aux from '../../hoc/Auxiliary/Auxiliary';
 
 // flowertaekk.dev
 class App extends Component {
@@ -57,6 +56,7 @@ class App extends Component {
           path="/todoList"
           render={() => <TodoList userId={this.state.userId} />}
         />
+        <Route path="/addGroup" render={() => <AddGroup />} />
         <Route
           exact
           path="/"
