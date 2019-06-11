@@ -15,7 +15,7 @@ const navigationItems = props => {
     <ul>
       <NavigationItem>
         <NavLink
-          to="/updateUser"
+          to="/userUpdate"
           activeStyle={{ color: "lightBlue", fontWeight: "bold" }}
         >
           UPDATE USER
