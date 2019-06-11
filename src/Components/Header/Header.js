@@ -1,7 +1,7 @@
-import React from "react"
+import React from "react";
 
-import NavigationItems from "../NavigationItems/NavigationItems"
-import "./Header.css"
+import NavigationItems from "../NavigationItems/NavigationItems";
+import "./Header.css";
 
 const header = props => {
   return (
@@ -20,7 +20,7 @@ const header = props => {
         ) : null}
       </nav>
     </div>
-  )
-}
+  );
+};
 
-export default header
+export default header;
