@@ -81,6 +81,7 @@ class SignUp extends Component {
 
     // after sign up, moves to "To Do List" page
     this.props.whenLoginSuccess(userId.value)
+    this.props.history.replace("/todoList")
   }
 
   render() {

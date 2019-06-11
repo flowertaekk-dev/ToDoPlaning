@@ -34,11 +34,19 @@ class AddGroup extends Component {
     await this.getUserRef()
       .once("value")
       .then(res => {
-        userData = res.val()
+        if (res.exists) {
+          userData = res.val()
+        }
+        console.log("[test]", userData)
       })
-      .catch(err => console.log(err))
+      .catch(err => console.error(err))
 
-    this.getUserRef().update({ group: [groupName, ...userData.group] })
+    console.log("[userData]", userData)
+    if (!userData) {
+      this.getUserRef().update({ group: [groupName, ...userData.group] })
+    } else {
+      this.getUserRef().update({ group: [groupName] })
+    }
   }
 
   submitHandler = async e => {

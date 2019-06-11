@@ -26,8 +26,10 @@ class AddToDo extends Component {
     groupRef
       .once("value")
       .then(res => {
-        const groups = [...this.state.groups, ...res.val()]
-        this.setState({ groups: groups })
+        if (res.exists()) {
+          const groups = [...this.state.groups, ...res.val()]
+          this.setState({ groups: groups })
+        }
       })
       .catch(err => console.error(err))
   }
