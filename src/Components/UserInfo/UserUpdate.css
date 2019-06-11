@@ -1,0 +1,8 @@
+.User-update{position: relative; top:68px; width: 100%; text-align: center}
+.User-update form {width: 50%; margin: 0 auto; padding: 16px 0 ; border: 1px solid #eee; box-shadow: 0 1px 2px #ccc}
+.User-update form h1 {color: #555;}
+.User-update form div.title {margin-bottom: 10px}
+.User-update form div {margin: 4px 0}
+.User-update form div input {border: 1px solid #eee; box-shadow: 0 1px 2px #ccc}
+.User-update div button {border: 1px solid #eee; box-shadow: 0 1px 1px #ccc; padding: 6px; background-color: white; margin-right: 4px}
+.User-update form div.btn-container {margin-top: 10px}

@@ -29,7 +29,7 @@ const navigationItems = props => {
       <Fragment>
         <NavigationItem>
           <NavLink
-            to="/updateUser"
+            to="/userUpdate"
             activeStyle={{ color: "lightBlue", fontWeight: "bold" }}
           >
             UPDATE USER
