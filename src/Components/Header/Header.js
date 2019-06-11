@@ -11,13 +11,10 @@ const header = props => {
       </div>
 
       <nav className="menu">
-        {// Code modifier - JuYoung Kang
-        props.didSignin ? (
-          <NavigationItems
-            signOutClicked={props.signOutClicked}
-            userId={props.userId}
-          />
-        ) : null}
+        <NavigationItems
+          signOutClicked={props.signOutClicked}
+          userId={props.userId}
+        />
       </nav>
     </div>
   )
