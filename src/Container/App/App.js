@@ -5,6 +5,7 @@ import Layout from "../../hoc/Layout/Layout"
 import Login from "../../Components/Login/Login"
 import TodoList from "../../Components/ToDo/TodoList"
 import UserUpdate from "../../Components/UserInfo/UserUpdate"
+import SignUp from "../../Components/SignUp/SignUp"
 import AddGroup from "../../Components/Grouping/AddGroup/AddGroup"
 import "./App.css"
 
@@ -62,6 +63,10 @@ class App extends Component {
         <Route
           path="/todoList"
           render={() => <TodoList userId={this.state.userId} />}
+        />
+        <Route
+          path="/signUp"
+          render={() => <SignUp whenLoginSuccess={this._updateLoginHandler} />}
         />
         <Route path="/addGroup" render={() => <AddGroup />} />
         <Route
