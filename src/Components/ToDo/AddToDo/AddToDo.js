@@ -23,6 +23,7 @@ class AddToDo extends Component {
     this.getGroupInfo()
   }
 
+  // gets group information from firebase with current userId
   getGroupInfo = () => {
     const rootRef = firebase.database().ref()
     const usersRef = rootRef.child("users/" + localStorage.getItem("userId"))
@@ -39,6 +40,7 @@ class AddToDo extends Component {
       .catch(err => console.error(err))
   }
 
+  // gets members data from firebase according to selected group
   getMembersBySelectedGroup = e => {
     const selectedGroup = e.target.value
     if (!selectedGroup) return
