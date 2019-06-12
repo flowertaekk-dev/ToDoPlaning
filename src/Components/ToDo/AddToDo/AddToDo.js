@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import { withRouter } from "react-router-dom"
 
 import firebase from "../../../Utils/Config/firebase"
 import "./AddToDo.css"
@@ -10,11 +11,15 @@ class AddToDo extends Component {
 
     this.state = {
       selectedDate: this.props.selectedDate,
-      groups: ["none"]
+      deadLine: this.props.selectedDate,
+      groups: ["none"],
+      selectedGroup: "none",
+      membersBySelectedGroup: ["Select group"]
     }
   }
 
   componentDidMount() {
+    console.log("[AddToDo.js]", this.props)
     this.getGroupInfo()
   }
 
@@ -34,6 +39,32 @@ class AddToDo extends Component {
       .catch(err => console.error(err))
   }
 
+  getMembersBySelectedGroup = e => {
+    const selectedGroup = e.target.value
+    if (!selectedGroup) return
+    if (selectedGroup === "none") {
+      this.setState({
+        selectedGroup: "none",
+        membersBySelectedGroup: ["Select group"]
+      })
+      return
+    }
+
+    const rootRef = firebase.database().ref()
+    const groupRef = rootRef.child("group/" + selectedGroup)
+    const memberRef = groupRef.child("member")
+    memberRef
+      .once("value")
+      .then(res => {
+        const membersBySelectedGroup = [...res.val()]
+        this.setState({
+          selectedGroup: selectedGroup,
+          membersBySelectedGroup: membersBySelectedGroup
+        })
+      })
+      .catch(err => console.error(err))
+  }
+
   onSubmitHandler = e => {
     e.preventDefault()
 
@@ -43,7 +74,8 @@ class AddToDo extends Component {
       deadLine,
       priority,
       taskDetail,
-      group
+      group,
+      manager
     } = e.target
 
     if (
@@ -68,12 +100,14 @@ class AddToDo extends Component {
       priority: priority.value,
       details: taskDetail.value,
       group: group.value,
+      manager: manager.value,
       subTodo: [] // TODO 未実装
     }
 
     todoRef.update(updateTodo)
 
     this._initializeInputs(e)
+    this.props.history.replace("/todoList")
   }
 
   _initializeInputs = e => {
@@ -105,6 +139,11 @@ class AddToDo extends Component {
     this.setState({
       [e.target.name]: e.target.value
     })
+  }
+
+  cancelHandler = e => {
+    e.preventDefault()
+    this.props.history.replace("/todoList")
   }
 
   render() {
@@ -149,7 +188,13 @@ class AddToDo extends Component {
         </td>
         <td>
           <p style={this._floatLeft}>
-            <input type="date" id="deadLine" name="deadLine" />
+            <input
+              type="date"
+              id="deadLine"
+              name="deadLine"
+              value={this.state.deadLine}
+              onChange={this.editSelectedDateHandler}
+            />
           </p>
         </td>
         <ErrorMessage msg={this.state.deadLineMessage} />
@@ -190,10 +235,25 @@ class AddToDo extends Component {
           <p>Group</p>
         </td>
         <td>
-          <select name="group">
+          <select name="group" onChange={this.getMembersBySelectedGroup}>
             {this.state.groups.map(group => (
               <option key={group} value={group}>
                 {group}
+              </option>
+            ))}
+          </select>
+        </td>
+      </tr>
+    )
+
+    const manager = (
+      <tr>
+        <td>Manager</td>
+        <td>
+          <select name="manager" disabled={this.state.selectedGroup === "none"}>
+            {this.state.membersBySelectedGroup.map(member => (
+              <option key={member} value={member}>
+                {member}
               </option>
             ))}
           </select>
@@ -205,6 +265,7 @@ class AddToDo extends Component {
       <tr>
         <td colSpan="2" className="td-button-center">
           <button type="submit">Add</button>
+          <button onClick={this.cancelHandler}>CANCEL</button>
         </td>
       </tr>
     )
@@ -228,6 +289,7 @@ class AddToDo extends Component {
               {priority}
               {taskDetail}
               {group}
+              {manager}
               {submitBtn}
             </tbody>
           </table>
@@ -249,4 +311,4 @@ export const ErrorMessage = props => {
   )
 }
 
-export default AddToDo
+export default withRouter(AddToDo)
