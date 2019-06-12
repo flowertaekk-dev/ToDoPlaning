@@ -29,6 +29,15 @@ const navigationItems = props => {
       <Fragment>
         <NavigationItem>
           <NavLink
+            to="/addTodo"
+            activeStyle={{ color: "lightBlue", fontWeight: "bold" }}
+          >
+            ADD TODO
+          </NavLink>
+        </NavigationItem>
+
+        <NavigationItem>
+          <NavLink
             to="/userUpdate"
             activeStyle={{ color: "lightBlue", fontWeight: "bold" }}
           >

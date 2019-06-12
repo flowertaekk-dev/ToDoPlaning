@@ -37,12 +37,10 @@ class AddGroup extends Component {
         if (res.exists) {
           userData = res.val()
         }
-        console.log("[test]", userData)
       })
       .catch(err => console.error(err))
 
-    console.log("[userData]", userData)
-    if (!userData) {
+    if (userData) {
       this.getUserRef().update({ group: [groupName, ...userData.group] })
     } else {
       this.getUserRef().update({ group: [groupName] })
@@ -62,6 +60,11 @@ class AddGroup extends Component {
       this.setDataToDB(groupName)
       this.props.history.goBack()
     }
+  }
+
+  cancelHandler = e => {
+    e.preventDefault()
+    this.props.history.replace("/todoList")
   }
 
   validation = async groupName => {
@@ -92,7 +95,10 @@ class AddGroup extends Component {
       <div className="AddGroup">
         <form onSubmit={this.submitHandler}>
           <input type="text" placeholder="Group name" name="groupName" />
-          <button type="submit">ADD GROUP</button>
+          <div>
+            <button type="submit">ADD GROUP</button>
+            <button onClick={this.cancelHandler}>CANCEL</button>
+          </div>
           {error}
         </form>
       </div>

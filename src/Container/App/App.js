@@ -7,6 +7,8 @@ import TodoList from "../../Components/ToDo/TodoList"
 import UserUpdate from "../../Components/UserInfo/UserUpdate"
 import SignUp from "../../Components/SignUp/SignUp"
 import AddGroup from "../../Components/Grouping/AddGroup/AddGroup"
+import AddTodo from "../../Components/ToDo/AddToDo/AddToDo"
+import { _getCurrentDate } from "../../Utils/_"
 import "./App.css"
 
 // flowertaekk.dev
@@ -18,7 +20,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log("[App.js]", this.props)
     const userId = localStorage.getItem("userId")
     if (userId) {
       this.setState({
@@ -54,11 +55,7 @@ class App extends Component {
         didSignIn={this.state.didSignIn}
         whenSignOut={this.signOutHandler}
       >
-        <Route
-          exact
-          path="/userUpdate"
-          render={() => <UserUpdate />}
-        />
+        <Route exact path="/userUpdate" render={() => <UserUpdate />} />
 
         <Route
           path="/todoList"
@@ -67,6 +64,15 @@ class App extends Component {
         <Route
           path="/signUp"
           render={() => <SignUp whenLoginSuccess={this._updateLoginHandler} />}
+        />
+        <Route
+          path="/addTodo"
+          render={() => (
+            <AddTodo
+              userId={this.state.userId}
+              selectedDate={_getCurrentDate()}
+            />
+          )}
         />
         <Route path="/addGroup" render={() => <AddGroup />} />
         <Route
