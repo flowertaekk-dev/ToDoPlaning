@@ -101,8 +101,8 @@ class AddToDo extends Component {
       deadLine: deadLine.value,
       priority: priority.value,
       details: taskDetail.value,
-      group: group.value,
-      manager: manager.value,
+      group: group.value === "none" ? null : group.value,
+      manager: manager.value === "Select group" ? null : manager.value,
       subTodo: [] // TODO 未実装
     }
 
