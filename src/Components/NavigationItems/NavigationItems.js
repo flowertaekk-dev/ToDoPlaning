@@ -4,8 +4,6 @@ import { withRouter, NavLink } from "react-router-dom"
 import NavigationItem from "./NavigationItem/NavigationItem"
 
 const navigationItems = props => {
-  console.log("[navigationItems]", props)
-
   const signOutHandler = () => {
     props.signOutClicked()
     props.history.push("/")
@@ -27,6 +25,15 @@ const navigationItems = props => {
   } else {
     afterSignIn = (
       <Fragment>
+        <NavigationItem>
+          <NavLink
+            to="/inviteToGroup"
+            activeStyle={{ color: "lightBlue", fontWeight: "bold" }}
+          >
+            INVITE GROUP
+          </NavLink>
+        </NavigationItem>
+
         <NavigationItem>
           <NavLink
             to="/addTodo"

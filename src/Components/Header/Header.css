@@ -1,9 +1,43 @@
-.Header {position:fixed; width: 100%; border-bottom: 2px solid #ccc; z-index: 1; background-color: #fff}
-.Header .title {text-align: center}
-.Header .title h1 {color: #555; line-height: 50px}
-.Header .menu {position: absolute; top: 30px; right: 0}
-.Header .menu ul {display: inline-block; right: 0px;}
-.Header .menu ul:after {content:''; display: block; clear: both}
-.Header .menu li {float: left; margin-right: 6px}
-.Header .menu li.cursor button {background-color: white; border: none;}
-.Header .menu li.cursor button:hover {font-weight: bold}
+.Header {
+  position: fixed;
+  width: 100%;
+  border-bottom: 2px solid #ccc;
+  z-index: 1;
+  background-color: #fff;
+}
+.Header .title {
+  margin-left: 16px;
+}
+.Header .title h1 a {
+  color: #555;
+  line-height: 50px;
+}
+.Header .title h1 a:hover,
+.Header .title h1 a:active {
+  text-decoration: none;
+}
+.Header .menu {
+  position: absolute;
+  top: 30px;
+  right: 0;
+}
+.Header .menu ul {
+  display: inline-block;
+  right: 0px;
+}
+.Header .menu ul:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.Header .menu li {
+  float: left;
+  margin-right: 6px;
+}
+.Header .menu li.cursor button {
+  background-color: white;
+  border: none;
+}
+.Header .menu li.cursor button:hover {
+  font-weight: bold;
+}

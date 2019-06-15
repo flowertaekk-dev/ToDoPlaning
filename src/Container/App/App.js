@@ -8,6 +8,7 @@ import UserUpdate from "../../Components/UserInfo/UserUpdate"
 import SignUp from "../../Components/SignUp/SignUp"
 import AddGroup from "../../Components/Grouping/AddGroup/AddGroup"
 import AddTodo from "../../Components/ToDo/AddToDo/AddToDo"
+import InviteGroup from "../../Components/Grouping/InviteGroup/InviteGroup"
 import { _getCurrentDate } from "../../Utils/_"
 import "./App.css"
 
@@ -74,6 +75,7 @@ class App extends Component {
             />
           )}
         />
+        <Route path="/inviteToGroup" render={() => <InviteGroup />} />
         <Route path="/addGroup" render={() => <AddGroup />} />
         <Route
           exact

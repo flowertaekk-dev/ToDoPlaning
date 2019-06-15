@@ -6,10 +6,6 @@ import Header from "../../Components/Header/Header"
 // import TodoList from "../../Components/ToDo/TodoList";
 
 class Layout extends Component {
-  componentDidMount() {
-    console.log("[Layout.js]", this.props)
-  }
-
   render() {
     return (
       <Aux>

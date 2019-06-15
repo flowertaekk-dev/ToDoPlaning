@@ -1,7 +1,6 @@
 import React, { Component } from "react"
-import { _filter, _mapWithKeys, _getCurrentDate, _map } from "../../Utils/_"
+import { _getCurrentDate, _map } from "../../Utils/_"
 import Todo from "./ToDo/ToDo"
-import AddToDo from "./AddToDo/AddToDo"
 import firebase from "../../Utils/Config/firebase"
 import Aux from "../../hoc/Auxiliary/Auxiliary"
 
@@ -28,12 +27,12 @@ class TodoList extends Component {
   readTodos = async () => {
     const rootRef = firebase.database().ref()
 
+    // gets group list
     await this.readGroupListByUser(rootRef)
+    // finds todos by group name
     await this.readTodosByGroup(rootRef)
+    // finds todos which has no group set
     await this.readTodosByUserId(rootRef)
-
-    console.log("[groupList]", this.state.groupList)
-    console.log("[todoRef]", this.state.todos)
   }
 
   readGroupListByUser = async rootRef => {
@@ -41,7 +40,6 @@ class TodoList extends Component {
     const groupRef = usersRef.child("group").once("value")
 
     // gets group list
-    let groupList = null
     await groupRef.then(res => {
       this.setState({ groupList: res.val() })
     })
@@ -65,6 +63,7 @@ class TodoList extends Component {
           })
         })
       })
+      return null
     })
   }
 
@@ -95,10 +94,15 @@ class TodoList extends Component {
     })
   }
 
-  _addTodoHandler = () => {
-    this.setState({
-      addToDo: !this.state.addToDo
-    })
+  // deletes ToDo
+  deleteToDoHandler = todoId => {
+    const rootRef = firebase.database().ref()
+    const todosRef = rootRef.child("todos")
+    const todoRef = todosRef.child(todoId)
+
+    const updateTodos = [...this.state.todos].filter(todo => todo.id !== todoId)
+    this.setState({ todos: updateTodos })
+    todoRef.remove()
   }
 
   render() {
@@ -125,11 +129,21 @@ class TodoList extends Component {
             <ul className="show-todo">
               {this.state.todos.map(todo => {
                 const selectedDate = this.state.selectedDate
+                // checks data
                 if (
                   todo.date === selectedDate ||
                   (todo.date <= selectedDate && todo.deadLine >= selectedDate)
-                )
-                  return <Todo {...todo} key={todo.id} />
+                ) {
+                  return (
+                    <Todo
+                      {...todo}
+                      key={todo.id}
+                      deleteClicked={() => this.deleteToDoHandler(todo.id)}
+                    />
+                  )
+                }
+
+                return null
               })}
             </ul>
           ) : null}
