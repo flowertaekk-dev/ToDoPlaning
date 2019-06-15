@@ -93,7 +93,7 @@ class AddToDo extends Component {
     const todoRef = todosRef.child(key)
 
     const updateTodo = {
-      key: key,
+      id: key,
       author: this.props.userId,
       date: selectedDate.value,
       todo: todo.value,
@@ -102,7 +102,10 @@ class AddToDo extends Component {
       priority: priority.value,
       details: taskDetail.value,
       group: group.value === "none" ? null : group.value,
-      manager: manager.value === "Select group" ? null : manager.value,
+      manager:
+        manager.value === "Select group"
+          ? localStorage.getItem("userId")
+          : manager.value,
       subTodo: [] // TODO 未実装
     }
 
