@@ -9,64 +9,24 @@
 1. Log in
 2. Show calendar with "To do list"
 
-### JSON format
-```
-{
-  "todoList" : {
-    "userId": {
-      "hashCode1": {
-        completeRate: ...,
-        date: "YYYYmmDD",
-        deadLine: "YYYYmmDD",
-        priority: ...,
-        taskDetails: ...,
-        todo: ...
-      },
-      "hashCode2": {
-        completeRate: ...,
-        date: "YYYYmmDD",
-        deadLine: "YYYYmmDD",
-        priority: ...,
-        taskDetails: ...,
-        todo: ...
-      }
-    },
-    "anotherUserId": {
-      "hashCode1": {
-        completeRate: ...,
-        date: "YYYYmmDD",
-        deadLine: "YYYYmmDD",
-        priority: ...,
-        taskDetails: ...,
-        todo: ...
-      }
-    },
-    "userInfo": {
-      "userId1": {
-        "email": ...,
-        "password": ...
-      },
-      "userId2": {
-        "email": ...,
-        "password": ...
-      }
-    }
-  }
-}
+## Coding rules
 
-```
-
-### Coding rule
 1. Use the camel case.
-2. Use tab to indent.
-3. Place an white space between variables and braces.
-  example)
-  ```
-  testFunction () {
-    ...
-  }
-  ```
-4. Write your gitHub ID in where you edit or add code.
+2. Use Prettier - Code formatter by Esben Petersen
 
-### Git
-We are using "git flow" strategy.
+***
+
+## Git
+
+###  We are using "git flow" strategy.
+
+### Branch naming convention  
+- For new feature → feature/new feature name  
+- For fix → fix/explanation  
+- For hotfix → hotfix/explanation
+
+### Commit naming convention  
+- uncompleted feature → feature-u/explanation  
+- completed feature → feature-c/explanation
+- fix → fix/explanation
+- hotfix → hotfix/explanation
