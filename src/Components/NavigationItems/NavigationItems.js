@@ -1,35 +1,79 @@
-import React from "react"
+import React, { Fragment } from "react"
 import { withRouter, NavLink } from "react-router-dom"
 
 import NavigationItem from "./NavigationItem/NavigationItem"
 
 const navigationItems = props => {
-  console.log("[navigationItems]", props)
-
   const signOutHandler = () => {
     props.signOutClicked()
     props.history.push("/")
   }
 
-  return (
-    <ul>
-      {/* Can use it with react-router? */}
-
+  let beforeSignIn,
+    afterSignIn = null
+  if (!localStorage.getItem("userId")) {
+    beforeSignIn = (
       <NavigationItem>
         <NavLink
-          to="/userUpdate"
+          to="/signUp"
           activeStyle={{ color: "lightBlue", fontWeight: "bold" }}
         >
-          UPDATE USER
+          SIGN UP
         </NavLink>
       </NavigationItem>
-      {/* <NavigationItem link="/" /> */}
+    )
+  } else {
+    afterSignIn = (
+      <Fragment>
+        <NavigationItem>
+          <NavLink
+            to="/inviteToGroup"
+            activeStyle={{ color: "lightBlue", fontWeight: "bold" }}
+          >
+            INVITE GROUP
+          </NavLink>
+        </NavigationItem>
 
-      <NavigationItem clicked={signOutHandler}>SIGN OUT</NavigationItem>
+        <NavigationItem>
+          <NavLink
+            to="/addTodo"
+            activeStyle={{ color: "lightBlue", fontWeight: "bold" }}
+          >
+            ADD TODO
+          </NavLink>
+        </NavigationItem>
 
-      <li>
-        <strong>{props.userId}</strong>
-      </li>
+        <NavigationItem>
+          <NavLink
+            to="/userUpdate"
+            activeStyle={{ color: "lightBlue", fontWeight: "bold" }}
+          >
+            UPDATE USER
+          </NavLink>
+        </NavigationItem>
+
+        <NavigationItem>
+          <NavLink
+            to="/addGroup"
+            activeStyle={{ color: "lightBlue", fontWeight: "bold" }}
+          >
+            ADD GROUP
+          </NavLink>
+        </NavigationItem>
+
+        <NavigationItem clicked={signOutHandler}>SIGN OUT</NavigationItem>
+
+        <li>
+          <strong>{props.userId}</strong>
+        </li>
+      </Fragment>
+    )
+  }
+
+  return (
+    <ul>
+      {beforeSignIn}
+      {afterSignIn}
     </ul>
   )
 }

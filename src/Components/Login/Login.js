@@ -119,13 +119,6 @@ class Login extends Component {
             <button type="submit" name="submit">
               Sign in
             </button>
-            <button
-              type="button"
-              name="signUpBtn"
-              onClick={this.clickedSignUpHandler}
-            >
-              Sign up
-            </button>
           </div>
         </form>
       </div>

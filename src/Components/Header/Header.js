@@ -1,26 +1,26 @@
-import React from "react";
+import React from "react"
+import { Link } from "react-router-dom"
 
-import NavigationItems from "../NavigationItems/NavigationItems";
-import "./Header.css";
+import NavigationItems from "../NavigationItems/NavigationItems"
+import "./Header.css"
 
 const header = props => {
   return (
     <div className="Header">
       <div className="title">
-        <h1>It's ToDoPlanning!</h1>
+        <h1>
+          <Link to="/todoList">It's ToDoPlanning!</Link>
+        </h1>
       </div>
 
       <nav className="menu">
-        {// Code modifier - JuYoung Kang
-        props.didSignin ? (
-          <NavigationItems
-            signOutClicked={props.signOutClicked}
-            userId={props.userId}
-          />
-        ) : null}
+        <NavigationItems
+          signOutClicked={props.signOutClicked}
+          userId={props.userId}
+        />
       </nav>
     </div>
-  );
-};
+  )
+}
 
-export default header;
+export default header

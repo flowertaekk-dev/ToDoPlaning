@@ -1,0 +1,9 @@
+.AddGroup {
+  position: absolute;
+  top: 200px;
+  width: 100%;
+  display: block;
+}
+.AddGroup form {
+  text-align: center;
+}
