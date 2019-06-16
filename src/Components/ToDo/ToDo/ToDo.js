@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react"
 import { withRouter } from "react-router-dom"
 
 import firebase from "../../../Utils/Config/firebase"
+import UpdateToDo from "../UpdateToDo/UpdateToDo"
 import "./ToDo.css"
 
 // flowertaekk.dev
@@ -43,6 +44,9 @@ class ToDo extends Component {
       deadLine: this.state.deadLine,
       details: this.state.taskDetails
     })
+
+    this.props.initState()
+    this.props.reloadTodos()
   }
 
   changeDataHandler = e => {
@@ -126,7 +130,17 @@ class ToDo extends Component {
           <caption>ToDo</caption>
           <tbody>
             {todoTitle}
-            {this.state.isUpdate ? whenUpdatedClicked : todoComponent}
+            {this.state.isUpdate ? (
+              <UpdateToDo
+                deadLine={this.state.deadLine}
+                taskDetails={this.state.taskDetails}
+                updateTodoContents={this.changeDataHandler}
+                cancelClicked={this.cancelUpdateHandler}
+                saveClicked={this.saveUpdatedDataHandler}
+              />
+            ) : (
+              todoComponent
+            )}
           </tbody>
         </table>
       </li>
