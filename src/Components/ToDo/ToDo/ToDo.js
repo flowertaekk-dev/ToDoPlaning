@@ -45,6 +45,7 @@ class ToDo extends Component {
       details: this.state.taskDetails
     })
 
+    // initializes and reload state from firebase
     this.props.initState()
     this.props.reloadTodos()
   }
