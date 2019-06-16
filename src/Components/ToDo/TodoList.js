@@ -105,6 +105,13 @@ class TodoList extends Component {
     todoRef.remove()
   }
 
+  initStateHandler = () => {
+    this.setState({
+      todos: [],
+      groupList: []
+    })
+  }
+
   render() {
     let dateBtn,
       toDoList = null
@@ -139,6 +146,8 @@ class TodoList extends Component {
                       {...todo}
                       key={todo.id}
                       deleteClicked={() => this.deleteToDoHandler(todo.id)}
+                      initState={this.initStateHandler}
+                      reloadTodos={this.readTodos}
                     />
                   )
                 }
