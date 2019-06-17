@@ -27,6 +27,15 @@ const navigationItems = props => {
       <Fragment>
         <NavigationItem>
           <NavLink
+            to="/messages"
+            activeStyle={{ color: "lightBlue", fontWeight: "bold" }}
+          >
+            MESSAGES
+          </NavLink>
+        </NavigationItem>
+
+        <NavigationItem>
+          <NavLink
             to="/inviteToGroup"
             activeStyle={{ color: "lightBlue", fontWeight: "bold" }}
           >

@@ -12,6 +12,7 @@ class InviteGroup extends Component {
 
   componentDidMount() {
     this.hasMounted = true
+    // TODO need to retrieve group list to show in case the user is in multiple groups.
     this.readUserId()
   }
 
@@ -27,7 +28,6 @@ class InviteGroup extends Component {
     usersRef
       .then(res => {
         const users = Object.keys(res.val())
-        // console.log("[KEY]", users)
         if (this.hasMounted) this.setState({ userIds: users })
       })
       .catch(err => console.error(err))
@@ -58,9 +58,7 @@ class InviteGroup extends Component {
         user => user !== checkedUser
       )
 
-      this.setState({
-        checkedUsers: updatedCheckedUsers
-      })
+      this.setState({ checkedUsers: updatedCheckedUsers })
     } else {
       // when checks user
       this.setState(prevState => {
@@ -69,13 +67,16 @@ class InviteGroup extends Component {
         }
       })
     }
-
-    console.log("[TEST]", this.state.checkedUsers)
   }
 
   submitHandler = e => {
     e.preventDefault()
-    console.log(e.target.selectedUsers)
+
+    console.log("[TEST]", this.state.checkedUsers)
+
+    // create Message data in firebase
+    //// what should be in? {groupName, sender, acceptFunction(??)}
+
     // TODO sends mail or message to selected users
     // To do so, we need message box functionality?
   }
@@ -95,6 +96,9 @@ class InviteGroup extends Component {
         <form onSubmit={this.submitHandler}>
           <div>
             {this.state.suggestedUserIds.map(suggestedUserId => {
+              // ignore if suggestedUserId is current user's ID
+              if (suggestedUserId === localStorage.getItem("userId")) return
+
               return (
                 <label key={`${suggestedUserId}_label`}>
                   {suggestedUserId}

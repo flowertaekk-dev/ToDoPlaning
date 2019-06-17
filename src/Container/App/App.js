@@ -9,6 +9,7 @@ import SignUp from "../../Components/SignUp/SignUp"
 import AddGroup from "../../Components/Grouping/AddGroup/AddGroup"
 import AddTodo from "../../Components/ToDo/AddToDo/AddToDo"
 import InviteGroup from "../../Components/Grouping/InviteGroup/InviteGroup"
+import Messages from "../../Components/Messages/Messages"
 import { _getCurrentDate } from "../../Utils/_"
 import "./App.css"
 
@@ -58,6 +59,10 @@ class App extends Component {
       >
         <Route exact path="/userUpdate" render={() => <UserUpdate />} />
 
+        <Route
+          path="/messages"
+          render={() => <Messages id={this.state.userId} />}
+        />
         <Route
           path="/todoList"
           render={() => <TodoList userId={this.state.userId} />}
