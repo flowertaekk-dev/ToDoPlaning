@@ -75,7 +75,24 @@ class InviteGroup extends Component {
     console.log("[TEST]", this.state.checkedUsers)
 
     // create Message data in firebase
-    //// what should be in? {groupName, sender, acceptFunction(??)}
+    //// what should be in? {groupName, sender,}
+    const rootRef = firebase.database().ref()
+
+    const messageReceivers = this.state.checkedUsers
+    messageReceivers.forEach(receiver => {
+      const usersRef = rootRef.child("users/" + receiver)
+      const messagesRef = usersRef.child("messages")
+      const key = messagesRef.push().key
+
+      const message = {
+        id: key,
+        groupName: "groupTest", // TODO need to <select> element for user to select which group should be targeted
+        sender: localStorage.getItem("userId"),
+        type: "inviteToGroup",
+        comment: "hello world!"
+      }
+      messagesRef.push(message)
+    })
 
     // TODO sends mail or message to selected users
     // To do so, we need message box functionality?
