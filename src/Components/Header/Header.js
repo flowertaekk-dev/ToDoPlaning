@@ -9,7 +9,7 @@ const header = props => {
     <div className="Header">
       <div className="title">
         <h1>
-          <Link to="/todoList">It's ToDoPlanning!</Link>
+          <Link to="/todoList" replace={true}>It's ToDoPlanning!</Link>
         </h1>
       </div>
 
