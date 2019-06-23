@@ -82,7 +82,12 @@ class AddToDo extends Component {
     } = e.target
 
     if (
-      !this._emptyInputValidator(selectedDate.value, todo.value, completeRate.value, deadLine.value)
+      !this._emptyInputValidator(
+        selectedDate.value,
+        todo.value,
+        completeRate.value,
+        deadLine.value
+      )
     )
       return
 
@@ -136,12 +141,15 @@ class AddToDo extends Component {
       deadLineMessage: deadLine ? "" : "Enter deadLine"
     })
 
-    const getCompleteRate = parseInt(completeRate);
-    if (getCompleteRate !== NaN && (getCompleteRate < 0 || getCompleteRate > 100)) {
+    const getCompleteRate = parseInt(completeRate)
+    if (
+      getCompleteRate !== NaN &&
+      (getCompleteRate < 0 || getCompleteRate > 100)
+    ) {
       this.setState({
-        completeMessage: "Please enter a number between 0 and 100",
+        completeMessage: "Please enter a number between 0 and 100"
       })
-      result = false;
+      result = false
     }
 
     if (!selectedDate || !todo || !deadLine) result = false
