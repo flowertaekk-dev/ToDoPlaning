@@ -47,6 +47,8 @@ class TodoList extends Component {
 
   readTodosByGroup = async rootRef => {
     // gets todos by every group that user is in
+
+    // if(!this.state.groupList) return
     await this.state.groupList.map(group => {
       const todosRef = rootRef
         .child("todos")
