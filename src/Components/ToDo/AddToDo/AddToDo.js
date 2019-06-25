@@ -73,6 +73,7 @@ class AddToDo extends Component {
     const {
       selectedDate,
       todo,
+      completeRate,
       deadLine,
       priority,
       taskDetail,
@@ -81,7 +82,12 @@ class AddToDo extends Component {
     } = e.target
 
     if (
-      !this._emptyInputValidator(selectedDate.value, todo.value, deadLine.value)
+      !this._emptyInputValidator(
+        selectedDate.value,
+        todo.value,
+        completeRate.value,
+        deadLine.value
+      )
     )
       return
 
@@ -97,7 +103,7 @@ class AddToDo extends Component {
       author: this.props.userId,
       date: selectedDate.value,
       todo: todo.value,
-      completeRate: "",
+      completeRate: completeRate.value,
       deadLine: deadLine.value,
       priority: priority.value,
       details: taskDetail.value,
@@ -125,7 +131,7 @@ class AddToDo extends Component {
     taskDetail.value = ""
   }
 
-  _emptyInputValidator = (selectedDate, todo, deadLine) => {
+  _emptyInputValidator = (selectedDate, todo, completeRate, deadLine) => {
     let result = true
 
     // other inputs are optional
@@ -134,6 +140,17 @@ class AddToDo extends Component {
       todoMessage: todo ? "" : "Enter Todo",
       deadLineMessage: deadLine ? "" : "Enter deadLine"
     })
+
+    const getCompleteRate = parseInt(completeRate)
+    if (
+      getCompleteRate !== NaN &&
+      (getCompleteRate < 0 || getCompleteRate > 100)
+    ) {
+      this.setState({
+        completeMessage: "Please enter a number between 0 and 100"
+      })
+      result = false
+    }
 
     if (!selectedDate || !todo || !deadLine) result = false
 
@@ -183,6 +200,26 @@ class AddToDo extends Component {
           </p>
         </td>
         <ErrorMessage msg={this.state.todoMessage} />
+      </tr>
+    )
+
+    const completeRate = (
+      <tr>
+        <td>
+          <label htmlFor="completeRate">CompleteRate</label>
+        </td>
+        <td>
+          <p style={this._floatLeft}>
+            <input
+              type="text"
+              id="completeRate"
+              name="completeRate"
+              placeholder="Please input completeRate"
+              required
+            />
+          </p>
+        </td>
+        <ErrorMessage msg={this.state.completeMessage} />
       </tr>
     )
 
@@ -290,6 +327,7 @@ class AddToDo extends Component {
             <tbody>
               {date}
               {todo}
+              {completeRate}
               {deadLine}
               {priority}
               {taskDetail}
