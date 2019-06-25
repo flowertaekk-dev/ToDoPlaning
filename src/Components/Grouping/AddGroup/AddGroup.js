@@ -23,28 +23,16 @@ class AddGroup extends Component {
 
   setDataToDB = async groupName => {
     // set group
-    const newGroup = {
-      leader: [localStorage.getItem("userId")],
-      member: [localStorage.getItem("userId")]
-    }
-    this.getGroupRef(groupName).set(newGroup)
+    this.getGroupRef(groupName)
+      .child("leader")
+      .push(localStorage.getItem("userId"))
+    this.getGroupRef(groupName)
+      .child("member")
+      .push(localStorage.getItem("userId"))
 
-    // reads users
-    let userData = null
-    await this.getUserRef()
-      .once("value")
-      .then(res => {
-        if (res.exists) {
-          userData = res.val()
-        }
-      })
-      .catch(err => console.error(err))
-
-    if (userData) {
-      this.getUserRef().update({ group: [groupName, ...userData.group] })
-    } else {
-      this.getUserRef().update({ group: [groupName] })
-    }
+    this.getUserRef()
+      .child("group")
+      .push(groupName)
   }
 
   submitHandler = async e => {

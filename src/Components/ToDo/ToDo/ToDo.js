@@ -64,44 +64,6 @@ class ToDo extends Component {
       </tr>
     )
 
-    const whenUpdatedClicked = (
-      <Fragment>
-        <tr>
-          <th scope="row">Dead-line</th>
-          <td>
-            <input
-              type="date"
-              name="deadLine"
-              value={this.state.deadLine}
-              onChange={this.changeDataHandler}
-            />
-          </td>
-        </tr>
-        <tr>
-          <th scope="row">Details</th>
-          <td>
-            <textarea
-              name="taskDetails"
-              rows="10"
-              cols="50"
-              value={this.state.taskDetails}
-              onChange={this.changeDataHandler}
-            />
-          </td>
-        </tr>
-        <tr>
-          <td colSpan="2" className="btn-container">
-            <button onClick={this.saveUpdatedDataHandler} className="btn">
-              SAVE
-            </button>
-            <button onClick={this.cancelUpdateHandler} className="btn">
-              RETURN
-            </button>
-          </td>
-        </tr>
-      </Fragment>
-    )
-
     const todoComponent = (
       <Fragment>
         <tr>

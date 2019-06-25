@@ -17,6 +17,7 @@ const header = props => {
         <NavigationItems
           signOutClicked={props.signOutClicked}
           userId={props.userId}
+          hasGroupList={props.hasGroupList}
         />
       </nav>
     </div>

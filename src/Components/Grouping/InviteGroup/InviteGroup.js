@@ -1,23 +1,37 @@
 import React, { Component } from "react"
+import { withRouter } from "react-router-dom"
 
 import firebase from "../../../Utils/Config/firebase"
+import * as _ from "../../../Utils/_"
 import "./InviteGroup.css"
 
 class InviteGroup extends Component {
   state = {
     userIds: [],
     suggestedUserIds: [],
-    checkedUsers: []
+    checkedUsers: [],
+    groupList: []
   }
 
   componentDidMount() {
     this.hasMounted = true
-    // TODO need to retrieve group list to show in case the user is in multiple groups.
+    this.readGroupListByUser()
     this.readUserId()
   }
 
   componentWillUnmount() {
     this.hasMounted = false
+  }
+
+  readGroupListByUser = async () => {
+    const rootRef = firebase.database().ref()
+    const usersRef = rootRef.child("users/" + localStorage.getItem("userId"))
+    const groupRef = usersRef.child("group").once("value")
+
+    // gets group list
+    await groupRef.then(res => {
+      this.setState({ groupList: res.val() })
+    })
   }
 
   // reads userIds
@@ -72,10 +86,8 @@ class InviteGroup extends Component {
   submitHandler = e => {
     e.preventDefault()
 
-    console.log("[TEST]", this.state.checkedUsers)
+    const { comment, selectedGroup } = e.target
 
-    // create Message data in firebase
-    //// what should be in? {groupName, sender,}
     const rootRef = firebase.database().ref()
 
     const messageReceivers = this.state.checkedUsers
@@ -86,16 +98,16 @@ class InviteGroup extends Component {
 
       const message = {
         id: key,
-        groupName: "groupTest", // TODO need to <select> element for user to select which group should be targeted
+        groupName: selectedGroup.value,
         sender: localStorage.getItem("userId"),
         type: "inviteToGroup",
-        comment: "hello world!"
+        comment: comment.value,
+        hasRead: false
       }
-      messagesRef.push(message)
+      messagesRef.update({ [message.id]: message })
     })
 
-    // TODO sends mail or message to selected users
-    // To do so, we need message box functionality?
+    this.props.history.replace("/todoList")
   }
 
   render() {
@@ -107,14 +119,24 @@ class InviteGroup extends Component {
           type="text"
           onChange={this.searchUserIdWithHashHandler}
         />
-        <div>
-          <strong>Suggested users</strong>
-        </div>
         <form onSubmit={this.submitHandler}>
+          <div>
+            <select name="selectedGroup" required>
+              {_._map(this.state.groupList, group => (
+                <option key={group} name="groups">
+                  {group}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <strong>Suggested users</strong>
+          </div>
           <div>
             {this.state.suggestedUserIds.map(suggestedUserId => {
               // ignore if suggestedUserId is current user's ID
-              if (suggestedUserId === localStorage.getItem("userId")) return
+              if (suggestedUserId === localStorage.getItem("userId"))
+                return null
 
               return (
                 <label key={`${suggestedUserId}_label`}>
@@ -129,11 +151,16 @@ class InviteGroup extends Component {
               )
             })}
           </div>
-          <button type="submit">INVITE TO GROUP</button>
+          <div>
+            <textarea rows="20" cols="70" name="comment" />
+          </div>
+          <button type="submit" disabled={this.state.checkedUsers.length === 0}>
+            INVITE TO GROUP
+          </button>
         </form>
       </div>
     )
   }
 }
 
-export default InviteGroup
+export default withRouter(InviteGroup)

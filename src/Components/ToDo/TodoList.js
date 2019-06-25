@@ -49,7 +49,7 @@ class TodoList extends Component {
     if (!this.state.groupList) return
 
     // gets todos by every group that user is in
-    await this.state.groupList.map(group => {
+    _map(this.state.groupList, group => {
       const todosRef = rootRef
         .child("todos")
         .orderByChild("group")

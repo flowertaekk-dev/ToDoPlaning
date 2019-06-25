@@ -11,6 +11,7 @@ import AddTodo from "../../Components/ToDo/AddToDo/AddToDo"
 import InviteGroup from "../../Components/Grouping/InviteGroup/InviteGroup"
 import Messages from "../../Components/Messages/Messages"
 import { _getCurrentDate } from "../../Utils/_"
+import firebase from "../../Utils/Config/firebase"
 import "./App.css"
 
 // flowertaekk.dev
@@ -18,7 +19,8 @@ class App extends Component {
   state = {
     userId: "",
     // needless to store userPassword?
-    didSignIn: false
+    didSignIn: false,
+    groupList: []
   }
 
   componentDidMount() {
@@ -30,10 +32,21 @@ class App extends Component {
       })
       this.props.history.push("/todoList")
     }
+    this.readGroupListByUser()
+  }
+
+  readGroupListByUser = async () => {
+    const rootRef = firebase.database().ref()
+    const usersRef = rootRef.child("users/" + localStorage.getItem("userId"))
+    // gets group list
+    // TODO it doesn't work with async ??? or object?
+    await usersRef.child("group").on("value", snap => {
+      this.setState({ groupList: snap.val() })
+    })
   }
 
   // saves login information
-  _updateLoginHandler = async id => {
+  _updateLoginHandler = id => {
     this.setState({
       userId: id,
       didSignIn: true
@@ -56,6 +69,7 @@ class App extends Component {
         userId={this.state.userId}
         didSignIn={this.state.didSignIn}
         whenSignOut={this.signOutHandler}
+        hasGroupList={this.state.groupList}
       >
         <Route exact path="/userUpdate" render={() => <UserUpdate />} />
 

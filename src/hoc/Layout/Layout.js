@@ -14,6 +14,7 @@ class Layout extends Component {
           userId={this.props.userId}
           didSignin={this.props.didSignIn}
           signOutClicked={this.props.whenSignOut}
+          hasGroupList={this.props.hasGroupList}
         />
 
         {/* BODY */}

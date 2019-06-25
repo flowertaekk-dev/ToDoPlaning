@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import { withRouter } from "react-router-dom"
 
 import firebase from "../../../Utils/Config/firebase"
+import * as _ from "../../../Utils/_"
 import "./AddToDo.css"
 
 // flowertaekk.dev
@@ -12,14 +13,13 @@ class AddToDo extends Component {
     this.state = {
       selectedDate: this.props.selectedDate,
       deadLine: this.props.selectedDate,
-      groups: ["none"],
+      groups: { none: "none" },
       selectedGroup: "none",
       membersBySelectedGroup: ["Select group"]
     }
   }
 
   componentDidMount() {
-    console.log("[AddToDo.js]", this.props)
     this.getGroupInfo()
   }
 
@@ -33,7 +33,7 @@ class AddToDo extends Component {
       .once("value")
       .then(res => {
         if (res.exists()) {
-          const groups = [...this.state.groups, ...res.val()]
+          const groups = { ...this.state.groups, ...res.val() }
           this.setState({ groups: groups })
         }
       })
@@ -58,7 +58,7 @@ class AddToDo extends Component {
     memberRef
       .once("value")
       .then(res => {
-        const membersBySelectedGroup = [...res.val()]
+        const membersBySelectedGroup = { ...res.val() }
         this.setState({
           selectedGroup: selectedGroup,
           membersBySelectedGroup: membersBySelectedGroup
@@ -241,7 +241,7 @@ class AddToDo extends Component {
         </td>
         <td>
           <select name="group" onChange={this.getMembersBySelectedGroup}>
-            {this.state.groups.map(group => (
+            {_._map(this.state.groups, group => (
               <option key={group} value={group}>
                 {group}
               </option>
@@ -256,7 +256,7 @@ class AddToDo extends Component {
         <td>Manager</td>
         <td>
           <select name="manager" disabled={this.state.selectedGroup === "none"}>
-            {this.state.membersBySelectedGroup.map(member => (
+            {_._map(this.state.membersBySelectedGroup, member => (
               <option key={member} value={member}>
                 {member}
               </option>
