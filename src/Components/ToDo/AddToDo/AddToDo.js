@@ -143,7 +143,7 @@ class AddToDo extends Component {
 
     const getCompleteRate = parseInt(completeRate)
     if (
-      getCompleteRate !== NaN &&
+      !isNaN(getCompleteRate) &&
       (getCompleteRate < 0 || getCompleteRate > 100)
     ) {
       this.setState({

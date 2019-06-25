@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from "react"
 import { withRouter } from "react-router-dom"
-import { _filter, _mapWithKeys, _getCurrentDate } from "../../Utils/_"
 import firebase from "../../Utils/Config/firebase"
 import { Base64 } from "js-base64"
 import "./UserUpdate.css"
