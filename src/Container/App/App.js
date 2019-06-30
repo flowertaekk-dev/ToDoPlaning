@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { PureComponent } from "react"
 import { Route, withRouter } from "react-router-dom"
 
 import Layout from "../../hoc/Layout/Layout"
@@ -15,7 +15,7 @@ import firebase from "../../Utils/Config/firebase"
 import "./App.css"
 
 // flowertaekk.dev
-class App extends Component {
+class App extends PureComponent {
   state = {
     userId: "",
     // needless to store userPassword?
@@ -23,7 +23,7 @@ class App extends Component {
     groupList: []
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const userId = localStorage.getItem("userId")
     if (userId) {
       this.setState({
@@ -32,12 +32,12 @@ class App extends Component {
       })
       this.props.history.push("/todoList")
     }
-    this.readGroupListByUser()
+    await this.readGroupListByUser()
   }
 
   readGroupListByUser = async () => {
     const rootRef = firebase.database().ref()
-    const usersRef = rootRef.child("users/" + localStorage.getItem("userId"))
+    const usersRef = rootRef.child("users/" + this.state.userId)
     // gets group list
     // TODO it doesn't work with async ??? or object?
     await usersRef.child("group").on("value", snap => {
@@ -70,6 +70,7 @@ class App extends Component {
         didSignIn={this.state.didSignIn}
         whenSignOut={this.signOutHandler}
         hasGroupList={this.state.groupList}
+        redoGetGroupList={this.readGroupListByUser}
       >
         <Route exact path="/userUpdate" render={() => <UserUpdate />} />
 

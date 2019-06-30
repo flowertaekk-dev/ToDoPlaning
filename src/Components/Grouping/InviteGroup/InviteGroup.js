@@ -30,7 +30,7 @@ class InviteGroup extends Component {
 
     // gets group list
     await groupRef.then(res => {
-      this.setState({ groupList: res.val() })
+      if (this.hasMounted) this.setState({ groupList: res.val() })
     })
   }
 

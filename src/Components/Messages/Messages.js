@@ -11,22 +11,27 @@ class Messages extends Component {
   }
 
   componentDidMount() {
+    this.hasMounted = true
     this.readMessageById()
   }
 
-  readMessageById = async () => {
+  componentWillUnmount() {
+    this.hasMounted = false
+  }
+
+  readMessageById = () => {
     const rootRef = firebase.database().ref()
+    console.log("[readMessageById-1] ", localStorage.getItem("userId"))
     const usersRef = rootRef.child("users/" + localStorage.getItem("userId"))
     // TODO think about the need of adding a flag to check its message has already been completed
     const messagesRef = usersRef.child("messages")
 
-    let messages = null
-    await messagesRef.on("value", function(snap) {
+    let messages = {}
+    // STUDY need to think about 'this' scope more carefully.
+    messagesRef.on("value", snap => {
       messages = snap.val()
+      if (this.hasMounted) this.setState({ messages: messages }) // we may need to change this using redux.
     })
-    this.setState({ messages: messages })
-    // TODO need to think about how to deal with async response.
-    // for instance, the message doesn't show up when clicked before it is uploaded.
   }
 
   updateMessageStatusHandler = id => {
