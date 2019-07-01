@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from "react"
 import { withRouter } from "react-router-dom"
-import { _filter, _mapWithKeys, _getCurrentDate } from "../../Utils/_"
 import firebase from "../../Utils/Config/firebase"
 import { Base64 } from "js-base64"
 import "./UserUpdate.css"
@@ -61,7 +60,12 @@ class UserUpdate extends Component {
   }
 
   componentDidMount() {
+    this.hasMounted = true
     this.readUserData()
+  }
+
+  componentWillUnmount() {
+    this.hasMounted = false
   }
 
   readUserData = async () => {
@@ -78,9 +82,16 @@ class UserUpdate extends Component {
 
     // gets group list
     await getUserData.then(res => {
-      this.setState({ userId: localStorage.getItem("userId") })
-      this.setState({ userEmail: res.val().email })
+      if (this.hasMounted) {
+        this.setState({ userId: localStorage.getItem("userId") })
+        this.setState({ userEmail: res.val().email })
+      }
     })
+  }
+
+  // flowertaekk.dev added
+  dataChangeHandler = e => {
+    this.setState({ [e.target.name]: e.target.value })
   }
 
   render() {
@@ -102,6 +113,7 @@ class UserUpdate extends Component {
                 name="userEmail"
                 placeholder="e-mail"
                 value={this.state.userEmail}
+                onChange={this.dataChangeHandler}
               />
               <ErrorMessage msg={this.state.emailMessage} />
             </div>

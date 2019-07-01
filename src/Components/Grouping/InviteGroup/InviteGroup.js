@@ -1,22 +1,37 @@
 import React, { Component } from "react"
+import { withRouter } from "react-router-dom"
 
 import firebase from "../../../Utils/Config/firebase"
+import * as _ from "../../../Utils/_"
 import "./InviteGroup.css"
 
 class InviteGroup extends Component {
   state = {
     userIds: [],
     suggestedUserIds: [],
-    checkedUsers: []
+    checkedUsers: [],
+    groupList: []
   }
 
   componentDidMount() {
     this.hasMounted = true
+    this.readGroupListByUser()
     this.readUserId()
   }
 
   componentWillUnmount() {
     this.hasMounted = false
+  }
+
+  readGroupListByUser = async () => {
+    const rootRef = firebase.database().ref()
+    const usersRef = rootRef.child("users/" + localStorage.getItem("userId"))
+    const groupRef = usersRef.child("group").once("value")
+
+    // gets group list
+    await groupRef.then(res => {
+      if (this.hasMounted) this.setState({ groupList: res.val() })
+    })
   }
 
   // reads userIds
@@ -27,7 +42,6 @@ class InviteGroup extends Component {
     usersRef
       .then(res => {
         const users = Object.keys(res.val())
-        // console.log("[KEY]", users)
         if (this.hasMounted) this.setState({ userIds: users })
       })
       .catch(err => console.error(err))
@@ -58,9 +72,7 @@ class InviteGroup extends Component {
         user => user !== checkedUser
       )
 
-      this.setState({
-        checkedUsers: updatedCheckedUsers
-      })
+      this.setState({ checkedUsers: updatedCheckedUsers })
     } else {
       // when checks user
       this.setState(prevState => {
@@ -69,15 +81,33 @@ class InviteGroup extends Component {
         }
       })
     }
-
-    console.log("[TEST]", this.state.checkedUsers)
   }
 
   submitHandler = e => {
     e.preventDefault()
-    console.log(e.target.selectedUsers)
-    // TODO sends mail or message to selected users
-    // To do so, we need message box functionality?
+
+    const { comment, selectedGroup } = e.target
+
+    const rootRef = firebase.database().ref()
+
+    const messageReceivers = this.state.checkedUsers
+    messageReceivers.forEach(receiver => {
+      const usersRef = rootRef.child("users/" + receiver)
+      const messagesRef = usersRef.child("messages")
+      const key = messagesRef.push().key
+
+      const message = {
+        id: key,
+        groupName: selectedGroup.value,
+        sender: localStorage.getItem("userId"),
+        type: "inviteToGroup",
+        comment: comment.value,
+        hasRead: false
+      }
+      messagesRef.update({ [message.id]: message })
+    })
+
+    this.props.history.replace("/todoList")
   }
 
   render() {
@@ -89,12 +119,25 @@ class InviteGroup extends Component {
           type="text"
           onChange={this.searchUserIdWithHashHandler}
         />
-        <div>
-          <strong>Suggested users</strong>
-        </div>
         <form onSubmit={this.submitHandler}>
           <div>
+            <select name="selectedGroup" required>
+              {_._map(this.state.groupList, group => (
+                <option key={group} name="groups">
+                  {group}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <strong>Suggested users</strong>
+          </div>
+          <div>
             {this.state.suggestedUserIds.map(suggestedUserId => {
+              // ignore if suggestedUserId is current user's ID
+              if (suggestedUserId === localStorage.getItem("userId"))
+                return null
+
               return (
                 <label key={`${suggestedUserId}_label`}>
                   {suggestedUserId}
@@ -108,11 +151,16 @@ class InviteGroup extends Component {
               )
             })}
           </div>
-          <button type="submit">INVITE TO GROUP</button>
+          <div>
+            <textarea rows="20" cols="70" name="comment" />
+          </div>
+          <button type="submit" disabled={this.state.checkedUsers.length === 0}>
+            INVITE TO GROUP
+          </button>
         </form>
       </div>
     )
   }
 }
 
-export default InviteGroup
+export default withRouter(InviteGroup)

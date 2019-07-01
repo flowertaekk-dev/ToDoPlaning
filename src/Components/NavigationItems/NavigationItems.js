@@ -1,4 +1,4 @@
-import React, { Fragment } from "react"
+import React, { Fragment, useEffect } from "react"
 import { withRouter, NavLink } from "react-router-dom"
 
 import NavigationItem from "./NavigationItem/NavigationItem"
@@ -8,6 +8,10 @@ const navigationItems = props => {
     props.signOutClicked()
     props.history.push("/")
   }
+
+  // useEffect(() => {
+  //   console.log("[USEEFFECT]", props.hasGroupList.length)
+  // }, [])
 
   let beforeSignIn,
     afterSignIn = null
@@ -27,12 +31,23 @@ const navigationItems = props => {
       <Fragment>
         <NavigationItem>
           <NavLink
-            to="/inviteToGroup"
+            to="/messages"
             activeStyle={{ color: "lightBlue", fontWeight: "bold" }}
           >
-            INVITE GROUP
+            MESSAGES
           </NavLink>
         </NavigationItem>
+
+        {props.hasGroupList ? (
+          <NavigationItem>
+            <NavLink
+              to="/inviteToGroup"
+              activeStyle={{ color: "lightBlue", fontWeight: "bold" }}
+            >
+              INVITE GROUP
+            </NavLink>
+          </NavigationItem>
+        ) : null}
 
         <NavigationItem>
           <NavLink

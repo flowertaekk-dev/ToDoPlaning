@@ -6,6 +6,13 @@ import Header from "../../Components/Header/Header"
 // import TodoList from "../../Components/ToDo/TodoList";
 
 class Layout extends Component {
+  // TODO this shouldCommponentUpdate can be replaced with react-redux!?
+  async shouldComponentUpdate(nextProps, nextState) {
+    if (nextProps.userId !== this.props.userId)
+      await this.props.redoGetGroupList()
+    return true
+  }
+
   render() {
     return (
       <Aux>
@@ -14,6 +21,7 @@ class Layout extends Component {
           userId={this.props.userId}
           didSignin={this.props.didSignIn}
           signOutClicked={this.props.whenSignOut}
+          hasGroupList={this.props.hasGroupList}
         />
 
         {/* BODY */}

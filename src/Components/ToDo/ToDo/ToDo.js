@@ -11,9 +11,7 @@ class ToDo extends Component {
     super(props)
 
     this.state = {
-      isUpdate: false,
-      deadLine: props.deadLine,
-      taskDetails: props.details
+      isUpdate: false
     }
   }
 
@@ -26,9 +24,7 @@ class ToDo extends Component {
 
   cancelUpdateHandler = () => {
     this.setState({
-      isUpdate: !this.state.isUpdate,
-      deadLine: this.props.deadLine,
-      taskDetails: this.props.details
+      isUpdate: !this.state.isUpdate
     })
   }
 
@@ -37,13 +33,13 @@ class ToDo extends Component {
       isUpdate: !this.state.isUpdate
     })
 
-    const rootRef = firebase.database().ref()
-    const todosRef = rootRef.child("todos")
-    const todoRef = todosRef.child(this.props.id)
-    todoRef.update({
-      deadLine: this.state.deadLine,
-      details: this.state.taskDetails
-    })
+    // const rootRef = firebase.database().ref()
+    // const todosRef = rootRef.child("todos")
+    // const todoRef = todosRef.child(this.props.id)
+    // todoRef.update({
+    //   deadLine: this.state.deadLine,
+    //   details: this.state.taskDetails
+    // })
 
     // initializes and reload state from firebase
     this.props.initState()
@@ -51,9 +47,7 @@ class ToDo extends Component {
   }
 
   changeDataHandler = e => {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
+    this.props.updateTodo()(e)
   }
 
   render() {
@@ -64,53 +58,15 @@ class ToDo extends Component {
       </tr>
     )
 
-    const whenUpdatedClicked = (
-      <Fragment>
-        <tr>
-          <th scope="row">Dead-line</th>
-          <td>
-            <input
-              type="date"
-              name="deadLine"
-              value={this.state.deadLine}
-              onChange={this.changeDataHandler}
-            />
-          </td>
-        </tr>
-        <tr>
-          <th scope="row">Details</th>
-          <td>
-            <textarea
-              name="taskDetails"
-              rows="10"
-              cols="50"
-              value={this.state.taskDetails}
-              onChange={this.changeDataHandler}
-            />
-          </td>
-        </tr>
-        <tr>
-          <td colSpan="2" className="btn-container">
-            <button onClick={this.saveUpdatedDataHandler} className="btn">
-              SAVE
-            </button>
-            <button onClick={this.cancelUpdateHandler} className="btn">
-              RETURN
-            </button>
-          </td>
-        </tr>
-      </Fragment>
-    )
-
     const todoComponent = (
       <Fragment>
         <tr>
           <th scope="row">Dead-line</th>
-          <td>{this.state.deadLine}</td>
+          <td>{this.props.deadLine}</td>
         </tr>
         <tr>
           <th scope="row">Details</th>
-          <td>{this.state.taskDetails}</td>
+          <td>{this.props.details}</td>
         </tr>
         <tr>
           <td colSpan="2" className="btn-container">
@@ -133,8 +89,9 @@ class ToDo extends Component {
             {todoTitle}
             {this.state.isUpdate ? (
               <UpdateToDo
-                deadLine={this.state.deadLine}
-                taskDetails={this.state.taskDetails}
+                id={this.props.id}
+                deadLine={this.props.deadLine}
+                taskDetails={this.props.details}
                 updateTodoContents={this.changeDataHandler}
                 cancelClicked={this.cancelUpdateHandler}
                 saveClicked={this.saveUpdatedDataHandler}
