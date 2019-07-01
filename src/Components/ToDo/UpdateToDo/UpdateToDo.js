@@ -1,8 +1,26 @@
 import React, { Fragment } from "react"
 
+import firebase from "../../../Utils/Config/firebase"
 import "./UpdateToDo.css"
 
 const updateToDo = props => {
+  const updateClickHandler = () => {
+    const rootRef = firebase.database().ref()
+    const todosRef = rootRef.child("todos")
+    const todoRef = todosRef.child(props.id)
+
+    todoRef
+      .update({
+        deadLine: props.deadLine,
+        details: props.taskDetails
+      })
+      .then(res => {
+        console.log("OK")
+        props.saveClicked()
+      })
+      .catch(err => console.error(err))
+  }
+
   return (
     <Fragment>
       <tr>
@@ -20,7 +38,7 @@ const updateToDo = props => {
         <th scope="row">Details</th>
         <td>
           <textarea
-            name="taskDetails"
+            name="details"
             rows="10"
             cols="50"
             value={props.taskDetails}
@@ -30,7 +48,7 @@ const updateToDo = props => {
       </tr>
       <tr>
         <td colSpan="2" className="btn-container">
-          <button className="btn" onClick={props.saveClicked}>
+          <button className="btn" onClick={updateClickHandler}>
             SAVE
           </button>
           <button className="btn" onClick={props.cancelClicked}>

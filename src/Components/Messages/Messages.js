@@ -21,7 +21,6 @@ class Messages extends Component {
 
   readMessageById = () => {
     const rootRef = firebase.database().ref()
-    console.log("[readMessageById-1] ", localStorage.getItem("userId"))
     const usersRef = rootRef.child("users/" + localStorage.getItem("userId"))
     // TODO think about the need of adding a flag to check its message has already been completed
     const messagesRef = usersRef.child("messages")

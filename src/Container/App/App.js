@@ -17,7 +17,7 @@ import "./App.css"
 // flowertaekk.dev
 class App extends PureComponent {
   state = {
-    userId: "",
+    userId: "" || localStorage.getItem("userId"),
     // needless to store userPassword?
     didSignIn: false,
     groupList: []

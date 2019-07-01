@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { _getCurrentDate, _map } from "../../Utils/_"
+import { _getCurrentDate, _map, _filter } from "../../Utils/_"
 import Todo from "./ToDo/ToDo"
 import firebase from "../../Utils/Config/firebase"
 import Aux from "../../hoc/Auxiliary/Auxiliary"
@@ -10,14 +10,13 @@ import "./TodoList.css"
 class TodoList extends Component {
   state = {
     selectedDate: _getCurrentDate(),
-    todos: [],
-    groupList: []
+    todos: {},
+    groupList: {}
   }
 
   componentDidMount() {
     this.hasMounted = true
     this.readTodos()
-    //if (localStorage.getItem("userId") || this.props.userId) this._readData()
   }
 
   componentWillUnmount() {
@@ -29,19 +28,17 @@ class TodoList extends Component {
 
     // gets group list
     await this.readGroupListByUser(rootRef)
-    // finds todos by group name
-    await this.readTodosByGroup(rootRef)
     // finds todos which has no group set
     await this.readTodosByUserId(rootRef)
   }
 
   readGroupListByUser = async rootRef => {
-    const usersRef = rootRef.child("users/" + localStorage.getItem("userId"))
-    const groupRef = usersRef.child("group").once("value")
-
-    // gets group list
-    await groupRef.then(res => {
-      this.setState({ groupList: res.val() })
+    const usersRef = rootRef.child("users/" + this.props.userId)
+    await usersRef.child("group").on("value", snap => {
+      this.setState({ groupList: snap.val() })
+      // finds todos by group name
+      this.readTodosByGroup(rootRef)
+      console.log("123")
     })
   }
 
@@ -49,44 +46,39 @@ class TodoList extends Component {
     if (!this.state.groupList) return
 
     // gets todos by every group that user is in
-    _map(this.state.groupList, group => {
-      const todosRef = rootRef
+    _map(this.state.groupList, async group => {
+      await rootRef
         .child("todos")
         .orderByChild("group")
         .equalTo(group)
-        .once("value")
-
-      todosRef.then(res => {
-        const todos = res.val()
-
-        _map(todos, todo => {
-          this.setState(prevState => {
-            return { todos: [...prevState.todos, todo] }
+        .on("value", snap => {
+          _map(snap.val(), todo => {
+            this.setState(prevState => {
+              console.log(todo)
+              return { todos: { ...prevState.todos, [todo.id]: { ...todo } } }
+            })
           })
+          console.log(456)
         })
-      })
+
       return null
     })
   }
 
   readTodosByUserId = async rootRef => {
-    const todosRef = rootRef
+    await rootRef
       .child("todos")
       .orderByChild("manager")
       .equalTo(localStorage.getItem("userId"))
-      .once("value")
-
-    todosRef.then(res => {
-      const todos = res.val()
-
-      _map(todos, todo => {
-        if (!todo.group) {
-          this.setState(prevState => {
-            return { todos: [...prevState.todos, todo] }
-          })
-        }
+      .on("value", snap => {
+        _map(snap.val(), todo => {
+          if (!todo.group) {
+            this.setState(prevState => {
+              return { todos: { ...prevState.todos, [todo.id]: { ...todo } } }
+            })
+          }
+        })
       })
-    })
   }
 
   // saves the current selected date to retrieve certain todos
@@ -102,9 +94,24 @@ class TodoList extends Component {
     const todosRef = rootRef.child("todos")
     const todoRef = todosRef.child(todoId)
 
-    const updateTodos = [...this.state.todos].filter(todo => todo.id !== todoId)
-    this.setState({ todos: updateTodos })
+    const updateTodos = _filter(this.state.todos, todo => todo.id !== todoId)
+
+    this.setState(prevState => {
+      return { todos: { ...prevState, updateTodos } }
+    })
     todoRef.remove()
+  }
+
+  // updates ToDo
+  updateTodoHandler = todoId => {
+    return e => {
+      const target = _filter(this.state.todos, todo => todo.id === todoId)[0]
+      target[e.target.name] = e.target.value
+
+      this.setState(prevState => {
+        return { todos: { ...prevState, target } }
+      })
+    }
   }
 
   initStateHandler = () => {
@@ -136,9 +143,8 @@ class TodoList extends Component {
         <div className="todo-list">
           {this.state.todos ? (
             <ul className="show-todo">
-              {this.state.todos.map(todo => {
+              {_map(this.state.todos, todo => {
                 const selectedDate = this.state.selectedDate
-                // checks data
                 if (
                   todo.date === selectedDate ||
                   (todo.date <= selectedDate && todo.deadLine >= selectedDate)
@@ -148,12 +154,12 @@ class TodoList extends Component {
                       {...todo}
                       key={todo.id}
                       deleteClicked={() => this.deleteToDoHandler(todo.id)}
+                      updateTodo={() => this.updateTodoHandler(todo.id)}
                       initState={this.initStateHandler}
                       reloadTodos={this.readTodos}
                     />
                   )
                 }
-
                 return null
               })}
             </ul>
