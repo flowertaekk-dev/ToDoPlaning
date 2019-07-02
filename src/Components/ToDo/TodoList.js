@@ -38,7 +38,6 @@ class TodoList extends Component {
       this.setState({ groupList: snap.val() })
       // finds todos by group name
       this.readTodosByGroup(rootRef)
-      console.log("123")
     })
   }
 
@@ -54,11 +53,9 @@ class TodoList extends Component {
         .on("value", snap => {
           _map(snap.val(), todo => {
             this.setState(prevState => {
-              console.log(todo)
               return { todos: { ...prevState.todos, [todo.id]: { ...todo } } }
             })
           })
-          console.log(456)
         })
 
       return null

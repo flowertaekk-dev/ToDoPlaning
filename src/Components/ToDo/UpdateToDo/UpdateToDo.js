@@ -15,7 +15,6 @@ const updateToDo = props => {
         details: props.taskDetails
       })
       .then(res => {
-        console.log("OK")
         props.saveClicked()
       })
       .catch(err => console.error(err))
