@@ -1,9 +1,10 @@
 import React, { Component } from "react"
+import { connect } from "react-redux"
+
 import { _getCurrentDate, _map, _filter } from "../../Utils/_"
 import Todo from "./ToDo/ToDo"
 import firebase from "../../Utils/Config/firebase"
 import Aux from "../../hoc/Auxiliary/Auxiliary"
-
 import "./TodoList.css"
 
 // flowertaekk.dev
@@ -23,6 +24,7 @@ class TodoList extends Component {
     this.hasMounted = false
   }
 
+  // TODO think about whether it is better to delegate below function to redux
   readTodos = async () => {
     const rootRef = firebase.database().ref()
 
@@ -66,7 +68,7 @@ class TodoList extends Component {
     await rootRef
       .child("todos")
       .orderByChild("manager")
-      .equalTo(localStorage.getItem("userId"))
+      .equalTo(this.props.userId)
       .on("value", snap => {
         _map(snap.val(), todo => {
           if (!todo.group) {
@@ -174,4 +176,10 @@ class TodoList extends Component {
   }
 }
 
-export default TodoList
+const mapStateToProps = state => {
+  return {
+    userId: state.userId
+  }
+}
+
+export default connect(mapStateToProps)(TodoList)

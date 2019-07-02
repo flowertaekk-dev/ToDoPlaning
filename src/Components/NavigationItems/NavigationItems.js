@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect } from "react"
 import { withRouter, NavLink } from "react-router-dom"
+import { connect } from "react-redux"
 
 import NavigationItem from "./NavigationItem/NavigationItem"
 
@@ -15,7 +16,7 @@ const navigationItems = props => {
 
   let beforeSignIn,
     afterSignIn = null
-  if (!localStorage.getItem("userId")) {
+  if (!props.userId) {
     beforeSignIn = (
       <NavigationItem>
         <NavLink
@@ -93,4 +94,10 @@ const navigationItems = props => {
   )
 }
 
-export default withRouter(navigationItems)
+const mapStateToProps = state => {
+  return {
+    userId: state.userId
+  }
+}
+
+export default connect(mapStateToProps)(withRouter(navigationItems))

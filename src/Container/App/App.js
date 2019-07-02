@@ -1,5 +1,6 @@
 import React, { PureComponent } from "react"
 import { Route, withRouter } from "react-router-dom"
+import { connect } from "react-redux"
 
 import Layout from "../../hoc/Layout/Layout"
 import Login from "../../Components/Login/Login"
@@ -12,62 +13,50 @@ import InviteGroup from "../../Components/Grouping/InviteGroup/InviteGroup"
 import Messages from "../../Components/Messages/Messages"
 import { _getCurrentDate } from "../../Utils/_"
 import firebase from "../../Utils/Config/firebase"
+import * as actionTypes from "../../store/Actiontypes/actionTypes"
 import "./App.css"
 
 // flowertaekk.dev
 class App extends PureComponent {
   state = {
-    userId: "" || localStorage.getItem("userId"),
-    // needless to store userPassword?
-    didSignIn: false,
     groupList: []
   }
 
   async componentDidMount() {
-    const userId = localStorage.getItem("userId")
-    if (userId) {
-      this.setState({
-        userId: userId,
-        didSignIn: true
-      })
+    if (this.props.userId) {
       this.props.history.push("/todoList")
     }
     await this.readGroupListByUser()
   }
 
+  // TODO I don't think it should be here.
+  // It should be either reducer or <TodoList> component
   readGroupListByUser = async () => {
     const rootRef = firebase.database().ref()
-    const usersRef = rootRef.child("users/" + this.state.userId)
+    const usersRef = rootRef.child("users/" + this.props.userId)
     // gets group list
-    // TODO it doesn't work with async ??? or object?
+    // it doesn't work with async ??? or object? - firebase 'on' function doesn't work with asyn!!!
     await usersRef.child("group").on("value", snap => {
       this.setState({ groupList: snap.val() })
     })
   }
 
+  // TODO this should be in <LogIn> component
   // saves login information
-  _updateLoginHandler = id => {
-    this.setState({
-      userId: id,
-      didSignIn: true
-    })
-    // saves userId to session
-    localStorage.setItem("userId", id)
+  updateLoginHandler = id => {
+    this.props.setLoginedUserId(id)
   }
 
+  // TODO this should be in <Header> component
   signOutHandler = () => {
-    this.setState({
-      userId: "",
-      didSignIn: false
-    })
-    localStorage.setItem("userId", "")
+    this.props.deleteUserId()
   }
 
   render() {
     return (
       <Layout
-        userId={this.state.userId}
-        didSignIn={this.state.didSignIn}
+        // userId={this.state.userId}
+        // didSignIn={this.state.didSignIn}
         whenSignOut={this.signOutHandler}
         hasGroupList={this.state.groupList}
         redoGetGroupList={this.readGroupListByUser}
@@ -76,21 +65,21 @@ class App extends PureComponent {
 
         <Route
           path="/messages"
-          render={() => <Messages id={this.state.userId} />}
+          render={() => <Messages id={this.state.userId} />} // TODO replace with redeux
         />
         <Route
           path="/todoList"
-          render={() => <TodoList userId={this.state.userId} />}
+          render={() => <TodoList />} // TODO replace with redeux
         />
         <Route
           path="/signUp"
-          render={() => <SignUp whenLoginSuccess={this._updateLoginHandler} />}
+          render={() => <SignUp whenLoginSuccess={this.updateLoginHandler} />}
         />
         <Route
           path="/addTodo"
           render={() => (
             <AddTodo
-              userId={this.state.userId}
+              userId={this.state.userId} // TODO replace with redeux
               selectedDate={_getCurrentDate()}
             />
           )}
@@ -100,11 +89,31 @@ class App extends PureComponent {
         <Route
           exact
           path="/"
-          render={() => <Login whenLoginSuccess={this._updateLoginHandler} />}
+          render={() => <Login whenLoginSuccess={this.updateLoginHandler} />}
         />
       </Layout>
     )
   }
 }
 
-export default withRouter(App)
+const mapStateToProps = state => {
+  return {
+    userId: state.userId
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setLoginedUserId: loginedUserId =>
+      dispatch({
+        type: actionTypes.SAVE_USER_ID,
+        payload: { userId: loginedUserId }
+      }),
+    deleteUserId: () => dispatch({ type: actionTypes.DELETE_USER_ID })
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(App))

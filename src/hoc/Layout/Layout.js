@@ -18,7 +18,7 @@ class Layout extends Component {
       <Aux>
         {/* HEADER */}
         <Header
-          userId={this.props.userId}
+          // userId={this.props.userId}
           didSignin={this.props.didSignIn}
           signOutClicked={this.props.whenSignOut}
           hasGroupList={this.props.hasGroupList}
