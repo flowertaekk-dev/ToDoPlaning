@@ -1,10 +1,10 @@
-import * as actionTypes from "./Actiontypes/actionTypes"
+import * as actionTypes from "../Actiontypes/actionTypes"
 
 const init = {
   userId: localStorage.getItem("userId")
 }
 
-const reducer = (state = init, action) => {
+const userReducer = (state = init, action) => {
   switch (action.type) {
     case actionTypes.SAVE_USER_ID:
       localStorage.setItem("userId", action.payload.userId)
@@ -19,4 +19,4 @@ const reducer = (state = init, action) => {
   return state
 }
 
-export default reducer
+export default userReducer

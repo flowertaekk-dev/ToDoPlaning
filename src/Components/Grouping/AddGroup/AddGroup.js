@@ -98,7 +98,7 @@ class AddGroup extends Component {
 
 const mapStateToProps = state => {
   return {
-    userId: state.userId
+    userId: state.user.userId
   }
 }
 

@@ -96,7 +96,11 @@ class TodoList extends Component {
     const updateTodos = _filter(this.state.todos, todo => todo.id !== todoId)
 
     this.setState(prevState => {
-      return { todos: { ...prevState, updateTodos } }
+      if (updateTodos.length === 0) {
+        return { todos: {} }
+      } else {
+        return { todos: { ...prevState, updateTodos } }
+      }
     })
     todoRef.remove()
   }
@@ -115,8 +119,8 @@ class TodoList extends Component {
 
   initStateHandler = () => {
     this.setState({
-      todos: [],
-      groupList: []
+      todos: {},
+      groupList: {}
     })
   }
 
@@ -144,6 +148,8 @@ class TodoList extends Component {
             <ul className="show-todo">
               {_map(this.state.todos, todo => {
                 const selectedDate = this.state.selectedDate
+
+                console.log("[date]", this.state.todos)
                 if (
                   todo.date === selectedDate ||
                   (todo.date <= selectedDate && todo.deadLine >= selectedDate)
@@ -178,7 +184,7 @@ class TodoList extends Component {
 
 const mapStateToProps = state => {
   return {
-    userId: state.userId
+    userId: state.user.userId
   }
 }
 
