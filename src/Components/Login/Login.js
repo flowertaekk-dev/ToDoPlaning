@@ -1,12 +1,10 @@
 import React, { Component } from "react"
 import { withRouter } from "react-router-dom"
+import { Base64 } from "js-base64"
 
 import SignUp, { ErrorMessage } from "../SignUp/SignUp"
 import Aux from "../../hoc/Auxiliary/Auxiliary"
-
-import { Base64 } from "js-base64"
 import firebase from "../../Utils/Config/firebase"
-
 import "./Login.css"
 
 // flowertaekk.dev
@@ -80,12 +78,6 @@ class Login extends Component {
     }
 
     return result
-  }
-
-  clickedSignUpHandler = () => {
-    this.setState({
-      signUp: !this.state.signUp
-    })
   }
 
   render() {

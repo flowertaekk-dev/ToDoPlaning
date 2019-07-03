@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from "react"
 import { withRouter } from "react-router-dom"
+import { connect } from "react-redux"
+
 import firebase from "../../Utils/Config/firebase"
 import { Base64 } from "js-base64"
 import "./UserUpdate.css"
@@ -50,7 +52,7 @@ class UserUpdate extends Component {
 
     const rootRef = firebase.database().ref()
     const usersRef = rootRef.child("users")
-    const userRef = usersRef.child(this.state.userId)
+    const userRef = usersRef.child(this.props.userId)
 
     // update user data to firebase
     this._updateDataToDB(userRef, userEmail, userPassword)
@@ -77,13 +79,13 @@ class UserUpdate extends Component {
 
   setUserData = async rootRef => {
     const getUserData = rootRef
-      .child("users/" + localStorage.getItem("userId"))
+      .child("users/" + this.props.userId)
       .once("value")
 
     // gets group list
     await getUserData.then(res => {
       if (this.hasMounted) {
-        this.setState({ userId: localStorage.getItem("userId") })
+        // this.setState({ userId: localStorage.getItem("userId") }) // what is this for..?
         this.setState({ userEmail: res.val().email })
       }
     })
@@ -104,7 +106,7 @@ class UserUpdate extends Component {
             </div>
 
             <div className="updateId">
-              <p>{localStorage.userId}</p>
+              <p>{this.props.userId}</p>
             </div>
 
             <div>
@@ -145,6 +147,7 @@ class UserUpdate extends Component {
   }
 }
 
+// it should be component.. I guess it is copied from somewhere??
 export const ErrorMessage = props => {
   const _errStyle = {
     color: "red"
@@ -157,4 +160,10 @@ export const ErrorMessage = props => {
   )
 }
 
-export default withRouter(UserUpdate)
+const mapStateToProps = state => {
+  return {
+    userId: state.userId
+  }
+}
+
+export default connect(mapStateToProps)(withRouter(UserUpdate))

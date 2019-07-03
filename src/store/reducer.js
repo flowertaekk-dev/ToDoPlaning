@@ -7,7 +7,6 @@ const init = {
 const reducer = (state = init, action) => {
   switch (action.type) {
     case actionTypes.SAVE_USER_ID:
-      console.log("[reducer]", "IN")
       localStorage.setItem("userId", action.payload.userId)
       return { ...state, userId: action.payload.userId }
     case actionTypes.DELETE_USER_ID:

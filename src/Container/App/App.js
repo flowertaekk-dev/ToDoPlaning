@@ -63,26 +63,15 @@ class App extends PureComponent {
       >
         <Route exact path="/userUpdate" render={() => <UserUpdate />} />
 
-        <Route
-          path="/messages"
-          render={() => <Messages id={this.state.userId} />} // TODO replace with redeux
-        />
-        <Route
-          path="/todoList"
-          render={() => <TodoList />} // TODO replace with redeux
-        />
+        <Route path="/messages" render={() => <Messages />} />
+        <Route path="/todoList" render={() => <TodoList />} />
         <Route
           path="/signUp"
           render={() => <SignUp whenLoginSuccess={this.updateLoginHandler} />}
         />
         <Route
           path="/addTodo"
-          render={() => (
-            <AddTodo
-              userId={this.state.userId} // TODO replace with redeux
-              selectedDate={_getCurrentDate()}
-            />
-          )}
+          render={() => <AddTodo selectedDate={_getCurrentDate()} />}
         />
         <Route path="/inviteToGroup" render={() => <InviteGroup />} />
         <Route path="/addGroup" render={() => <AddGroup />} />

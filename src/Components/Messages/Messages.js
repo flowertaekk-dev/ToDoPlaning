@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import { connect } from "react-redux"
 
 import Message from "./Message/Message"
 import firebase from "../../Utils/Config/firebase"
@@ -21,15 +22,14 @@ class Messages extends Component {
 
   readMessageById = () => {
     const rootRef = firebase.database().ref()
-    const usersRef = rootRef.child("users/" + localStorage.getItem("userId"))
-    // TODO think about the need of adding a flag to check its message has already been completed
+    const usersRef = rootRef.child("users/" + this.props.userId)
     const messagesRef = usersRef.child("messages")
 
     let messages = {}
     // STUDY need to think about 'this' scope more carefully.
     messagesRef.on("value", snap => {
       messages = snap.val()
-      if (this.hasMounted) this.setState({ messages: messages }) // we may need to change this using redux.
+      if (this.hasMounted) this.setState({ messages: messages }) // TODO we may need to change this using redux.
     })
   }
 
@@ -61,4 +61,10 @@ class Messages extends Component {
   }
 }
 
-export default Messages
+const mapStateToProps = state => {
+  return {
+    userId: state.userId
+  }
+}
+
+export default connect(mapStateToProps)(Messages)

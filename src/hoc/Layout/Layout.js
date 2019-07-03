@@ -7,11 +7,11 @@ import Header from "../../Components/Header/Header"
 
 class Layout extends Component {
   // TODO this shouldCommponentUpdate can be replaced with react-redux!?
-  async shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps.userId !== this.props.userId)
-      await this.props.redoGetGroupList()
-    return true
-  }
+  // async shouldComponentUpdate(nextProps, nextState) {
+  //   if (nextProps.userId !== this.props.userId)
+  //     await this.props.redoGetGroupList()
+  //   return true
+  // }
 
   render() {
     return (

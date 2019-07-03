@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { withRouter } from "react-router-dom"
+import { connect } from "react-redux"
 
 import firebase from "../../../Utils/Config/firebase"
 import * as _ from "../../../Utils/_"
@@ -26,7 +27,7 @@ class AddToDo extends Component {
   // gets group information from firebase with current userId
   getGroupInfo = () => {
     const rootRef = firebase.database().ref()
-    const usersRef = rootRef.child("users/" + localStorage.getItem("userId"))
+    const usersRef = rootRef.child("users/" + this.props.userId)
     const groupRef = usersRef.child("group")
 
     groupRef
@@ -67,6 +68,7 @@ class AddToDo extends Component {
       .catch(err => console.error(err))
   }
 
+  // TODO it can be replaced with redux
   onSubmitHandler = e => {
     e.preventDefault()
 
@@ -109,9 +111,7 @@ class AddToDo extends Component {
       details: taskDetail.value,
       group: group.value === "none" ? null : group.value,
       manager:
-        manager.value === "Select group"
-          ? localStorage.getItem("userId")
-          : manager.value,
+        manager.value === "Select group" ? this.props.userId : manager.value,
       subTodo: [] // TODO 未実装
     }
 
@@ -342,6 +342,7 @@ class AddToDo extends Component {
   }
 }
 
+// TODO this should be somewhere else.. for example, need to make UI folder?
 export const ErrorMessage = props => {
   const _errStyle = {
     color: "red"
@@ -354,4 +355,10 @@ export const ErrorMessage = props => {
   )
 }
 
-export default withRouter(AddToDo)
+const mapStateToProps = state => {
+  return {
+    userId: state.userId
+  }
+}
+
+export default connect(mapStateToProps)(withRouter(AddToDo))

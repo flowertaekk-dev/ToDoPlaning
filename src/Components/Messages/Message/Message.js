@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { withRouter } from "react-router-dom"
+import { connect } from "react-redux"
 
 import firebase from "../../../Utils/Config/firebase"
 import "./Message.css"
@@ -8,13 +9,13 @@ class Message extends Component {
   acceptInvitationHandler = () => {
     const rootRef = firebase.database().ref()
     // users/id/group[]
-    const usersRef = rootRef.child("users/" + localStorage.getItem("userId"))
+    const usersRef = rootRef.child("users/" + this.props.userId)
     const userGroupRef = usersRef.child("group")
     userGroupRef.push(this.props.groupName)
 
     // group/groupName/member[]
     const groupRef = rootRef.child("group/" + this.props.groupName + "/member")
-    groupRef.push(localStorage.getItem("userId"))
+    groupRef.push(this.props.userId)
 
     const messagesRef = usersRef.child("messages/" + this.props.id)
     messagesRef.update({ hasRead: true })
@@ -24,7 +25,7 @@ class Message extends Component {
 
   cancelHandler = () => {
     const rootRef = firebase.database().ref()
-    const usersRef = rootRef.child("users/" + localStorage.getItem("userId"))
+    const usersRef = rootRef.child("users/" + this.props.userId)
     const messagesRef = usersRef.child("messages/" + this.props.id)
     messagesRef.update({ hasRead: true })
 
@@ -65,4 +66,10 @@ class Message extends Component {
   }
 }
 
-export default withRouter(Message)
+const mapStateToProps = state => {
+  return {
+    userId: state.userId
+  }
+}
+
+export default connect(mapStateToProps)(withRouter(Message))

@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { withRouter } from "react-router-dom"
+import { connect } from "react-redux"
 
 import firebase from "../../../Utils/Config/firebase"
 import * as _ from "../../../Utils/_"
@@ -23,9 +24,10 @@ class InviteGroup extends Component {
     this.hasMounted = false
   }
 
+  // TODO it can be replaced with redux
   readGroupListByUser = async () => {
     const rootRef = firebase.database().ref()
-    const usersRef = rootRef.child("users/" + localStorage.getItem("userId"))
+    const usersRef = rootRef.child("users/" + this.props.userId)
     const groupRef = usersRef.child("group").once("value")
 
     // gets group list
@@ -58,6 +60,7 @@ class InviteGroup extends Component {
 
     const suggestedUserIds = this.state.userIds.filter(userId => {
       // TODO string.includes() isn't supported for IE?
+
       return userId.includes(input)
     })
     this.setState({ suggestedUserIds: suggestedUserIds })
@@ -99,7 +102,7 @@ class InviteGroup extends Component {
       const message = {
         id: key,
         groupName: selectedGroup.value,
-        sender: localStorage.getItem("userId"),
+        sender: this.props.userId,
         type: "inviteToGroup",
         comment: comment.value,
         hasRead: false
@@ -135,8 +138,7 @@ class InviteGroup extends Component {
           <div>
             {this.state.suggestedUserIds.map(suggestedUserId => {
               // ignore if suggestedUserId is current user's ID
-              if (suggestedUserId === localStorage.getItem("userId"))
-                return null
+              if (suggestedUserId === this.props.userId) return null
 
               return (
                 <label key={`${suggestedUserId}_label`}>
@@ -163,4 +165,10 @@ class InviteGroup extends Component {
   }
 }
 
-export default withRouter(InviteGroup)
+const mapStateToProps = state => {
+  return {
+    userId: state.userId
+  }
+}
+
+export default connect(mapStateToProps)(withRouter(InviteGroup))
