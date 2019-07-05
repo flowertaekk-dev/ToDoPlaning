@@ -65,6 +65,14 @@ class ToDo extends Component {
           <td>{this.props.deadLine}</td>
         </tr>
         <tr>
+          <th scope="row">Priority</th>
+          <td>{this.props.priority}</td>
+        </tr>
+        <tr>
+          <th scope="row">CompleteRate</th>
+          <td>{this.props.completeRate}</td>
+        </tr>
+        <tr>
           <th scope="row">Details</th>
           <td>{this.props.details}</td>
         </tr>
