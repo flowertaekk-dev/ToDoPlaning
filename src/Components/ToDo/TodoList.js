@@ -5,6 +5,7 @@ import firebase from "../../Utils/Config/firebase"
 import Aux from "../../hoc/Auxiliary/Auxiliary"
 
 import "./TodoList.css"
+import { isNull } from "util";
 
 // flowertaekk.dev
 class TodoList extends Component {
@@ -121,6 +122,51 @@ class TodoList extends Component {
     })
   }
 
+  // sort todos
+  setToDos = todoObj => {
+    let urgent = []
+    let normal = []
+    let ect = []
+    let result = []
+
+    _map(todoObj, todo => {
+      if (todo) {
+        if (todo.priority === "urgent") {
+          urgent.push(todo)
+        } else if (todo.priority === "normal") {
+          normal.push(todo)
+        } else {
+          ect.push(todo)
+        }
+      }
+    })
+
+    result.push(this.dataSort(urgent))
+    result.push(this.dataSort(normal))
+    result.push(this.dataSort(ect))
+
+    return result
+  }
+
+  // sort todos
+  dataSort = getArrayData => {
+    getArrayData.map((todo, index) => {
+      let temp = ""
+
+      if (index !== 0) {
+        if (
+          parseInt(getArrayData[index - 1].completeRate) <
+          parseInt(todo.completeRate)
+        ) {
+          temp = getArrayData[index - 1].completeRate
+          getArrayData[index - 1].completeRate = todo.completeRate
+          todo.completeRate = temp
+        }
+      }
+    })
+    return getArrayData
+  }
+
   render() {
     let dateBtn,
       toDoList = null
@@ -136,30 +182,128 @@ class TodoList extends Component {
       </p>
     )
 
-    if (this.state.todos.length === 0) {
+    if (Object.keys(this.state.todos).length === 0 && this.state.todos.constructor === Object) {
       toDoList = <p className="todo-list">Please add new tasks!</p>
     } else {
       toDoList = (
         <div className="todo-list">
           {this.state.todos ? (
             <ul className="show-todo">
-              {_map(this.state.todos, todo => {
+              {this.setToDos(this.state.todos)[0].map((todo,index) => {
                 const selectedDate = this.state.selectedDate
-                if (
-                  todo.date === selectedDate ||
-                  (todo.date <= selectedDate && todo.deadLine >= selectedDate)
-                ) {
-                  return (
-                    <Todo
-                      {...todo}
-                      key={todo.id}
-                      deleteClicked={() => this.deleteToDoHandler(todo.id)}
-                      updateTodo={() => this.updateTodoHandler(todo.id)}
-                      initState={this.initStateHandler}
-                      reloadTodos={this.readTodos}
-                    />
-                  )
-                }
+                // todos.forEach(todo => {
+                  // checks data
+                  if (
+                    todo.date === selectedDate ||
+                    (todo.date <= selectedDate && todo.deadLine >= selectedDate)
+                  ) {
+                    return (
+                      
+                    index % 6 <= 0 ?
+                      <li>
+                        <div className="sortTodo">
+                          <Todo
+                            {...todo}
+                            key={todo.id}
+                            deleteClicked={() => this.deleteToDoHandler(todo.id)}
+                            updateTodo={() => this.updateTodoHandler(todo.id)}
+                            initState={this.initStateHandler}
+                            reloadTodos={this.readTodos}
+                          />
+                        </div>
+                      </li>
+                      : 
+                        <div className="sortTodo">
+                          <Todo
+                            {...todo}
+                            key={todo.id}
+                            deleteClicked={() => this.deleteToDoHandler(todo.id)}
+                            updateTodo={() => this.updateTodoHandler(todo.id)}
+                            initState={this.initStateHandler}
+                            reloadTodos={this.readTodos}
+                          />
+                        </div>
+                    ) 
+                  }
+                // })
+                return null
+              })}
+              {this.setToDos(this.state.todos)[1].map((todo,index) => {
+                const selectedDate = this.state.selectedDate
+                // todos.forEach(todo => {
+                  // checks data
+                  if (
+                    todo.date === selectedDate ||
+                    (todo.date <= selectedDate && todo.deadLine >= selectedDate)
+                  ) {
+                    return (
+                      
+                      index % 6 <= 0 ?
+                      <li>
+                        <div className="sortTodo">
+                          <Todo
+                            {...todo}
+                            key={todo.id}
+                            deleteClicked={() => this.deleteToDoHandler(todo.id)}
+                            updateTodo={() => this.updateTodoHandler(todo.id)}
+                            initState={this.initStateHandler}
+                            reloadTodos={this.readTodos}
+                          />
+                        </div>
+                      </li>
+                      : 
+                        <div className="sortTodo">
+                          <Todo
+                            {...todo}
+                            key={todo.id}
+                            deleteClicked={() => this.deleteToDoHandler(todo.id)}
+                            updateTodo={() => this.updateTodoHandler(todo.id)}
+                            initState={this.initStateHandler}
+                            reloadTodos={this.readTodos}
+                          />
+                        </div>
+                    ) 
+                  }
+                // })
+                return null
+              })}
+              {this.setToDos(this.state.todos)[2].map((todo,index) => {
+                const selectedDate = this.state.selectedDate
+                // todos.forEach(todo => {
+                  // checks data
+                  if (
+                    todo.date === selectedDate ||
+                    (todo.date <= selectedDate && todo.deadLine >= selectedDate)
+                  ) {
+                    return (
+                      
+                      index % 6 <= 0 ?
+                      <li>
+                        <div className="sortTodo">
+                          <Todo
+                            {...todo}
+                            key={todo.id}
+                            deleteClicked={() => this.deleteToDoHandler(todo.id)}
+                            updateTodo={() => this.updateTodoHandler(todo.id)}
+                            initState={this.initStateHandler}
+                            reloadTodos={this.readTodos}
+                          />
+                        </div>
+                      </li>
+                      : 
+                        <div className="sortTodo">
+                          <Todo
+                            {...todo}
+                            key={todo.id}
+                            deleteClicked={() => this.deleteToDoHandler(todo.id)}
+                            updateTodo={() => this.updateTodoHandler(todo.id)}
+                            initState={this.initStateHandler}
+                            reloadTodos={this.readTodos}
+                          />
+                        </div>
+                    ) 
+                  }
+                // })
                 return null
               })}
             </ul>
