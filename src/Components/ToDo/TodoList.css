@@ -16,6 +16,15 @@
   position: relative;
   top: 100px;
 }
+ul li {
+  list-style-type: none;
+  top: 30px;
+}
+.sortTodo {
+  position: relative;
+  float: left;
+  margin-left: 15px;
+}
 .date {
   position: relative;
   top: 72px;
