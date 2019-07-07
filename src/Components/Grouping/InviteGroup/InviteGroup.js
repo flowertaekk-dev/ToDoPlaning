@@ -10,30 +10,16 @@ class InviteGroup extends Component {
   state = {
     userIds: [],
     suggestedUserIds: [],
-    checkedUsers: [],
-    groupList: []
+    checkedUsers: []
   }
 
   componentDidMount() {
     this.hasMounted = true
-    this.readGroupListByUser()
     this.readUserId()
   }
 
   componentWillUnmount() {
     this.hasMounted = false
-  }
-
-  // TODO it can be replaced with redux
-  readGroupListByUser = async () => {
-    const rootRef = firebase.database().ref()
-    const usersRef = rootRef.child("users/" + this.props.userId)
-    const groupRef = usersRef.child("group").once("value")
-
-    // gets group list
-    await groupRef.then(res => {
-      if (this.hasMounted) this.setState({ groupList: res.val() })
-    })
   }
 
   // reads userIds
@@ -125,7 +111,7 @@ class InviteGroup extends Component {
         <form onSubmit={this.submitHandler}>
           <div>
             <select name="selectedGroup" required>
-              {_._map(this.state.groupList, group => (
+              {_._map(this.props.groupNames, group => (
                 <option key={group} name="groups">
                   {group}
                 </option>
@@ -137,7 +123,7 @@ class InviteGroup extends Component {
           </div>
           <div>
             {this.state.suggestedUserIds.map(suggestedUserId => {
-              // ignore if suggestedUserId is current user's ID
+              // TODO ignore if suggestedUserId is current user's ID
               if (suggestedUserId === this.props.userId) return null
 
               return (
@@ -167,7 +153,8 @@ class InviteGroup extends Component {
 
 const mapStateToProps = state => {
   return {
-    userId: state.user.userId
+    userId: state.user.userId,
+    groupNames: state.group.groupNames
   }
 }
 

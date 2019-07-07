@@ -1,5 +1,8 @@
 import React, { Component, Fragment } from "react"
 import { withRouter } from "react-router-dom"
+import { connect } from "react-redux"
+
+import * as actionTypes from "../../store/Actiontypes/actionTypes"
 import { Base64 } from "js-base64"
 import firebase from "../../Utils/Config/firebase"
 
@@ -80,7 +83,7 @@ class SignUp extends Component {
     this._setDataToDB(userRef, userEmail, userPassword)
 
     // after sign up, moves to "To Do List" page
-    this.props.whenLoginSuccess(userId.value)
+    this.props.saveUserId(userId.value)
     this.props.history.replace("/todoList")
   }
 
@@ -135,4 +138,17 @@ export const ErrorMessage = props => {
   )
 }
 
-export default withRouter(SignUp)
+const mapDispatchToProps = dispatch => {
+  return {
+    saveUserId: targetUserId =>
+      dispatch({
+        type: actionTypes.SAVE_USER_ID,
+        payload: { userId: targetUserId }
+      })
+  }
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(withRouter(SignUp))

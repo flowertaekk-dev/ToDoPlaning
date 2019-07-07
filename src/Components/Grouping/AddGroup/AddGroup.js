@@ -24,16 +24,16 @@ class AddGroup extends Component {
   }
 
   setDataToDB = async groupName => {
-    // set group
     this.getGroupRef(groupName)
-      .child("leader")
+      .child("leader") // group/leader
       .push(this.props.userId)
+
     this.getGroupRef(groupName)
-      .child("member")
+      .child("member") // group/member
       .push(this.props.userId)
 
     this.getUserRef()
-      .child("group")
+      .child("group") // user/group
       .push(groupName)
   }
 

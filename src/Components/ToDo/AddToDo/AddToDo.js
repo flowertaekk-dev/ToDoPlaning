@@ -8,37 +8,16 @@ import "./AddToDo.css"
 
 // flowertaekk.dev
 class AddToDo extends Component {
+  // TODO need to do refactoring maybe later??
   constructor(props) {
     super(props)
 
     this.state = {
       selectedDate: this.props.selectedDate,
       deadLine: this.props.selectedDate,
-      groups: { none: "none" },
       selectedGroup: "none",
       membersBySelectedGroup: ["Select group"]
     }
-  }
-
-  componentDidMount() {
-    this.getGroupInfo()
-  }
-
-  // gets group information from firebase with current userId
-  getGroupInfo = () => {
-    const rootRef = firebase.database().ref()
-    const usersRef = rootRef.child("users/" + this.props.userId)
-    const groupRef = usersRef.child("group")
-
-    groupRef
-      .once("value")
-      .then(res => {
-        if (res.exists()) {
-          const groups = { ...this.state.groups, ...res.val() }
-          this.setState({ groups: groups })
-        }
-      })
-      .catch(err => console.error(err))
   }
 
   // gets members data from firebase according to selected group
@@ -278,9 +257,12 @@ class AddToDo extends Component {
         </td>
         <td>
           <select name="group" onChange={this.getMembersBySelectedGroup}>
-            {_._map(this.state.groups, group => (
-              <option key={group} value={group}>
-                {group}
+            <option key="none" value="none">
+              none
+            </option>
+            {_._map(this.props.groupNames, groupName => (
+              <option key={groupName} value={groupName}>
+                {groupName}
               </option>
             ))}
           </select>
@@ -357,7 +339,8 @@ export const ErrorMessage = props => {
 
 const mapStateToProps = state => {
   return {
-    userId: state.user.userId
+    userId: state.user.userId,
+    groupNames: state.group.groupNames
   }
 }
 

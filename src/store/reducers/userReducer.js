@@ -9,7 +9,7 @@ const userReducer = (state = init, action) => {
     case actionTypes.SAVE_USER_ID:
       localStorage.setItem("userId", action.payload.userId)
       return { ...state, userId: action.payload.userId }
-    case actionTypes.DELETE_USER_ID:
+    case actionTypes.INIT_ALL:
       localStorage.setItem("userId", "")
       return { ...state, userId: "" }
     default:

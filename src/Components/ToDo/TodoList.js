@@ -18,6 +18,7 @@ class TodoList extends Component {
   componentDidMount() {
     this.hasMounted = true
     this.readTodos()
+    // TODO :need to use this:  this.props.getGroupList(this.props.userId)
   }
 
   componentWillUnmount() {
@@ -148,8 +149,6 @@ class TodoList extends Component {
             <ul className="show-todo">
               {_map(this.state.todos, todo => {
                 const selectedDate = this.state.selectedDate
-
-                console.log("[date]", this.state.todos)
                 if (
                   todo.date === selectedDate ||
                   (todo.date <= selectedDate && todo.deadLine >= selectedDate)

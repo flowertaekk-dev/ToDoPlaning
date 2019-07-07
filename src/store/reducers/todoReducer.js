@@ -5,7 +5,14 @@ const init = {
 }
 
 const todoReducer = (state = init, action) => {
-  return state
+  switch (action.type) {
+    case actionTypes.INIT_ALL:
+      return {
+        todoList: {}
+      }
+    default:
+      return state
+  }
 }
 
 export default todoReducer

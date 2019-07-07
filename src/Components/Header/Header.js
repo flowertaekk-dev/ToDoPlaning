@@ -16,10 +16,7 @@ const header = props => {
       </div>
 
       <nav className="menu">
-        <NavigationItems
-          signOutClicked={props.signOutClicked}
-          hasGroupList={props.hasGroupList}
-        />
+        <NavigationItems />
       </nav>
     </div>
   )
