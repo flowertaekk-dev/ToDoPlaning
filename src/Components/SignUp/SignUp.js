@@ -46,6 +46,7 @@ class SignUp extends Component {
     return result
   }
 
+  // TODO need to think about variable name again..
   _setDataToDB = (userRef, email, password) => {
     userRef.set({
       email: email.value,

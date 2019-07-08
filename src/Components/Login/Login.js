@@ -11,13 +11,9 @@ import "./Login.css"
 
 // flowertaekk.dev
 class Login extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      idMessage: "",
-      passwordMessage: ""
-    }
+  state = {
+    idMessage: "",
+    passwordMessage: ""
   }
 
   componentDidMount() {
