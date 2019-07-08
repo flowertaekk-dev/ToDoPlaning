@@ -10,7 +10,7 @@ export function filter(obj, pred) {
 }
 
 export function each(list, iter) {
-  let keys = keys(list)
+  let keys = _keys(list)
   for (let i = 0; i < keys.length; i++) {
     iter(list[keys[i]])
   }
@@ -28,7 +28,7 @@ export function map(obj, mapper) {
 // makes new array that has "key" value within Object
 export function mapWithKeys(obj) {
   let result = []
-  let keys = keys(obj)
+  let keys = _keys(obj)
   for (let i = 0; i < keys.length; i++) {
     // wanted to set "key" as a key value but, it seems to be a reserved word..
     result.push({ index: keys[i], ...obj[keys[i]] })
@@ -40,7 +40,7 @@ export function replaceHyphen(str) {
   return str.replace(/-/g, "")
 }
 
-function keys(obj) {
+function _keys(obj) {
   return typeof obj === "object" && !!obj ? Object.keys(obj) : []
 }
 
