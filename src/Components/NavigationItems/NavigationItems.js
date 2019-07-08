@@ -2,8 +2,9 @@ import React, { Fragment, useEffect } from "react"
 import { withRouter, NavLink } from "react-router-dom"
 import { connect } from "react-redux"
 
-import * as actionTypes from "../../store/Actiontypes/actionTypes"
-import firebase from "../../Utils/Config/firebase"
+import { initAll } from "../../store/actions/commonActions"
+import { fetchMessages } from "../../store/actions/messageActions"
+import { fetchGroupList } from "../../store/actions/groupActions"
 import NavigationItem from "./NavigationItem/NavigationItem"
 
 const navigationItems = props => {
@@ -105,34 +106,7 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchGroupList: userId => {
-      const rootRef = firebase.database().ref()
-      const usersRef = rootRef.child("users/" + userId)
-      usersRef.child("group").on("value", function(snap) {
-        dispatch({
-          type: actionTypes.FETCH_GROUP_NAMES,
-          payload: { groupNames: snap.val() }
-        })
-      })
-    },
-    fetchMessages: userId => {
-      const rootRef = firebase.database().ref()
-      const userRef = rootRef.child("users/" + userId)
-      const messagesRef = userRef.child("messages")
-      messagesRef.on("value", snap => {
-        dispatch({
-          type: actionTypes.FETCH_MESSAGES,
-          payload: { messages: snap.val() }
-        })
-      })
-    },
-    initAll: () => dispatch({ type: actionTypes.INIT_ALL })
-  }
-}
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  { initAll, fetchMessages, fetchGroupList }
 )(withRouter(navigationItems))

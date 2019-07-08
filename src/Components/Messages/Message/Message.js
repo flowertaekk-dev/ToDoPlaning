@@ -2,39 +2,19 @@ import React, { Component } from "react"
 import { withRouter } from "react-router-dom"
 import { connect } from "react-redux"
 
-import firebase from "../../../Utils/Config/firebase"
-import * as actionTypes from "../../../store/Actiontypes/actionTypes"
+import {
+  updateMessageStatus,
+  joinGroup
+} from "../../../store/actions/messageActions"
 import "./Message.css"
 
 class Message extends Component {
   acceptInvitationHandler = () => {
-    // TODO need to be replaced with redux-thunk
-    const rootRef = firebase.database().ref()
-    // users/id/group[]
-    const usersRef = rootRef.child("users/" + this.props.userId)
-    const userGroupRef = usersRef.child("group")
-    userGroupRef.push(this.props.groupName)
-
-    // group/groupName/member[]
-    const groupRef = rootRef.child("group/" + this.props.groupName + "/member")
-    groupRef.push(this.props.userId)
-
-    const messagesRef = usersRef.child("messages/" + this.props.id)
-    messagesRef.update({ hasRead: true })
-
-    // this.props.clicked()
-    // this.props.updateMessageStatus(this.props.userId, this.props.id)
+    this.props.joinGroup(this.props.userId, this.props.id, this.props.groupName)
   }
 
   cancelHandler = () => {
-    // TODO need to be replaced with redux-thunk
-    const rootRef = firebase.database().ref()
-    const usersRef = rootRef.child("users/" + this.props.userId)
-    const messagesRef = usersRef.child("messages/" + this.props.id)
-    messagesRef.update({ hasRead: true })
-
-    // this.props.clicked()
-    // this.props.updateMessageStatus(this.props.userId, this.props.id)
+    this.props.updateMessageStatus(this.props.userId, this.props.id)
   }
 
   render() {
@@ -77,18 +57,7 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    updateMessageStatus: (userId, messageId) => {
-      dispatch({
-        type: actionTypes.UPDATE_MESSAGE_STATUS,
-        payload: { userId: userId, messageId: messageId }
-      })
-    }
-  }
-}
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  { updateMessageStatus, joinGroup }
 )(withRouter(Message))

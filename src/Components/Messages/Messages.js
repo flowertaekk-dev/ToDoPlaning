@@ -2,9 +2,7 @@ import React, { Component } from "react"
 import { connect } from "react-redux"
 
 import Message from "./Message/Message"
-import firebase from "../../Utils/Config/firebase"
 import * as _ from "../../Utils/_"
-import * as actionTypes from "../../store/Actiontypes/actionTypes"
 import "./Messages.css"
 
 class Messages extends Component {
