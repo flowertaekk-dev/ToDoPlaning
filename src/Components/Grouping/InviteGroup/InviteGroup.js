@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { withRouter } from "react-router-dom"
+import { connect } from "react-redux"
 
 import firebase from "../../../Utils/Config/firebase"
 import * as _ from "../../../Utils/_"
@@ -9,29 +10,16 @@ class InviteGroup extends Component {
   state = {
     userIds: [],
     suggestedUserIds: [],
-    checkedUsers: [],
-    groupList: []
+    checkedUsers: []
   }
 
   componentDidMount() {
     this.hasMounted = true
-    this.readGroupListByUser()
     this.readUserId()
   }
 
   componentWillUnmount() {
     this.hasMounted = false
-  }
-
-  readGroupListByUser = async () => {
-    const rootRef = firebase.database().ref()
-    const usersRef = rootRef.child("users/" + localStorage.getItem("userId"))
-    const groupRef = usersRef.child("group").once("value")
-
-    // gets group list
-    await groupRef.then(res => {
-      if (this.hasMounted) this.setState({ groupList: res.val() })
-    })
   }
 
   // reads userIds
@@ -58,6 +46,7 @@ class InviteGroup extends Component {
 
     const suggestedUserIds = this.state.userIds.filter(userId => {
       // TODO string.includes() isn't supported for IE?
+
       return userId.includes(input)
     })
     this.setState({ suggestedUserIds: suggestedUserIds })
@@ -99,7 +88,7 @@ class InviteGroup extends Component {
       const message = {
         id: key,
         groupName: selectedGroup.value,
-        sender: localStorage.getItem("userId"),
+        sender: this.props.userId,
         type: "inviteToGroup",
         comment: comment.value,
         hasRead: false
@@ -122,7 +111,7 @@ class InviteGroup extends Component {
         <form onSubmit={this.submitHandler}>
           <div>
             <select name="selectedGroup" required>
-              {_._map(this.state.groupList, group => (
+              {_._map(this.props.groupNames, group => (
                 <option key={group} name="groups">
                   {group}
                 </option>
@@ -134,9 +123,8 @@ class InviteGroup extends Component {
           </div>
           <div>
             {this.state.suggestedUserIds.map(suggestedUserId => {
-              // ignore if suggestedUserId is current user's ID
-              if (suggestedUserId === localStorage.getItem("userId"))
-                return null
+              // TODO ignore if suggestedUserId is current user's ID
+              if (suggestedUserId === this.props.userId) return null
 
               return (
                 <label key={`${suggestedUserId}_label`}>
@@ -163,4 +151,11 @@ class InviteGroup extends Component {
   }
 }
 
-export default withRouter(InviteGroup)
+const mapStateToProps = state => {
+  return {
+    userId: state.user.userId,
+    groupNames: state.group.groupNames
+  }
+}
+
+export default connect(mapStateToProps)(withRouter(InviteGroup))

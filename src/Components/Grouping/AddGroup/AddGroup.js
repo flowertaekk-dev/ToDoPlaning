@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { withRouter } from "react-router-dom"
+import { connect } from "react-redux"
 
 import firebase from "../../../Utils/Config/firebase"
 import "./AddGroup.css"
@@ -9,6 +10,7 @@ class AddGroup extends Component {
     errMessage: null
   }
 
+  // TODO getGroupRef, getUserRef, setDataToDB methods are able to be replaced with redux
   getGroupRef = groupName => {
     const rootRef = firebase.database().ref()
     const groupRef = rootRef.child("group")
@@ -18,20 +20,20 @@ class AddGroup extends Component {
   getUserRef = () => {
     const rootRef = firebase.database().ref()
     const userRef = rootRef.child("users")
-    return userRef.child(localStorage.getItem("userId"))
+    return userRef.child(this.props.userId)
   }
 
   setDataToDB = async groupName => {
-    // set group
     this.getGroupRef(groupName)
-      .child("leader")
-      .push(localStorage.getItem("userId"))
+      .child("leader") // group/leader
+      .push(this.props.userId)
+
     this.getGroupRef(groupName)
-      .child("member")
-      .push(localStorage.getItem("userId"))
+      .child("member") // group/member
+      .push(this.props.userId)
 
     this.getUserRef()
-      .child("group")
+      .child("group") // user/group
       .push(groupName)
   }
 
@@ -94,4 +96,10 @@ class AddGroup extends Component {
   }
 }
 
-export default withRouter(AddGroup)
+const mapStateToProps = state => {
+  return {
+    userId: state.user.userId
+  }
+}
+
+export default connect(mapStateToProps)(withRouter(AddGroup))

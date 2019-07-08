@@ -1,34 +1,40 @@
 import React, { Component } from "react"
 import { withRouter } from "react-router-dom"
+import { connect } from "react-redux"
 
 import firebase from "../../../Utils/Config/firebase"
+import * as actionTypes from "../../../store/Actiontypes/actionTypes"
 import "./Message.css"
 
 class Message extends Component {
   acceptInvitationHandler = () => {
+    // TODO need to be replaced with redux-thunk
     const rootRef = firebase.database().ref()
     // users/id/group[]
-    const usersRef = rootRef.child("users/" + localStorage.getItem("userId"))
+    const usersRef = rootRef.child("users/" + this.props.userId)
     const userGroupRef = usersRef.child("group")
     userGroupRef.push(this.props.groupName)
 
     // group/groupName/member[]
     const groupRef = rootRef.child("group/" + this.props.groupName + "/member")
-    groupRef.push(localStorage.getItem("userId"))
+    groupRef.push(this.props.userId)
 
     const messagesRef = usersRef.child("messages/" + this.props.id)
     messagesRef.update({ hasRead: true })
 
-    this.props.clicked()
+    // this.props.clicked()
+    // this.props.updateMessageStatus(this.props.userId, this.props.id)
   }
 
   cancelHandler = () => {
+    // TODO need to be replaced with redux-thunk
     const rootRef = firebase.database().ref()
-    const usersRef = rootRef.child("users/" + localStorage.getItem("userId"))
+    const usersRef = rootRef.child("users/" + this.props.userId)
     const messagesRef = usersRef.child("messages/" + this.props.id)
     messagesRef.update({ hasRead: true })
 
-    this.props.clicked()
+    // this.props.clicked()
+    // this.props.updateMessageStatus(this.props.userId, this.props.id)
   }
 
   render() {
@@ -65,4 +71,24 @@ class Message extends Component {
   }
 }
 
-export default withRouter(Message)
+const mapStateToProps = state => {
+  return {
+    userId: state.user.userId
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateMessageStatus: (userId, messageId) => {
+      dispatch({
+        type: actionTypes.UPDATE_MESSAGE_STATUS,
+        payload: { userId: userId, messageId: messageId }
+      })
+    }
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(Message))

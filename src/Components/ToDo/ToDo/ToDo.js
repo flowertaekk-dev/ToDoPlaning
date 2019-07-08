@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react"
 import { withRouter } from "react-router-dom"
 
-import firebase from "../../../Utils/Config/firebase"
 import UpdateToDo from "../UpdateToDo/UpdateToDo"
 import "./ToDo.css"
 
@@ -32,14 +31,6 @@ class ToDo extends Component {
     this.setState({
       isUpdate: !this.state.isUpdate
     })
-
-    // const rootRef = firebase.database().ref()
-    // const todosRef = rootRef.child("todos")
-    // const todoRef = todosRef.child(this.props.id)
-    // todoRef.update({
-    //   deadLine: this.state.deadLine,
-    //   details: this.state.taskDetails
-    // })
 
     // initializes and reload state from firebase
     this.props.initState()

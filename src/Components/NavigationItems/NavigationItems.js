@@ -1,21 +1,26 @@
 import React, { Fragment, useEffect } from "react"
 import { withRouter, NavLink } from "react-router-dom"
+import { connect } from "react-redux"
 
+import * as actionTypes from "../../store/Actiontypes/actionTypes"
+import firebase from "../../Utils/Config/firebase"
 import NavigationItem from "./NavigationItem/NavigationItem"
 
 const navigationItems = props => {
-  const signOutHandler = () => {
-    props.signOutClicked()
-    props.history.push("/")
-  }
+  useEffect(() => {
+    props.fetchGroupList(props.userId)
+    props.fetchMessages(props.userId)
+  }, [props.userId])
 
-  // useEffect(() => {
-  //   console.log("[USEEFFECT]", props.hasGroupList.length)
-  // }, [])
+  const signOutHandler = () => {
+    props.initAll()
+    props.history.replace("/")
+  }
 
   let beforeSignIn,
     afterSignIn = null
-  if (!localStorage.getItem("userId")) {
+
+  if (!props.userId) {
     beforeSignIn = (
       <NavigationItem>
         <NavLink
@@ -38,7 +43,7 @@ const navigationItems = props => {
           </NavLink>
         </NavigationItem>
 
-        {props.hasGroupList ? (
+        {props.groupNames && (
           <NavigationItem>
             <NavLink
               to="/inviteToGroup"
@@ -47,7 +52,7 @@ const navigationItems = props => {
               INVITE GROUP
             </NavLink>
           </NavigationItem>
-        ) : null}
+        )}
 
         <NavigationItem>
           <NavLink
@@ -93,4 +98,41 @@ const navigationItems = props => {
   )
 }
 
-export default withRouter(navigationItems)
+const mapStateToProps = state => {
+  return {
+    userId: state.user.userId,
+    groupNames: state.group.groupNames
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchGroupList: userId => {
+      const rootRef = firebase.database().ref()
+      const usersRef = rootRef.child("users/" + userId)
+      usersRef.child("group").on("value", function(snap) {
+        dispatch({
+          type: actionTypes.FETCH_GROUP_NAMES,
+          payload: { groupNames: snap.val() }
+        })
+      })
+    },
+    fetchMessages: userId => {
+      const rootRef = firebase.database().ref()
+      const userRef = rootRef.child("users/" + userId)
+      const messagesRef = userRef.child("messages")
+      messagesRef.on("value", snap => {
+        dispatch({
+          type: actionTypes.FETCH_MESSAGES,
+          payload: { messages: snap.val() }
+        })
+      })
+    },
+    initAll: () => dispatch({ type: actionTypes.INIT_ALL })
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(navigationItems))

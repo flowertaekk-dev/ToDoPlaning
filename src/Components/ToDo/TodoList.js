@@ -1,9 +1,10 @@
 import React, { Component } from "react"
+import { connect } from "react-redux"
+
 import { _getCurrentDate, _map, _filter } from "../../Utils/_"
 import Todo from "./ToDo/ToDo"
 import firebase from "../../Utils/Config/firebase"
 import Aux from "../../hoc/Auxiliary/Auxiliary"
-
 import "./TodoList.css"
 import { isNull } from "util";
 
@@ -18,12 +19,14 @@ class TodoList extends Component {
   componentDidMount() {
     this.hasMounted = true
     this.readTodos()
+    // TODO :need to use this:  this.props.getGroupList(this.props.userId)
   }
 
   componentWillUnmount() {
     this.hasMounted = false
   }
 
+  // TODO think about whether it is better to delegate below function to redux
   readTodos = async () => {
     const rootRef = firebase.database().ref()
 
@@ -39,7 +42,6 @@ class TodoList extends Component {
       this.setState({ groupList: snap.val() })
       // finds todos by group name
       this.readTodosByGroup(rootRef)
-      console.log("123")
     })
   }
 
@@ -55,11 +57,9 @@ class TodoList extends Component {
         .on("value", snap => {
           _map(snap.val(), todo => {
             this.setState(prevState => {
-              console.log(todo)
               return { todos: { ...prevState.todos, [todo.id]: { ...todo } } }
             })
           })
-          console.log(456)
         })
 
       return null
@@ -70,7 +70,7 @@ class TodoList extends Component {
     await rootRef
       .child("todos")
       .orderByChild("manager")
-      .equalTo(localStorage.getItem("userId"))
+      .equalTo(this.props.userId)
       .on("value", snap => {
         _map(snap.val(), todo => {
           if (!todo.group) {
@@ -98,7 +98,11 @@ class TodoList extends Component {
     const updateTodos = _filter(this.state.todos, todo => todo.id !== todoId)
 
     this.setState(prevState => {
-      return { todos: { ...prevState, updateTodos } }
+      if (updateTodos.length === 0) {
+        return { todos: {} }
+      } else {
+        return { todos: { ...prevState, updateTodos } }
+      }
     })
     todoRef.remove()
   }
@@ -117,8 +121,8 @@ class TodoList extends Component {
 
   initStateHandler = () => {
     this.setState({
-      todos: [],
-      groupList: []
+      todos: {},
+      groupList: {}
     })
   }
 
@@ -321,4 +325,10 @@ class TodoList extends Component {
   }
 }
 
-export default TodoList
+const mapStateToProps = state => {
+  return {
+    userId: state.user.userId
+  }
+}
+
+export default connect(mapStateToProps)(TodoList)

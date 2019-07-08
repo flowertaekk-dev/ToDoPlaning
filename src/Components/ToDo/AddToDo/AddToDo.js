@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { withRouter } from "react-router-dom"
+import { connect } from "react-redux"
 
 import firebase from "../../../Utils/Config/firebase"
 import * as _ from "../../../Utils/_"
@@ -7,37 +8,16 @@ import "./AddToDo.css"
 
 // flowertaekk.dev
 class AddToDo extends Component {
+  // TODO need to do refactoring maybe later??
   constructor(props) {
     super(props)
 
     this.state = {
       selectedDate: this.props.selectedDate,
       deadLine: this.props.selectedDate,
-      groups: { none: "none" },
       selectedGroup: "none",
       membersBySelectedGroup: ["Select group"]
     }
-  }
-
-  componentDidMount() {
-    this.getGroupInfo()
-  }
-
-  // gets group information from firebase with current userId
-  getGroupInfo = () => {
-    const rootRef = firebase.database().ref()
-    const usersRef = rootRef.child("users/" + localStorage.getItem("userId"))
-    const groupRef = usersRef.child("group")
-
-    groupRef
-      .once("value")
-      .then(res => {
-        if (res.exists()) {
-          const groups = { ...this.state.groups, ...res.val() }
-          this.setState({ groups: groups })
-        }
-      })
-      .catch(err => console.error(err))
   }
 
   // gets members data from firebase according to selected group
@@ -67,6 +47,7 @@ class AddToDo extends Component {
       .catch(err => console.error(err))
   }
 
+  // TODO it can be replaced with redux
   onSubmitHandler = e => {
     e.preventDefault()
 
@@ -109,9 +90,7 @@ class AddToDo extends Component {
       details: taskDetail.value,
       group: group.value === "none" ? null : group.value,
       manager:
-        manager.value === "Select group"
-          ? localStorage.getItem("userId")
-          : manager.value,
+        manager.value === "Select group" ? this.props.userId : manager.value,
       subTodo: [] // TODO 未実装
     }
 
@@ -278,9 +257,12 @@ class AddToDo extends Component {
         </td>
         <td>
           <select name="group" onChange={this.getMembersBySelectedGroup}>
-            {_._map(this.state.groups, group => (
-              <option key={group} value={group}>
-                {group}
+            <option key="none" value="none">
+              none
+            </option>
+            {_._map(this.props.groupNames, groupName => (
+              <option key={groupName} value={groupName}>
+                {groupName}
               </option>
             ))}
           </select>
@@ -342,6 +324,7 @@ class AddToDo extends Component {
   }
 }
 
+// TODO this should be somewhere else.. for example, need to make UI folder?
 export const ErrorMessage = props => {
   const _errStyle = {
     color: "red"
@@ -354,4 +337,11 @@ export const ErrorMessage = props => {
   )
 }
 
-export default withRouter(AddToDo)
+const mapStateToProps = state => {
+  return {
+    userId: state.user.userId,
+    groupNames: state.group.groupNames
+  }
+}
+
+export default connect(mapStateToProps)(withRouter(AddToDo))
