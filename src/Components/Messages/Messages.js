@@ -27,7 +27,7 @@ class Messages extends Component {
   render() {
     return (
       <div className="Messages">
-        {_._map(this.props.messages, message => {
+        {_.map(this.props.messages, message => {
           if (message.hasRead === true) return null
 
           return (

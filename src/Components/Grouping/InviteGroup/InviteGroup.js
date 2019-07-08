@@ -10,12 +10,14 @@ class InviteGroup extends Component {
   state = {
     userIds: [],
     suggestedUserIds: [],
-    checkedUsers: []
+    checkedUsers: [],
+    selectedGroup: ""
   }
 
   componentDidMount() {
     this.hasMounted = true
     this.readUserId()
+    console.log("MOUNT", this.props.groupNames)
   }
 
   componentWillUnmount() {
@@ -37,6 +39,7 @@ class InviteGroup extends Component {
 
   // finds userIds which includes user's input
   searchUserIdWithHashHandler = e => {
+    console.log("CHECKKK", e.target.selectedGroup)
     const input = e.target.value
 
     if (!input) {
@@ -99,6 +102,10 @@ class InviteGroup extends Component {
     this.props.history.replace("/todoList")
   }
 
+  test = e => {
+    console.log("IN", e.target.value)
+  }
+
   render() {
     return (
       <div className="InviteGroup">
@@ -111,7 +118,8 @@ class InviteGroup extends Component {
         <form onSubmit={this.submitHandler}>
           <div>
             <select name="selectedGroup" required>
-              {_._map(this.props.groupNames, group => (
+              <option>none</option>
+              {_.map(this.props.groupNames, group => (
                 <option key={group} name="groups">
                   {group}
                 </option>
