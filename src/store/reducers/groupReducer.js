@@ -13,6 +13,10 @@ const groupReducer = (state = init, action) => {
         groupNames: {},
         groupList: {}
       }
+    case actionTypes.ADD_GROUP:
+      return state
+    case actionTypes.INVITE_TO_GROUP:
+      return state
     case actionTypes.FETCH_GROUP_NAMES:
       return { ...state, groupNames: action.payload.groupNames }
     case actionTypes.GET_MEMBERS_BY_GROUP:

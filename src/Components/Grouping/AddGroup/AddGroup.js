@@ -3,38 +3,12 @@ import { withRouter } from "react-router-dom"
 import { connect } from "react-redux"
 
 import firebase from "../../../Utils/Config/firebase"
+import { addGroup } from "../../../store/actions/groupActions"
 import "./AddGroup.css"
 
 class AddGroup extends Component {
   state = {
     errMessage: null
-  }
-
-  // TODO getGroupRef, getUserRef, setDataToDB methods are able to be replaced with redux
-  getGroupRef = groupName => {
-    const rootRef = firebase.database().ref()
-    const groupRef = rootRef.child("group")
-    return groupRef.child(groupName)
-  }
-
-  getUserRef = () => {
-    const rootRef = firebase.database().ref()
-    const userRef = rootRef.child("users")
-    return userRef.child(this.props.userId)
-  }
-
-  setDataToDB = async groupName => {
-    this.getGroupRef(groupName)
-      .child("leader") // group/leader
-      .push(this.props.userId)
-
-    this.getGroupRef(groupName)
-      .child("member") // group/member
-      .push(this.props.userId)
-
-    this.getUserRef()
-      .child("group") // user/group
-      .push(groupName)
   }
 
   submitHandler = async e => {
@@ -47,7 +21,7 @@ class AddGroup extends Component {
     await this.validation(groupName)
     if (this.state.errMessage) {
     } else {
-      this.setDataToDB(groupName)
+      this.props.addGroup(this.props.userId, groupName)
       this.props.history.goBack()
     }
   }
@@ -58,8 +32,10 @@ class AddGroup extends Component {
   }
 
   validation = async groupName => {
-    const groupNameRef = this.getGroupRef(groupName)
-    await groupNameRef
+    const rootRef = firebase.database().ref()
+    const groupsRef = rootRef.child("group")
+    const groupRef = groupsRef.child(groupName)
+    await groupRef
       .once("value")
       .then(res => {
         if (res.val()) {
@@ -102,4 +78,7 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(withRouter(AddGroup))
+export default connect(
+  mapStateToProps,
+  { addGroup }
+)(withRouter(AddGroup))
