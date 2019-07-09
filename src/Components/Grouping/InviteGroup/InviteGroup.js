@@ -8,50 +8,60 @@ import "./InviteGroup.css"
 
 class InviteGroup extends Component {
   state = {
-    userIds: [],
+    users: {},
     suggestedUserIds: [],
     checkedUsers: [],
-    selectedGroup: ""
+    selectedGroup: "none",
+    errMessage: null
   }
 
   componentDidMount() {
     this.hasMounted = true
-    this.readUserId()
-    console.log("MOUNT", this.props.groupNames)
+    this.readUsers()
   }
 
   componentWillUnmount() {
     this.hasMounted = false
   }
 
-  // reads userIds
-  readUserId = () => {
+  // reads users
+  readUsers = () => {
     const rootRef = firebase.database().ref()
     const usersRef = rootRef.child("/users").once("value")
 
     usersRef
       .then(res => {
-        const users = Object.keys(res.val())
-        if (this.hasMounted) this.setState({ userIds: users })
+        if (this.hasMounted) this.setState({ users: res.val() })
       })
       .catch(err => console.error(err))
   }
 
   // finds userIds which includes user's input
   searchUserIdWithHashHandler = e => {
-    console.log("CHECKKK", e.target.selectedGroup)
     const input = e.target.value
 
+    // initializes if input is empty
     if (!input) {
       this.setState({ suggestedUserIds: [] })
       return
     }
 
-    const suggestedUserIds = this.state.userIds.filter(userId => {
-      // TODO string.includes() isn't supported for IE?
+    // checks if certain group has been selected
+    if (this.state.selectedGroup === "none") {
+      this.setState({ suggestedUserIds: [] })
+      return
+    }
 
-      return userId.includes(input)
-    })
+    // finds proposable ID
+    const suggestedUserIds = _.filter(
+      this.state.users,
+      users =>
+        !users.group ||
+        Object.values(users.group).indexOf(this.state.selectedGroup) === -1
+    ) // filters users who is not in selected group
+      .map(user => user.id) // maps only userId
+      .filter(userId => userId.includes(input)) // filters userIds whose contain 'input' string
+
     this.setState({ suggestedUserIds: suggestedUserIds })
   }
 
@@ -78,10 +88,17 @@ class InviteGroup extends Component {
   submitHandler = e => {
     e.preventDefault()
 
+    if (this.state.selectedGroup === "none") {
+      this.setState({ errMessage: "ERROR: Select group" })
+      return
+    }
     const { comment, selectedGroup } = e.target
 
     const rootRef = firebase.database().ref()
 
+    /**
+     * sends messages to selected users
+     */
     const messageReceivers = this.state.checkedUsers
     messageReceivers.forEach(receiver => {
       const usersRef = rootRef.child("users/" + receiver)
@@ -102,8 +119,12 @@ class InviteGroup extends Component {
     this.props.history.replace("/todoList")
   }
 
-  test = e => {
-    console.log("IN", e.target.value)
+  onChangeHandler = e => {
+    this.setState({
+      checkedUsers: [],
+      suggestedUserIds: [],
+      [e.target.name]: e.target.value
+    })
   }
 
   render() {
@@ -117,7 +138,11 @@ class InviteGroup extends Component {
         />
         <form onSubmit={this.submitHandler}>
           <div>
-            <select name="selectedGroup" required>
+            <select
+              name="selectedGroup"
+              onChange={this.onChangeHandler}
+              required
+            >
               <option>none</option>
               {_.map(this.props.groupNames, group => (
                 <option key={group} name="groups">
@@ -153,6 +178,7 @@ class InviteGroup extends Component {
           <button type="submit" disabled={this.state.checkedUsers.length === 0}>
             INVITE TO GROUP
           </button>
+          <span>{this.state.errMessage}</span>
         </form>
       </div>
     )
