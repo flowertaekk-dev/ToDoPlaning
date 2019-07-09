@@ -82,7 +82,7 @@ class SignUp extends Component {
     }
 
     // sets user data to firebase
-    this._setDataToDB(userRef, userId, userEmail, userPassword)
+    this._setDataToDB(userRef, userId.value, userEmail, userPassword)
 
     // after sign up, moves to "To Do List" page
     this.props.saveUserId(userId.value)
