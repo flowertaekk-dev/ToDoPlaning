@@ -10,9 +10,9 @@ const messageReducer = (state = init, action) => {
     case actionTypes.FETCH_MESSAGES:
       return { messages: action.payload.messages }
     case actionTypes.UPDATE_MESSAGE_STATUS:
-      const messages = _._filter(
+      const messages = _.filter(
         { ...state.messages },
-        message => message.id != action.payload.messageId
+        message => message.id !== action.payload.messageId
       )
       return { ...state, messages }
     default:

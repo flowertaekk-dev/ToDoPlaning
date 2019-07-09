@@ -10,7 +10,7 @@ import AddGroup from "../../Components/Grouping/AddGroup/AddGroup"
 import AddTodo from "../../Components/ToDo/AddToDo/AddToDo"
 import InviteGroup from "../../Components/Grouping/InviteGroup/InviteGroup"
 import Messages from "../../Components/Messages/Messages"
-import { _getCurrentDate } from "../../Utils/_"
+import { getCurrentDate } from "../../Utils/_"
 import "./App.css"
 
 // flowertaekk.dev
@@ -34,7 +34,7 @@ class App extends PureComponent {
         <Route path="/signUp" render={() => <SignUp />} />
         <Route
           path="/addTodo"
-          render={() => <AddTodo selectedDate={_getCurrentDate()} />}
+          render={() => <AddTodo selectedDate={getCurrentDate()} />}
         />
         <Route path="/inviteToGroup" render={() => <InviteGroup />} />
         <Route path="/addGroup" render={() => <AddGroup />} />

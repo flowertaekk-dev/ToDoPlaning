@@ -47,8 +47,9 @@ class SignUp extends Component {
   }
 
   // TODO need to think about variable name again..
-  _setDataToDB = (userRef, email, password) => {
+  _setDataToDB = (userRef, userId, email, password) => {
     userRef.set({
+      id: userId,
       email: email.value,
       password: Base64.encode(password.value)
     })
@@ -81,7 +82,7 @@ class SignUp extends Component {
     }
 
     // sets user data to firebase
-    this._setDataToDB(userRef, userEmail, userPassword)
+    this._setDataToDB(userRef, userId, userEmail, userPassword)
 
     // after sign up, moves to "To Do List" page
     this.props.saveUserId(userId.value)

@@ -260,7 +260,7 @@ class AddToDo extends Component {
             <option key="none" value="none">
               none
             </option>
-            {_._map(this.props.groupNames, groupName => (
+            {_.map(this.props.groupNames, groupName => (
               <option key={groupName} value={groupName}>
                 {groupName}
               </option>
@@ -275,7 +275,7 @@ class AddToDo extends Component {
         <td>Manager</td>
         <td>
           <select name="manager" disabled={this.state.selectedGroup === "none"}>
-            {_._map(this.state.membersBySelectedGroup, member => (
+            {_.map(this.state.membersBySelectedGroup, member => (
               <option key={member} value={member}>
                 {member}
               </option>

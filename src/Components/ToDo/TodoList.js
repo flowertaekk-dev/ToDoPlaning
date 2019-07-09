@@ -1,17 +1,17 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 
-import { _getCurrentDate, _map, _filter } from "../../Utils/_"
+import * as _ from "../../Utils/_"
 import Todo from "./ToDo/ToDo"
 import firebase from "../../Utils/Config/firebase"
 import Aux from "../../hoc/Auxiliary/Auxiliary"
 import "./TodoList.css"
-import { isNull } from "util";
+import { isNull } from "util"
 
 // flowertaekk.dev
 class TodoList extends Component {
   state = {
-    selectedDate: _getCurrentDate(),
+    selectedDate: _.getCurrentDate(),
     todos: {},
     groupList: {}
   }
@@ -49,13 +49,13 @@ class TodoList extends Component {
     if (!this.state.groupList) return
 
     // gets todos by every group that user is in
-    _map(this.state.groupList, async group => {
+    _.map(this.state.groupList, async group => {
       await rootRef
         .child("todos")
         .orderByChild("group")
         .equalTo(group)
         .on("value", snap => {
-          _map(snap.val(), todo => {
+          _.map(snap.val(), todo => {
             this.setState(prevState => {
               return { todos: { ...prevState.todos, [todo.id]: { ...todo } } }
             })
@@ -72,7 +72,7 @@ class TodoList extends Component {
       .orderByChild("manager")
       .equalTo(this.props.userId)
       .on("value", snap => {
-        _map(snap.val(), todo => {
+        _.map(snap.val(), todo => {
           if (!todo.group) {
             this.setState(prevState => {
               return { todos: { ...prevState.todos, [todo.id]: { ...todo } } }
@@ -95,7 +95,7 @@ class TodoList extends Component {
     const todosRef = rootRef.child("todos")
     const todoRef = todosRef.child(todoId)
 
-    const updateTodos = _filter(this.state.todos, todo => todo.id !== todoId)
+    const updateTodos = _.filter(this.state.todos, todo => todo.id !== todoId)
 
     this.setState(prevState => {
       if (updateTodos.length === 0) {
@@ -110,7 +110,7 @@ class TodoList extends Component {
   // updates ToDo
   updateTodoHandler = todoId => {
     return e => {
-      const target = _filter(this.state.todos, todo => todo.id === todoId)[0]
+      const target = _.filter(this.state.todos, todo => todo.id === todoId)[0]
       target[e.target.name] = e.target.value
 
       this.setState(prevState => {
@@ -133,7 +133,7 @@ class TodoList extends Component {
     let ect = []
     let result = []
 
-    _map(todoObj, todo => {
+    _.map(todoObj, todo => {
       if (todo) {
         if (todo.priority === "urgent") {
           urgent.push(todo)
@@ -186,127 +186,124 @@ class TodoList extends Component {
       </p>
     )
 
-    if (Object.keys(this.state.todos).length === 0 && this.state.todos.constructor === Object) {
+    if (
+      Object.keys(this.state.todos).length === 0 &&
+      this.state.todos.constructor === Object
+    ) {
       toDoList = <p className="todo-list">Please add new tasks!</p>
     } else {
       toDoList = (
         <div className="todo-list">
           {this.state.todos ? (
             <ul className="show-todo">
-              {this.setToDos(this.state.todos)[0].map((todo,index) => {
+              {this.setToDos(this.state.todos)[0].map((todo, index) => {
                 const selectedDate = this.state.selectedDate
                 // todos.forEach(todo => {
-                  // checks data
-                  if (
-                    todo.date === selectedDate ||
-                    (todo.date <= selectedDate && todo.deadLine >= selectedDate)
-                  ) {
-                    return (
-                      
-                    index % 6 <= 0 ?
-                      <li>
-                        <div className="sortTodo">
-                          <Todo
-                            {...todo}
-                            key={todo.id}
-                            deleteClicked={() => this.deleteToDoHandler(todo.id)}
-                            updateTodo={() => this.updateTodoHandler(todo.id)}
-                            initState={this.initStateHandler}
-                            reloadTodos={this.readTodos}
-                          />
-                        </div>
-                      </li>
-                      : 
-                        <div className="sortTodo">
-                          <Todo
-                            {...todo}
-                            key={todo.id}
-                            deleteClicked={() => this.deleteToDoHandler(todo.id)}
-                            updateTodo={() => this.updateTodoHandler(todo.id)}
-                            initState={this.initStateHandler}
-                            reloadTodos={this.readTodos}
-                          />
-                        </div>
-                    ) 
-                  }
+                // checks data
+                if (
+                  todo.date === selectedDate ||
+                  (todo.date <= selectedDate && todo.deadLine >= selectedDate)
+                ) {
+                  return index % 6 <= 0 ? (
+                    <li>
+                      <div className="sortTodo">
+                        <Todo
+                          {...todo}
+                          key={todo.id}
+                          deleteClicked={() => this.deleteToDoHandler(todo.id)}
+                          updateTodo={() => this.updateTodoHandler(todo.id)}
+                          initState={this.initStateHandler}
+                          reloadTodos={this.readTodos}
+                        />
+                      </div>
+                    </li>
+                  ) : (
+                    <div className="sortTodo">
+                      <Todo
+                        {...todo}
+                        key={todo.id}
+                        deleteClicked={() => this.deleteToDoHandler(todo.id)}
+                        updateTodo={() => this.updateTodoHandler(todo.id)}
+                        initState={this.initStateHandler}
+                        reloadTodos={this.readTodos}
+                      />
+                    </div>
+                  )
+                }
                 // })
                 return null
               })}
-              {this.setToDos(this.state.todos)[1].map((todo,index) => {
+              {this.setToDos(this.state.todos)[1].map((todo, index) => {
                 const selectedDate = this.state.selectedDate
                 // todos.forEach(todo => {
-                  // checks data
-                  if (
-                    todo.date === selectedDate ||
-                    (todo.date <= selectedDate && todo.deadLine >= selectedDate)
-                  ) {
-                    return (
-                      
-                      index % 6 <= 0 ?
-                      <li>
-                        <div className="sortTodo">
-                          <Todo
-                            {...todo}
-                            key={todo.id}
-                            deleteClicked={() => this.deleteToDoHandler(todo.id)}
-                            updateTodo={() => this.updateTodoHandler(todo.id)}
-                            initState={this.initStateHandler}
-                            reloadTodos={this.readTodos}
-                          />
-                        </div>
-                      </li>
-                      : 
-                        <div className="sortTodo">
-                          <Todo
-                            {...todo}
-                            key={todo.id}
-                            deleteClicked={() => this.deleteToDoHandler(todo.id)}
-                            updateTodo={() => this.updateTodoHandler(todo.id)}
-                            initState={this.initStateHandler}
-                            reloadTodos={this.readTodos}
-                          />
-                        </div>
-                    ) 
-                  }
+                // checks data
+                if (
+                  todo.date === selectedDate ||
+                  (todo.date <= selectedDate && todo.deadLine >= selectedDate)
+                ) {
+                  return index % 6 <= 0 ? (
+                    <li>
+                      <div className="sortTodo">
+                        <Todo
+                          {...todo}
+                          key={todo.id}
+                          deleteClicked={() => this.deleteToDoHandler(todo.id)}
+                          updateTodo={() => this.updateTodoHandler(todo.id)}
+                          initState={this.initStateHandler}
+                          reloadTodos={this.readTodos}
+                        />
+                      </div>
+                    </li>
+                  ) : (
+                    <div className="sortTodo">
+                      <Todo
+                        {...todo}
+                        key={todo.id}
+                        deleteClicked={() => this.deleteToDoHandler(todo.id)}
+                        updateTodo={() => this.updateTodoHandler(todo.id)}
+                        initState={this.initStateHandler}
+                        reloadTodos={this.readTodos}
+                      />
+                    </div>
+                  )
+                }
                 // })
                 return null
               })}
-              {this.setToDos(this.state.todos)[2].map((todo,index) => {
+              {this.setToDos(this.state.todos)[2].map((todo, index) => {
                 const selectedDate = this.state.selectedDate
                 // todos.forEach(todo => {
-                  // checks data
-                  if (
-                    todo.date === selectedDate ||
-                    (todo.date <= selectedDate && todo.deadLine >= selectedDate)
-                  ) {
-                    return (
-                      
-                      index % 6 <= 0 ?
-                      <li>
-                        <div className="sortTodo">
-                          <Todo
-                            {...todo}
-                            key={todo.id}
-                            deleteClicked={() => this.deleteToDoHandler(todo.id)}
-                            updateTodo={() => this.updateTodoHandler(todo.id)}
-                            initState={this.initStateHandler}
-                            reloadTodos={this.readTodos}
-                          />
-                        </div>
-                      </li>
-                      : 
-                        <div className="sortTodo">
-                          <Todo
-                            {...todo}
-                            key={todo.id}
-                            deleteClicked={() => this.deleteToDoHandler(todo.id)}
-                            updateTodo={() => this.updateTodoHandler(todo.id)}
-                            initState={this.initStateHandler}
-                            reloadTodos={this.readTodos}
-                          />
-                        </div>
-                    ) 
-                  }
+                // checks data
+                if (
+                  todo.date === selectedDate ||
+                  (todo.date <= selectedDate && todo.deadLine >= selectedDate)
+                ) {
+                  return index % 6 <= 0 ? (
+                    <li>
+                      <div className="sortTodo">
+                        <Todo
+                          {...todo}
+                          key={todo.id}
+                          deleteClicked={() => this.deleteToDoHandler(todo.id)}
+                          updateTodo={() => this.updateTodoHandler(todo.id)}
+                          initState={this.initStateHandler}
+                          reloadTodos={this.readTodos}
+                        />
+                      </div>
+                    </li>
+                  ) : (
+                    <div className="sortTodo">
+                      <Todo
+                        {...todo}
+                        key={todo.id}
+                        deleteClicked={() => this.deleteToDoHandler(todo.id)}
+                        updateTodo={() => this.updateTodoHandler(todo.id)}
+                        initState={this.initStateHandler}
+                        reloadTodos={this.readTodos}
+                      />
+                    </div>
+                  )
+                }
                 // })
                 return null
               })}
