@@ -1,5 +1,6 @@
 // COMMON
 export const INIT_ALL = "INIT_ALL"
+export const MENU_FLAG = "MENU_FLAG"
 
 // USER
 export const SAVE_USER_ID = "SAVE_USER_ID"

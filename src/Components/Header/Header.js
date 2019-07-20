@@ -2,6 +2,7 @@ import React from "react"
 import { Link } from "react-router-dom"
 
 import NavigationItems from "../NavigationItems/NavigationItems"
+import HamburgerButton from "../../UI/HamburgerButton/HamburgerButton"
 import "./Header.css"
 
 const header = props => {
@@ -15,9 +16,10 @@ const header = props => {
         </h1>
       </div>
 
-      <nav className="menu">
-        <NavigationItems />
-      </nav>
+      <div>
+        <HamburgerButton />
+        {/* <NavigationItems /> */}
+      </div>
     </div>
   )
 }

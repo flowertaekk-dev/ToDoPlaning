@@ -10,10 +10,12 @@ import userReducer from "./store/reducers/userReducer"
 import groupReducer from "./store/reducers/groupReducer"
 import todoReducer from "./store/reducers/todoReducer"
 import messageReducer from "./store/reducers/messageReducer"
+import commonReducer from "./store/reducers/commonReducer"
 import * as serviceWorker from "./serviceWorker"
 import "./index.css"
 
 const rootReducer = combineReducers({
+  common: commonReducer,
   user: userReducer,
   group: groupReducer,
   todo: todoReducer,
