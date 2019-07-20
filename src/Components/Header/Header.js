@@ -16,10 +16,10 @@ const header = props => {
         </h1>
       </div>
 
-      <nav className="menu">
+      <div>
         <HamburgerButton />
         {/* <NavigationItems /> */}
-      </nav>
+      </div>
     </div>
   )
 }

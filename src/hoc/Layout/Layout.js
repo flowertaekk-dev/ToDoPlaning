@@ -1,7 +1,9 @@
 import React, { Component } from "react"
+import { connect } from "react-redux"
 
 import Aux from "../Auxiliary/Auxiliary"
 import Header from "../../Components/Header/Header"
+import NavigationItems from "../../Components/NavigationItems/NavigationItems"
 import "./Layout.css"
 
 class Layout extends Component {
@@ -14,10 +16,22 @@ class Layout extends Component {
         {/* BODY */}
         <main>{this.props.children}</main>
 
-        <div className="menu" />
+        {/* need to use conditional phrase with main */}
+
+        {this.props.isMenuOn && (
+          <nav className="menu">
+            <NavigationItems />
+          </nav>
+        )}
       </Aux>
     )
   }
 }
 
-export default Layout
+const mapStateToProps = state => {
+  return {
+    isMenuOn: state.common.menuClicked
+  }
+}
+
+export default connect(mapStateToProps)(Layout)
