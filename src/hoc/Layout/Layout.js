@@ -16,8 +16,7 @@ class Layout extends Component {
         {/* BODY */}
         <main>{this.props.children}</main>
 
-        {/* need to use conditional phrase with main */}
-
+        {/* MENU */}
         {this.props.isMenuOn && (
           <nav className="menu">
             <NavigationItems />

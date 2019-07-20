@@ -1,16 +1,23 @@
 nav.menu ul li {
-  margin-right: 8px;
-  padding-bottom: 4px;
-  border-bottom: 2px solid transparent;
-  transition: border-bottom 0.5s;
+  /* padding: 8px 0; */
+  line-height: 32px;
+  border-bottom: 1px solid #bdc3c7;
+  /* border-bottom: 2px solid transparent; */
+  text-align: center;
+  background-color: #fff;
+  transition: background-color 0.3s;
 }
 
 nav.menu ul li:hover,
 nav.menu ul li:active {
-  border-bottom: 2px solid orange;
+  background-color: orange;
+  /* border-bottom: 2px solid orange; */
 }
 
 nav.menu ul li a {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
 }
 
 nav.menu ul li a:hover,

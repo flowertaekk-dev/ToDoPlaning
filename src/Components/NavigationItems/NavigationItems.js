@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from "react"
 import { withRouter, NavLink } from "react-router-dom"
 import { connect } from "react-redux"
 
-import { initAll } from "../../store/actions/commonActions"
+import { initAll, toggleMenu } from "../../store/actions/commonActions"
 import { fetchMessages } from "../../store/actions/messageActions"
 import { fetchGroupList } from "../../store/actions/groupActions"
 import NavigationItem from "./NavigationItem/NavigationItem"
@@ -16,6 +16,7 @@ const navigationItems = props => {
   const signOutHandler = () => {
     props.initAll()
     props.history.replace("/")
+    props.toggleMenu()
   }
 
   let beforeSignIn,
@@ -85,7 +86,9 @@ const navigationItems = props => {
         <NavigationItem clicked={signOutHandler}>SIGN OUT</NavigationItem>
 
         <li>
-          <strong>{props.userId}</strong>
+          <p>
+            <strong>Hello, {props.userId}</strong>
+          </p>
         </li>
       </Fragment>
     )
@@ -108,5 +111,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { initAll, fetchMessages, fetchGroupList }
+  { initAll, toggleMenu, fetchMessages, fetchGroupList }
 )(withRouter(navigationItems))

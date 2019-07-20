@@ -1,12 +1,12 @@
 import React from "react"
 import { connect } from "react-redux"
 
-import { menuClicked } from "../../store/actions/commonActions"
+import { toggleMenu } from "../../store/actions/commonActions"
 import "./HamburgerButton.css"
 
 const hamburgerButton = props => {
   return (
-    <div className="HamburgerButton" onClick={props.menuClicked}>
+    <div className="HamburgerButton" onClick={props.toggleMenu}>
       <div />
       <div />
       <div />
@@ -16,5 +16,5 @@ const hamburgerButton = props => {
 
 export default connect(
   null,
-  { menuClicked }
+  { toggleMenu }
 )(hamburgerButton)
