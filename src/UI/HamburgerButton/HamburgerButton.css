@@ -1,0 +1,25 @@
+.HamburgerButton {
+  position: absolute;
+  right: 8px;
+  top: 20px;
+
+  width: 40px;
+  /* height: 90%; */
+  display: flex;
+  flex-flow: column;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: -18px;
+  padding: 10px 0;
+  box-sizing: border-box;
+  cursor: pointer;
+  border-radius: 4px;
+  border: 2px solid #87b3d0;
+}
+
+.HamburgerButton div {
+  width: 90%;
+  height: 3px;
+  margin: 2px 0;
+  background-color: #353b3f;
+}

@@ -1,4 +1,33 @@
-.NavigationItem:hover,
+nav.menu ul li {
+  margin-right: 8px;
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+  transition: border-bottom 0.5s;
+}
+
+nav.menu ul li:hover,
+nav.menu ul li:active {
+  border-bottom: 2px solid orange;
+}
+
+nav.menu ul li a {
+}
+
+nav.menu ul li a:hover,
+nav.menu ul li a:active {
+  text-decoration: none;
+  box-sizing: border-box;
+  /* color: #000; */
+}
+
+@media (max-width: 736px) {
+  nav.menu ul li,
+  nav.menu ul li a {
+    font-size: 8px;
+  }
+}
+
+/* .NavigationItem:hover,
 .NavigationItem a:hover {
   font-weight: bold;
   text-decoration: none;
@@ -7,4 +36,4 @@
 }
 .NavigationItem a {
   color: black;
-}
+} */
