@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import { withRouter } from "react-router-dom"
 import { connect } from "react-redux"
+import lodash from 'lodash'
 
 import firebase from "../../../Utils/Config/firebase"
 import * as _ from "../../../Utils/_"
@@ -189,13 +190,22 @@ class AddToDo extends Component {
         </td>
         <td>
           <p style={this._floatLeft}>
-            <input
+            {/* <input
               type="text"
               id="completeRate"
               name="completeRate"
               placeholder="Please input completeRate"
               required
-            />
+            /> */}
+            <select
+              id="completeRate"
+              name="completeRate"
+              placeholder="Please input completeRate"
+              required
+            >
+              { lodash.range(1, 101).map(value => <option key={value} value={value}>{value}</option>) }
+
+            </select>
           </p>
         </td>
         <ErrorMessage msg={this.state.completeMessage} />
