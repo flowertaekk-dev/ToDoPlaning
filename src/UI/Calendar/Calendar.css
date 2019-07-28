@@ -1,0 +1,28 @@
+.Calendar {
+  margin-top: 16px;
+  margin-right: 16px;
+}
+
+.Calendar table {
+  border-collapse: collapse;
+  border: 1px solid #bdc3c7;
+  width: 100%;
+}
+
+.Calendar table td {
+  border: 1px solid #bdc3c7;
+}
+
+.Calendar table td.active {
+  background-color: #bdc3c7;
+}
+
+.Calendar table td:active,
+.Calendar table td:hover {
+  background-color: #bdc3c7;
+}
+
+.Calendar div button {
+  width: 50%;
+  margin: 8px 0;
+}

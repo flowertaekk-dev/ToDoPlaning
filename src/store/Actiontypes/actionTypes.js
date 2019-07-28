@@ -1,6 +1,13 @@
 // COMMON
 export const INIT_ALL = "INIT_ALL"
+
 export const MENU_FLAG = "MENU_FLAG"
+
+export const SELECT_YEAR = "SELECT_YEAR"
+export const SELECT_MONTH = "SELECT_MONTH"
+export const PREVIOUS_MONTH = "PREVIOUS_MONTH"
+export const NEXT_MONTH = "NEXT_MONTH"
+export const SELECT_DATE = "SELECT_DATE"
 
 // USER
 export const SAVE_USER_ID = "SAVE_USER_ID"
