@@ -11,8 +11,6 @@ import {
 } from "../../store/actions/commonActions"
 import "./Calendar.css"
 
-// https://medium.com/@nitinpatel_20236/challenge-of-building-a-calendar-with-pure-javascript-a86f1303267d
-
 const calendar = props => {
   const months = [
     "Jan",
@@ -123,24 +121,21 @@ const calendar = props => {
         </tbody>
       </table>
 
-      <div>
+      <div className="btn">
         <button onClick={props.previousMonth}>Previous</button>
         <button onClick={props.nextMonth}>Next</button>
       </div>
 
-      <div>
+      <div className="jump">
         <span>Jump to:&nbsp;</span>
 
-        <select
-          defaultValue={months[props.month]}
-          onChange={selectedMonthHandler}
-        >
+        <select value={months[props.month]} onChange={selectedMonthHandler}>
           {months.map(month => (
             <option key={month}>{month}</option>
           ))}
         </select>
 
-        <select defaultValue={props.year} onChange={selectedYearHandler}>
+        <select value={props.year} onChange={selectedYearHandler}>
           {getYearsRangeOfTen().map(year => (
             <option key={year}>{year}</option>
           ))}

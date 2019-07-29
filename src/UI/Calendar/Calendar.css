@@ -1,6 +1,7 @@
 .Calendar {
   margin-top: 16px;
   margin-right: 16px;
+  border: 1px solid #bdc3c7;
 }
 
 .Calendar table {
@@ -24,5 +25,20 @@
 
 .Calendar div button {
   width: 50%;
+  margin: 8px 0;
+}
+
+.Calendar div.btn {
+  margin: 0;
+  border-bottom: 1px solid #bdc3c7;
+}
+
+.Calendar div.btn button {
+  background-color: #fff;
+  border: 1px solid #e1f0fa;
+  border-radius: 2px;
+}
+
+.Calendar div.jump {
   margin: 8px 0;
 }
