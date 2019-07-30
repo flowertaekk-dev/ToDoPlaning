@@ -9,6 +9,7 @@ import {
   previousMonth,
   nextMonth
 } from "../../store/actions/commonActions"
+import Button from "../Button/Button"
 import "./Calendar.css"
 
 const calendar = props => {
@@ -122,8 +123,8 @@ const calendar = props => {
       </table>
 
       <div className="btn">
-        <button onClick={props.previousMonth}>Previous</button>
-        <button onClick={props.nextMonth}>Next</button>
+        <Button clicked={props.previousMonth}>Previous</Button>
+        <Button clicked={props.nextMonth}>Next</Button>
       </div>
 
       <div className="jump">
