@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import { withRouter } from "react-router-dom"
 import { connect } from "react-redux"
 
+import Button from "../../../UI/Button/Button"
 import {
   updateMessageStatus,
   joinGroup
@@ -43,8 +44,8 @@ class Message extends Component {
         </div>
 
         <div className="btn">
-          <button onClick={acceptHandler}>Join</button>
-          <button onClick={this.cancelHandler}>Skip</button>
+          <Button clicked={acceptHandler}>Join</Button>
+          <Button clicked={this.cancelHandler}>Skip</Button>
         </div>
       </div>
     )

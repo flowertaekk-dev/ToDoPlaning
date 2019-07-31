@@ -5,6 +5,7 @@ import { Base64 } from "js-base64"
 
 import * as actionTypes from "../../store/Actiontypes/actionTypes"
 import { ErrorMessage } from "../SignUp/SignUp"
+import Button from "../../UI/Button/Button"
 import Aux from "../../hoc/Auxiliary/Auxiliary"
 import firebase from "../../Utils/Config/firebase"
 import "./Login.css"
@@ -104,9 +105,7 @@ class Login extends Component {
             </div>
 
             <div className="btn-container">
-              <button type="submit" name="submit">
-                Sign in
-              </button>
+              <Button type="submit">Sign in</Button>
             </div>
           </form>
         </div>
