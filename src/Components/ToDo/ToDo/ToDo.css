@@ -1,8 +1,21 @@
-.ToDo {display: block; border: 1px solid #eee; box-shadow: 0 1px 2px #ccc; padding: 5px; margin: 10px auto; width: 250px}
+.ToDo {
+  list-style: none;
+  margin: 16px auto;
+  border: 1px solid #e2e4e6;
+  box-shadow: 0 0.5px 0.5px #bdc3c7;
+  border-radius: 4px;
+  width: 80%;
+}
+
+.ToDo tr.title {
+  border-bottom: 1px solid #e2e4e6;
+}
+
+/* .ToDo {display: block; border: 1px solid #eee; box-shadow: 0 1px 2px #ccc; padding: 5px; margin: 10px auto; width: 250px}
 .ToDo table {margin: 0 auto}
 .ToDo table caption {text-indent: -9999em}
 .ToDo table tr {line-height: 20px}
 .ToDo table tr th {padding: 0 18px}
 .ToDo table tr td {padding: 0 18px}
 .ToDo table td.btn-container {text-align: center}
-.ToDo table td.btn-container button.btn {border: 1px solid #eee; box-shadow: 0 1px 1px #ccc; padding: 6px; background-color: white; margin-right: 4px}
+.ToDo table td.btn-container button.btn {border: 1px solid #eee; box-shadow: 0 1px 1px #ccc; padding: 6px; background-color: white; margin-right: 4px} */

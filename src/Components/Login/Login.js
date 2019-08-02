@@ -3,11 +3,12 @@ import { withRouter } from "react-router-dom"
 import { connect } from "react-redux"
 import { Base64 } from "js-base64"
 
-import * as actionTypes from "../../store/Actiontypes/actionTypes"
 import { ErrorMessage } from "../SignUp/SignUp"
 import Button from "../../UI/Button/Button"
 import Aux from "../../hoc/Auxiliary/Auxiliary"
 import firebase from "../../Utils/Config/firebase"
+import { fetchTodosById } from "../../store/actions/todoActions"
+import { saveUserId } from "../../store/actions/userActions"
 import "./Login.css"
 
 // flowertaekk.dev
@@ -51,6 +52,7 @@ class Login extends Component {
           password.value &&
           password.value === Base64.decode(snap.val().password)
         ) {
+          // login success
           this.props.saveUserId(id.value)
           this.props.history.replace("/todoList")
         } else {
@@ -120,17 +122,8 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    saveUserId: targetUserId =>
-      dispatch({
-        type: actionTypes.SAVE_USER_ID,
-        payload: { userId: targetUserId }
-      })
-  }
-}
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  // mapDispatchToProps
+  { saveUserId }
 )(withRouter(Login))

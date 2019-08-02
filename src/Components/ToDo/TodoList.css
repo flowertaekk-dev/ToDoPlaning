@@ -1,4 +1,12 @@
-.addToDo-btn {
+.TodoList {
+  height: 100%;
+}
+
+.todo-list {
+  height: 100%;
+}
+
+/* .addToDo-btn {
   position: relative;
   top: 68px;
 }
@@ -39,4 +47,4 @@ ul li {
 .date input {
   display: block;
   margin: 0 auto;
-}
+} */
