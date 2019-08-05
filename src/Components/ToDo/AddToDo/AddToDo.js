@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom"
 import { connect } from "react-redux"
 import lodash from 'lodash'
 
+import { fetchTodosById } from "../../../store/actions/todoActions"
 import firebase from "../../../Utils/Config/firebase"
 import Button from "../../../UI/Button/Button"
 import * as _ from "../../../Utils/_"
@@ -15,38 +16,7 @@ class AddToDo extends Component {
     super(props)
 
     this.state = {
-      selectedDate: this.props.selectedDate,
-      deadLine: this.props.selectedDate,
-      selectedGroup: "none",
-      membersBySelectedGroup: ["Select group"]
     }
-  }
-
-  // gets members data from firebase according to selected group
-  getMembersBySelectedGroup = e => {
-    const selectedGroup = e.target.value
-    if (!selectedGroup) return
-    if (selectedGroup === "none") {
-      this.setState({
-        selectedGroup: "none",
-        membersBySelectedGroup: ["Select group"]
-      })
-      return
-    }
-
-    const rootRef = firebase.database().ref()
-    const groupRef = rootRef.child("group/" + selectedGroup)
-    const memberRef = groupRef.child("member")
-    memberRef
-      .once("value")
-      .then(res => {
-        const membersBySelectedGroup = { ...res.val() }
-        this.setState({
-          selectedGroup: selectedGroup,
-          membersBySelectedGroup: membersBySelectedGroup
-        })
-      })
-      .catch(err => console.error(err))
   }
 
   // TODO it can be replaced with redux
@@ -92,7 +62,7 @@ class AddToDo extends Component {
       details: taskDetail.value,
       group: group.value === "none" ? null : group.value,
       manager:
-        manager.value === "Select group" ? this.props.userId : manager.value,
+        manager.value === "defaultManager" ? this.props.userId : manager.value,
       subTodo: [] // TODO 未実装
     }
 
@@ -161,12 +131,12 @@ class AddToDo extends Component {
               type="date"
               id="date"
               name="selectedDate"
-              value={this.state.selectedDate}
+              value={this.props.selectedDate}
               onChange={this.editSelectedDateHandler}
             />
           </p>
         </td>
-        <ErrorMessage msg={this.state.dateMessage} />
+        <ErrorMessage msg={this.props.dateMessage} />
       </tr>
     )
 
@@ -224,7 +194,7 @@ class AddToDo extends Component {
               type="date"
               id="deadLine"
               name="deadLine"
-              value={this.state.deadLine}
+              value={this.props.deadLine}
               onChange={this.editSelectedDateHandler}
             />
           </p>
@@ -267,7 +237,7 @@ class AddToDo extends Component {
           <p>Group</p>
         </td>
         <td>
-          <select name="group" onChange={this.getMembersBySelectedGroup}>
+          <select name="group" onChange={this.props.getMembersBySelectedGroup}>
             <option key="none" value="none">
               none
             </option>
@@ -285,8 +255,9 @@ class AddToDo extends Component {
       <tr>
         <td>Manager</td>
         <td>
-          <select name="manager" disabled={this.state.selectedGroup === "none"}>
-            {_.map(this.state.membersBySelectedGroup, member => (
+          <select name="manager" disabled={this.props.selectedGroup === "none"}>
+            <option key='defaultManager' value='defaultManager'>Select User</option>
+            {_.map(this.props.membersBySelectedGroup, member => (
               <option key={member} value={member}>
                 {member}
               </option>
@@ -355,4 +326,7 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(withRouter(AddToDo))
+export default connect(
+  mapStateToProps,
+  { fetchTodosById }
+)(withRouter(AddToDo))

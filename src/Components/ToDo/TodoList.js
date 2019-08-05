@@ -43,8 +43,8 @@ class TodoList extends Component {
         }, [])
         // sort by priority
         .sort((a, b) => {
-          if (a.deadLine > b.deadLine) return 1
-          if (a.deadLine < b.deadLine) return -1
+          if (this.calPriority(a.date, a.deadLine, a.completeRate, a.priority) < this.calPriority(b.date, b.deadLine, b.completeRate, b.priority)) return 1 
+          if (this.calPriority(a.date, a.deadLine, a.completeRate, a.priority) > this.calPriority(b.date, b.deadLine, b.completeRate, b.priority)) return -1
           return 0
         })
     )
@@ -54,12 +54,27 @@ class TodoList extends Component {
    * calculates priority with certain condition????
    * IT IS NOT COMPLETED!!!
    */
-  calPriority = (insertTime, deadLine, completeRate) => {
+  calPriority = (insertTime, deadLine, completeRate, priority) => {
     ///////////////// UNCOMPLETED /////////////////
     let insertTimeT = this.getTimestamp(insertTime) / 1000
     let deadLineT = this.getTimestamp(deadLine) / 1000
+    let priorityConstant = 0
+    let result = 0;
 
-    return ((deadLineT - insertTimeT) / (completeRate / 100)).toFixed()
+    if (priority === "urgent") {
+      priorityConstant = 9999999999
+    } else if (priority === "normal") {
+      priorityConstant = 8888888888
+    } else {
+      priorityConstant = 7777777777
+    }
+    if (deadLineT === insertTimeT) {
+      result = (completeRate / 100) + priorityConstant
+    } else {
+      result = (deadLineT - insertTimeT) / (completeRate / 100) + priorityConstant  
+    }
+
+    return result
   }
 
   getTimestamp(yearOrDateStr, month, date) {
@@ -83,9 +98,11 @@ class TodoList extends Component {
       <Aux styleName="TodoList">
         {/* {this.state.isQuestionIDAvailable && toDoList} */}
         {this.sortByPriority().map(todo => {
+          {console.log('check', todo)}
           if (this.filterWithDate(todo.deadLine)) {
             return null
           }
+
 
           return (
             <Todo
