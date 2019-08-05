@@ -3,6 +3,7 @@ import { connect } from "react-redux"
 
 import * as _ from "../../Utils/_"
 import { fetchTodosById } from "../../store/actions/todoActions"
+import { fetchGroupList } from "../../store/actions/groupActions"
 import Todo from "./ToDo/ToDo"
 import firebase from "../../Utils/Config/firebase"
 import Aux from "../../hoc/Auxiliary/Auxiliary"
@@ -13,6 +14,7 @@ class TodoList extends Component {
   componentDidMount() {
     this.hasMounted = true
     this.props.fetchTodosById(this.props.userId)
+    this.props.fetchGroupList(this.props.userId)
   }
 
   componentWillUnmount() {
@@ -43,23 +45,26 @@ class TodoList extends Component {
         }, [])
         // sort by priority
         .sort((a, b) => {
-          if (this.calPriority(a.date, a.deadLine, a.completeRate, a.priority) < this.calPriority(b.date, b.deadLine, b.completeRate, b.priority)) return 1 
-          if (this.calPriority(a.date, a.deadLine, a.completeRate, a.priority) > this.calPriority(b.date, b.deadLine, b.completeRate, b.priority)) return -1
+          if (
+            this.calPriority(a.date, a.deadLine, a.completeRate, a.priority) <
+            this.calPriority(b.date, b.deadLine, b.completeRate, b.priority)
+          )
+            return 1
+          if (
+            this.calPriority(a.date, a.deadLine, a.completeRate, a.priority) >
+            this.calPriority(b.date, b.deadLine, b.completeRate, b.priority)
+          )
+            return -1
           return 0
         })
     )
   }
 
-  /**
-   * calculates priority with certain condition????
-   * IT IS NOT COMPLETED!!!
-   */
   calPriority = (insertTime, deadLine, completeRate, priority) => {
-    ///////////////// UNCOMPLETED /////////////////
     let insertTimeT = this.getTimestamp(insertTime) / 1000
     let deadLineT = this.getTimestamp(deadLine) / 1000
     let priorityConstant = 0
-    let result = 0;
+    let result = 0
 
     if (priority === "urgent") {
       priorityConstant = 9999999999
@@ -69,9 +74,10 @@ class TodoList extends Component {
       priorityConstant = 7777777777
     }
     if (deadLineT === insertTimeT) {
-      result = (completeRate / 100) + priorityConstant
+      result = completeRate / 100 + priorityConstant
     } else {
-      result = (deadLineT - insertTimeT) / (completeRate / 100) + priorityConstant  
+      result =
+        (deadLineT - insertTimeT) / (completeRate / 100) + priorityConstant
     }
 
     return result
@@ -96,13 +102,10 @@ class TodoList extends Component {
   render() {
     return (
       <Aux styleName="TodoList">
-        {/* {this.state.isQuestionIDAvailable && toDoList} */}
         {this.sortByPriority().map(todo => {
-          {console.log('check', todo)}
           if (this.filterWithDate(todo.deadLine)) {
             return null
           }
-
 
           return (
             <Todo
@@ -130,5 +133,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { fetchTodosById }
+  { fetchTodosById, fetchGroupList }
 )(TodoList)

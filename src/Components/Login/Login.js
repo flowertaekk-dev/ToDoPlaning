@@ -5,9 +5,7 @@ import { Base64 } from "js-base64"
 
 import { ErrorMessage } from "../SignUp/SignUp"
 import Button from "../../UI/Button/Button"
-import Aux from "../../hoc/Auxiliary/Auxiliary"
 import firebase from "../../Utils/Config/firebase"
-import { fetchTodosById } from "../../store/actions/todoActions"
 import { saveUserId } from "../../store/actions/userActions"
 import "./Login.css"
 
