@@ -16,6 +16,10 @@ const todoReducer = (state = init, action) => {
     case actionTypes.FETCH_TODOS_BY_ID:
       clonedState.todoList = action.payload.todosById
       return clonedState
+    case actionTypes.ADD_TODO:
+      clonedState.selectedGroup = action.payload.selectedGroup
+      clonedState.membersBySelectedGroup = action.payload.membersBySelectedGroup
+      return clonedState
     default:
       return state
   }
