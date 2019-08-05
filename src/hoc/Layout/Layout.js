@@ -9,18 +9,24 @@ import "./Layout.css"
 
 class Layout extends Component {
   render() {
+    let mainDivStyle = {}
+    if (!this.props.userId) mainDivStyle = { width: "100%" }
+
     return (
       <Aux styleName="Layout">
         {/* HEADER */}
         <Header />
 
         {/* BODY */}
-        <main>{this.props.children}</main>
+        <main style={mainDivStyle}>{this.props.children}</main>
 
         {/* ASIDE */}
-        <aside>
-          <Calendar />
-        </aside>
+
+        {this.props.userId && (
+          <aside>
+            <Calendar />
+          </aside>
+        )}
 
         {/* MENU */}
         {this.props.isMenuOn && (
@@ -35,7 +41,8 @@ class Layout extends Component {
 
 const mapStateToProps = state => {
   return {
-    isMenuOn: state.common.menuClicked
+    isMenuOn: state.common.menuClicked,
+    userId: state.user.userId
   }
 }
 

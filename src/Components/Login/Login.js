@@ -82,36 +82,37 @@ class Login extends Component {
   }
 
   render() {
+    let mainDivStyle = {}
+    if (!this.props.userId) mainDivStyle = { width: "100%" }
+
     return (
-      <Aux>
-        <div className="Login">
-          <form onSubmit={this.singInHandler}>
-            <div className="title">
-              <h1>Log in</h1>
-            </div>
+      <div className="Login" style={mainDivStyle}>
+        <form onSubmit={this.singInHandler}>
+          <div className="title">
+            <h1>Log in</h1>
+          </div>
 
-            {/* I wonder if this below <div> can be also a Component */}
-            <div>
-              <input type="text" id="id" name="id" placeholder="ID" />
-              <ErrorMessage msg={this.state.idMessage} />
-            </div>
+          {/* I wonder if this below <div> can be also a Component */}
+          <div>
+            <input type="text" id="id" name="id" placeholder="ID" />
+            <ErrorMessage msg={this.state.idMessage} />
+          </div>
 
-            <div>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="password"
-              />
-              <ErrorMessage msg={this.state.passwordMessage} />
-            </div>
+          <div>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="password"
+            />
+            <ErrorMessage msg={this.state.passwordMessage} />
+          </div>
 
-            <div className="btn-container">
-              <Button type="submit">Sign in</Button>
-            </div>
-          </form>
-        </div>
-      </Aux>
+          <div className="btn-container">
+            <Button type="submit">Sign in</Button>
+          </div>
+        </form>
+      </div>
     )
   }
 }
