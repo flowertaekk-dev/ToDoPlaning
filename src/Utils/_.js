@@ -58,3 +58,15 @@ export function getCurrentDate() {
 
   return year + "-" + month + "-" + date
 }
+
+/**
+ * it returns number with prepending 0 if it is smaller than 10
+ * @param {number} num
+ */
+export function withLeadingZero(num) {
+  let target = num
+
+  if (typeof target === "string") target = parseInt(target)
+
+  return target < 10 ? "0" + target : target
+}

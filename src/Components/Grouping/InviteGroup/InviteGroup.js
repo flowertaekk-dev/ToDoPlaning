@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom"
 import { connect } from "react-redux"
 
 import firebase from "../../../Utils/Config/firebase"
+import Button from "../../../UI/Button/Button"
 import * as _ from "../../../Utils/_"
 import "./InviteGroup.css"
 
@@ -175,9 +176,12 @@ class InviteGroup extends Component {
           <div>
             <textarea rows="20" cols="70" name="comment" />
           </div>
-          <button type="submit" disabled={this.state.checkedUsers.length === 0}>
+          <Button
+            buttonType="submit"
+            buttonDisabled={this.state.checkedUsers.length === 0}
+          >
             INVITE TO GROUP
-          </button>
+          </Button>
           <span>{this.state.errMessage}</span>
         </form>
       </div>

@@ -4,6 +4,7 @@ import { connect } from "react-redux"
 
 import firebase from "../../../Utils/Config/firebase"
 import { addGroup } from "../../../store/actions/groupActions"
+import Button from "../../../UI/Button/Button"
 import "./AddGroup.css"
 
 class AddGroup extends Component {
@@ -62,8 +63,8 @@ class AddGroup extends Component {
         <form onSubmit={this.submitHandler}>
           <input type="text" placeholder="Group name" name="groupName" />
           <div>
-            <button type="submit">ADD GROUP</button>
-            <button onClick={this.cancelHandler}>CANCEL</button>
+            <Button buttonType="submit">ADD GROUP</Button>
+            <Button clicked={this.cancelHandler}>CANCEL</Button>
           </div>
           {error}
         </form>

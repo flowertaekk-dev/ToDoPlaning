@@ -1,8 +1,37 @@
-.Login{position: absolute; margin: 0 auto; top:68px; width: 100%; text-align: center}
-.Login .title {margin-bottom: 10px}
-.Login form {width: 50%; margin: 0 auto; padding: 16px 0 ; border: 1px solid #eee; box-shadow: 0 1px 2px #ccc}
-.Login form h1 {color: #555;}
-.Login form div {margin: 4px 0}
-.Login form div input {border: 1px solid #eee; box-shadow: 0 1px 2px #ccc}
-.Login form div button {border: 1px solid #eee; box-shadow: 0 1px 1px #ccc; padding: 6px; background-color: white; margin-right: 4px}
-.Login form div.btn-container {margin-top: 10px}
+.Login {
+  position: absolute;
+  margin: 0 auto;
+  top: 68px;
+  width: 80%;
+  text-align: center;
+}
+.Login .title {
+  margin-bottom: 10px;
+}
+.Login form {
+  width: 50%;
+  margin: 0 auto;
+  padding: 16px 0;
+  border: 1px solid #eee;
+  box-shadow: 0 1px 2px #ccc;
+}
+.Login form h1 {
+  color: #555;
+}
+.Login form div {
+  margin: 4px 0;
+}
+.Login form div input {
+  border: 1px solid #eee;
+  box-shadow: 0 1px 2px #ccc;
+}
+.Login form div button {
+  border: 1px solid #eee;
+  box-shadow: 0 1px 1px #ccc;
+  padding: 6px;
+  background-color: white;
+  margin-right: 4px;
+}
+.Login form div.btn-container {
+  margin-top: 10px;
+}

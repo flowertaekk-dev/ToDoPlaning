@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom"
 import { connect } from "react-redux"
 
 import * as actionTypes from "../../store/Actiontypes/actionTypes"
+import Button from "../../UI/Button/Button"
 import { Base64 } from "js-base64"
 import firebase from "../../Utils/Config/firebase"
 
@@ -118,8 +119,8 @@ class SignUp extends Component {
             </div>
 
             <div className="btn-container">
-              <button type="submit">Register</button>
-              <button onClick={this.props.history.goBack}>CANCEL</button>
+              <Button buttonType="submit">Register</Button>
+              <Button clicked={this.props.history.goBack}>CANCEL</Button>
             </div>
           </form>
         </div>

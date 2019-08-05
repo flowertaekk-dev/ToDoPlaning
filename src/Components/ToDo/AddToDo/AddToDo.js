@@ -4,6 +4,7 @@ import { connect } from "react-redux"
 import lodash from 'lodash'
 
 import firebase from "../../../Utils/Config/firebase"
+import Button from "../../../UI/Button/Button"
 import * as _ from "../../../Utils/_"
 import "./AddToDo.css"
 
@@ -298,8 +299,8 @@ class AddToDo extends Component {
     const submitBtn = (
       <tr>
         <td colSpan="2" className="td-button-center">
-          <button type="submit">Add</button>
-          <button onClick={this.cancelHandler}>CANCEL</button>
+          <Button buttonType="submit">Add</Button>
+          <Button clicked={this.cancelHandler}>CANCEL</Button>
         </td>
       </tr>
     )

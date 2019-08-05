@@ -2,48 +2,59 @@ import React, { Component, Fragment } from "react"
 import { withRouter } from "react-router-dom"
 
 import UpdateToDo from "../UpdateToDo/UpdateToDo"
+import Button from "../../../UI/Button/Button"
 import "./ToDo.css"
 
 // flowertaekk.dev
 class ToDo extends Component {
-  constructor(props) {
-    super(props)
+  state = {
+    isUpdate: false
+  }
 
-    this.state = {
-      isUpdate: false
-    }
+  componentDidMount() {
+    // init
+    this.setState({
+      ...this.state,
+      todo: this.props.todo,
+      deadLine: this.props.deadLine,
+      priority: this.props.priority,
+      completeRate: this.props.completeRate,
+      details: this.props.details
+    })
   }
 
   // moves to Update mode
   updateBtnClickedHandler = () => {
     this.setState({
+      ...this.state,
       isUpdate: !this.state.isUpdate
     })
   }
 
   cancelUpdateHandler = () => {
     this.setState({
+      ...this.state,
       isUpdate: !this.state.isUpdate
     })
   }
 
   saveUpdatedDataHandler = () => {
     this.setState({
+      ...this.state,
       isUpdate: !this.state.isUpdate
     })
-
-    // initializes and reload state from firebase
-    this.props.initState()
-    this.props.reloadTodos()
   }
 
   changeDataHandler = e => {
-    this.props.updateTodo()(e)
+    this.setState({
+      ...this.state,
+      [e.target.name]: e.target.value
+    })
   }
 
   render() {
     const todoTitle = (
-      <tr>
+      <tr className="title">
         <th scope="row">TODO</th>
         <td>{this.props.todo}</td>
       </tr>
@@ -69,12 +80,8 @@ class ToDo extends Component {
         </tr>
         <tr>
           <td colSpan="2" className="btn-container">
-            <button onClick={this.updateBtnClickedHandler} className="btn">
-              UPDATE
-            </button>
-            <button onClick={this.props.deleteClicked} className="btn">
-              DELETE
-            </button>
+            <Button clicked={this.updateBtnClickedHandler}>Update</Button>
+            <Button clicked={this.props.deleteClicked}>Delete</Button>
           </td>
         </tr>
       </Fragment>
@@ -89,8 +96,8 @@ class ToDo extends Component {
             {this.state.isUpdate ? (
               <UpdateToDo
                 id={this.props.id}
-                deadLine={this.props.deadLine}
-                taskDetails={this.props.details}
+                deadLine={this.state.deadLine}
+                taskDetails={this.state.details}
                 updateTodoContents={this.changeDataHandler}
                 cancelClicked={this.cancelUpdateHandler}
                 saveClicked={this.saveUpdatedDataHandler}

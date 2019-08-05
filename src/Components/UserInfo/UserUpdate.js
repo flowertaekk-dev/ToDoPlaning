@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom"
 import { connect } from "react-redux"
 
 import firebase from "../../Utils/Config/firebase"
+import Button from "../../UI/Button/Button"
 import { Base64 } from "js-base64"
 import "./UserUpdate.css"
 
@@ -130,15 +131,15 @@ class UserUpdate extends Component {
             </div>
 
             <div className="btn-container">
-              <button type="submit">Update</button>
-              <button
-                type="button"
-                onClick={() => {
+              <Button buttonType="submit">Update</Button>
+              <Button
+                buttonType="button"
+                clicked={() => {
                   this.props.history.replace("/todoList", true)
                 }}
               >
                 Cancel
-              </button>
+              </Button>
             </div>
           </form>
         </div>
