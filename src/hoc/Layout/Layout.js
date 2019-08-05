@@ -1,48 +1,54 @@
-import React, { Component } from "react"
+import React from "react"
 import { connect } from "react-redux"
 
 import Aux from "../Auxiliary/Auxiliary"
 import Header from "../../Components/Header/Header"
 import NavigationItems from "../../Components/NavigationItems/NavigationItems"
 import Calendar from "../../UI/Calendar/Calendar"
+import * as _ from "../../Utils/_"
 import "./Layout.css"
 
-class Layout extends Component {
-  render() {
-    let mainDivStyle = {}
-    if (!this.props.userId) mainDivStyle = { width: "100%" }
+const Layout = props => {
+  return (
+    <Aux styleName="Layout">
+      {/* HEADER */}
+      <Header />
 
-    return (
-      <Aux styleName="Layout">
-        {/* HEADER */}
-        <Header />
+      {/* BODY */}
+      <main>{props.children}</main>
 
-        {/* BODY */}
-        <main style={mainDivStyle}>{this.props.children}</main>
+      {/* ASIDE */}
 
-        {/* ASIDE */}
+      {props.userId && (
+        <aside>
+          <Calendar />
+          <div className="groupNameList">
+            <ul>
+              {_.map(props.groupNames, groupName => (
+                <li key={groupName} /** onClicked={fetchTodosByGroupName} */>
+                  {groupName}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </aside>
+      )}
 
-        {this.props.userId && (
-          <aside>
-            <Calendar />
-          </aside>
-        )}
-
-        {/* MENU */}
-        {this.props.isMenuOn && (
-          <nav className="menu">
-            <NavigationItems />
-          </nav>
-        )}
-      </Aux>
-    )
-  }
+      {/* MENU */}
+      {props.isMenuOn && (
+        <nav className="menu">
+          <NavigationItems />
+        </nav>
+      )}
+    </Aux>
+  )
 }
 
 const mapStateToProps = state => {
   return {
     isMenuOn: state.common.menuClicked,
-    userId: state.user.userId
+    userId: state.user.userId,
+    groupNames: state.group.groupNames
   }
 }
 
