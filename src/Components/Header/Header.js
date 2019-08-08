@@ -1,7 +1,6 @@
 import React from "react"
 import { Link } from "react-router-dom"
 
-import NavigationItems from "../NavigationItems/NavigationItems"
 import HamburgerButton from "../../UI/HamburgerButton/HamburgerButton"
 import "./Header.css"
 

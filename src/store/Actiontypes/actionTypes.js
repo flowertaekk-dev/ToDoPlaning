@@ -26,6 +26,8 @@ export const ADD_TODO = "ADD_TODO"
 export const UPDATE_TODO = "UPDATE_TODO"
 export const DELETE_TODO = "DELETE_TODO"
 export const FETCH_TODOS_BY_ID = "FETCH_TODOS_BY_ID"
+export const SHOW_TODO_DETAIL = "SHOW_TODO_DETAIL"
+export const EXIT_TODO_DETAIL = "EXIT_TODO_DETAIL"
 
 // MESSAGE
 export const FETCH_MESSAGES = "FETCH_MESSAGES"

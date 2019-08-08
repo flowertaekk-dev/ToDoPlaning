@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from "react"
 import { withRouter } from "react-router-dom"
+import { connect } from "react-redux"
 
+import { showToDoDetail } from "../../../store/actions/todoActions"
 import UpdateToDo from "../UpdateToDo/UpdateToDo"
 import Button from "../../../UI/Button/Button"
 import "./ToDo.css"
@@ -52,6 +54,36 @@ class ToDo extends Component {
     })
   }
 
+  toggleShowDetail = () => {
+    const {
+      author,
+      completeRate,
+      date,
+      deadLine,
+      details,
+      group,
+      id,
+      manager,
+      priority,
+      todo
+    } = this.props
+
+    const todoObj = {
+      author,
+      completeRate,
+      date,
+      deadLine,
+      details,
+      group,
+      id,
+      manager,
+      priority,
+      todo
+    }
+
+    this.props.showToDoDetail(todoObj)
+  }
+
   render() {
     const todoTitle = (
       <tr className="title">
@@ -88,7 +120,7 @@ class ToDo extends Component {
     )
 
     return (
-      <li className="ToDo">
+      <li className="ToDo" onClick={this.toggleShowDetail}>
         <table>
           <caption>ToDo</caption>
           <tbody>
@@ -112,4 +144,13 @@ class ToDo extends Component {
   }
 }
 
-export default withRouter(ToDo)
+const mapStateToProps = state => {
+  return {
+    showToDoDetail: state.todo.showToDoDetail
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  { showToDoDetail }
+)(withRouter(ToDo))

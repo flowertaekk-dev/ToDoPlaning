@@ -1,0 +1,47 @@
+.ToDoDetail {
+  display: inline-block;
+  margin-top: 52px;
+  height: 100vh;
+  width: 100%;
+  line-height: 1.1em;
+}
+
+.ToDoDetail .wrap {
+  width: 80%;
+  margin: 16px auto;
+  border: 1px solid #e2e4e6;
+  border-radius: 4px;
+}
+
+.ToDoDetail .wrap .contents h2 {
+  border-bottom: 1px solid #e2e4e6;
+  background-color: #ebecee;
+  padding-left: 8px;
+  font-size: 1.5em;
+  line-height: 48px;
+}
+
+.ToDoDetail .wrap .contents .content {
+  border-bottom: 1px solid #e2e4e6;
+  line-height: 32px;
+}
+
+.ToDoDetail .wrap .contents .content span.title {
+  display: inline-block;
+  width: 10%;
+  margin-right: 32px;
+  padding-left: 8px;
+  font-weight: bold;
+}
+
+.ToDoDetail .wrap .contents .content span.seperator {
+  display: inline-block;
+  margin-right: 8px;
+  color: #ebecee;
+}
+
+.ToDoDetail .wrap .contents .content p {
+  display: inline-block;
+  line-height: 1.7em;
+  margin: 0 8px;
+}
