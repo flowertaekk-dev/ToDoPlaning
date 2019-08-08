@@ -1,6 +1,5 @@
 import firebase from "../../Utils/Config/firebase"
 import * as actionTypes from "../Actiontypes/actionTypes"
-import * as _ from "../../Utils/_"
 
 export const fetchTodosById = userId => dispatch => {
   const rootRef = firebase.database().ref()
@@ -23,7 +22,10 @@ export const getMembersBySelectedGroup = e => dispatch => {
   if (selectedGroup === "none") {
     dispatch({
       type: actionTypes.ADD_TODO,
-      payload: { selectedGroup: "none", membersBySelectedGroup: ["Select group"] }
+      payload: {
+        selectedGroup: "none",
+        membersBySelectedGroup: ["Select group"]
+      }
     })
     return
   }
@@ -37,8 +39,19 @@ export const getMembersBySelectedGroup = e => dispatch => {
       const membersBySelectedGroup = { ...res.val() }
       dispatch({
         type: actionTypes.ADD_TODO,
-        payload: { selectedGroup: selectedGroup, membersBySelectedGroup: membersBySelectedGroup }
+        payload: {
+          selectedGroup: selectedGroup,
+          membersBySelectedGroup: membersBySelectedGroup
+        }
       })
     })
     .catch(err => console.error(err))
+}
+
+export const showToDoDetail = todo => dispatch => {
+  dispatch({ type: actionTypes.SHOW_TODO_DETAIL, payload: { info: todo } })
+}
+
+export const exitToDoDetail = () => dispatch => {
+  dispatch({ type: actionTypes.EXIT_TODO_DETAIL })
 }

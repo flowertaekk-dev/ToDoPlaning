@@ -7,6 +7,12 @@
   width: 80%;
 }
 
+.ToDo:active,
+.ToDo:hover {
+  cursor: pointer;
+  background-color: #f4f5f6;
+}
+
 .ToDo tr.title {
   border-bottom: 1px solid #e2e4e6;
 }
