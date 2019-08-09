@@ -109,7 +109,7 @@ class AddToDo extends Component {
   }
 
   editSelectedDateHandler = e => {
-    // when the event is from Group(select), fetches members ID by group name
+    // when the event is from Group(select), fetches members' ID by group name
     if (e.target.name === "group") {
       this.props.fetchMemberByGroup(e.target.value)
     }

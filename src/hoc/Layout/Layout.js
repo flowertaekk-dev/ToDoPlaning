@@ -1,4 +1,5 @@
 import React from "react"
+import { withRouter } from "react-router-dom"
 import { connect } from "react-redux"
 
 import Aux from "../Auxiliary/Auxiliary"
@@ -10,6 +11,10 @@ import * as _ from "../../Utils/_"
 import "./Layout.css"
 
 const Layout = props => {
+  // useEffect(() => {
+  //   console.log(props.location.pathname)
+  // }, [props.location.pathname])
+
   return (
     <Aux styleName="Layout">
       {/* HEADER */}
@@ -17,7 +22,11 @@ const Layout = props => {
 
       {/* BODY */}
       {/* もっといい方法があるかな…？ */}
-      {props.showToDoDetail ? <ToDoDetail /> : <main>{props.children}</main>}
+      {props.showToDoDetail && props.location.pathname === "/todoList" ? (
+        <ToDoDetail />
+      ) : (
+        <main>{props.children}</main>
+      )}
 
       {/* ASIDE */}
 
@@ -55,4 +64,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(Layout)
+export default connect(mapStateToProps)(withRouter(Layout))
