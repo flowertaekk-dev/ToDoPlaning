@@ -29,7 +29,6 @@ const Layout = props => {
       )}
 
       {/* ASIDE */}
-
       {props.userId && !props.showToDoDetail && (
         <aside>
           <Calendar />
