@@ -34,3 +34,15 @@ export const addGroup = (userId, groupName) => async dispatch => {
 
   dispatch({ type: actionTypes.ADD_GROUP })
 }
+
+export const fetchMemberByGroup = groupName => dispatch => {
+  const rootRef = firebase.database().ref()
+  const groupRef = rootRef.child("group/" + groupName)
+  const memberRef = groupRef.child("member")
+  memberRef.on("value", snap => {
+    dispatch({
+      type: actionTypes.GET_MEMBERS_BY_GROUP,
+      payload: { membersByGroup: snap.val() }
+    })
+  })
+}

@@ -24,8 +24,9 @@
 }
 
 .Layout aside {
+  position: fixed;
   margin-top: 52px;
-  float: left;
+  right: 0;
   width: 25%;
   height: 100vh;
 }

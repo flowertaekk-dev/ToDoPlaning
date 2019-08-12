@@ -113,7 +113,6 @@ class ToDo extends Component {
         <tr>
           <td colSpan="2" className="btn-container">
             <Button clicked={this.updateBtnClickedHandler}>Update</Button>
-            <Button clicked={this.props.deleteClicked}>Delete</Button>
           </td>
         </tr>
       </Fragment>

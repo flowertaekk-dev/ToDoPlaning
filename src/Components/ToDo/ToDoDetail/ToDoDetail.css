@@ -34,7 +34,7 @@
   font-weight: bold;
 }
 
-.ToDoDetail .wrap .contents .content span.seperator {
+.ToDoDetail .wrap .contents .content span.separator {
   display: inline-block;
   margin-right: 8px;
   color: #ebecee;
@@ -43,5 +43,9 @@
 .ToDoDetail .wrap .contents .content p {
   display: inline-block;
   line-height: 1.7em;
+  margin: 0 8px;
+}
+
+.ToDoDetail .wrap .btn button {
   margin: 0 8px;
 }

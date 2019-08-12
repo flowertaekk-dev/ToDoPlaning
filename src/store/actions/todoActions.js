@@ -1,6 +1,10 @@
 import firebase from "../../Utils/Config/firebase"
 import * as actionTypes from "../Actiontypes/actionTypes"
 
+/**
+ * fetches list of todos by userID
+ * @param {string} userId : userID
+ */
 export const fetchTodosById = userId => dispatch => {
   const rootRef = firebase.database().ref()
   const todosRef = rootRef.child("todos")
@@ -15,7 +19,10 @@ export const fetchTodosById = userId => dispatch => {
     })
 }
 
-// gets members data from firebase according to selected group
+/**
+ * gets members data from firebase according to selected group
+ * @param {Object} e : event object
+ */
 export const getMembersBySelectedGroup = e => dispatch => {
   const selectedGroup = e.target.value
   if (!selectedGroup) return
@@ -48,10 +55,29 @@ export const getMembersBySelectedGroup = e => dispatch => {
     .catch(err => console.error(err))
 }
 
+/**
+ * gets todo details
+ * @param {Object} todo : todo information to show in ToDoDetail page
+ */
 export const showToDoDetail = todo => dispatch => {
   dispatch({ type: actionTypes.SHOW_TODO_DETAIL, payload: { info: todo } })
 }
-
+/**
+ * exits todo details page
+ */
 export const exitToDoDetail = () => dispatch => {
   dispatch({ type: actionTypes.EXIT_TODO_DETAIL })
+}
+
+/**
+ * deletes a certain todo
+ * @param {string} todoId : the target Id to be removed
+ */
+export const deleteToDo = todoId => dispatch => {
+  const rootRef = firebase.database().ref()
+  const todosRef = rootRef.child("todos")
+  const todoRef = todosRef.child(todoId)
+  todoRef.remove()
+
+  dispatch({ type: actionTypes.DELETE_TODO })
 }

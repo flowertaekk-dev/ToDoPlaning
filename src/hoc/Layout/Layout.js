@@ -1,4 +1,5 @@
 import React from "react"
+import { withRouter } from "react-router-dom"
 import { connect } from "react-redux"
 
 import Aux from "../Auxiliary/Auxiliary"
@@ -10,6 +11,17 @@ import * as _ from "../../Utils/_"
 import "./Layout.css"
 
 const Layout = props => {
+  // useEffect(() => {
+  //   console.log(props.location.pathname)
+  // }, [props.location.pathname])
+
+  /**
+   * checks current path is '/todoList'
+   */
+  const isCurrentPath_todoList = () => {
+    return props.history.location.pathname === "/todoList"
+  }
+
   return (
     <Aux styleName="Layout">
       {/* HEADER */}
@@ -17,11 +29,25 @@ const Layout = props => {
 
       {/* BODY */}
       {/* もっといい方法があるかな…？ */}
-      {props.showToDoDetail ? <ToDoDetail /> : <main>{props.children}</main>}
+      {props.showToDoDetail && isCurrentPath_todoList() ? (
+        <ToDoDetail />
+      ) : (
+        <main
+          style={
+            !isCurrentPath_todoList()
+              ? {
+                  width: "100%"
+                }
+              : null
+          }
+        >
+          {props.children}
+        </main>
+      )}
 
       {/* ASIDE */}
-
-      {props.userId && !props.showToDoDetail && (
+      {/* if we are able to redirect to '/Login' when user has not logged in, this code might be simplier */}
+      {props.userId && !props.showToDoDetail && isCurrentPath_todoList() && (
         <aside>
           <Calendar />
           <div className="groupNameList">
@@ -55,4 +81,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(Layout)
+export default connect(mapStateToProps)(withRouter(Layout))
