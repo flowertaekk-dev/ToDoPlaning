@@ -13,8 +13,7 @@ class InviteGroup extends Component {
     users: {},
     suggestedUserIds: [],
     checkedUsers: [],
-    selectedGroup: "none",
-    errMessage: null
+    selectedGroup: "none"
   }
 
   componentDidMount() {
