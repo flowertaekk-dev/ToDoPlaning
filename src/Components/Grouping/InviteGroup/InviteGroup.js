@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import { withRouter } from "react-router-dom"
 import { connect } from "react-redux"
 
+import Aux from "../../../hoc/Auxiliary/Auxiliary"
 import firebase from "../../../Utils/Config/firebase"
 import Button from "../../../UI/Button/Button"
 import * as _ from "../../../Utils/_"
@@ -130,61 +131,80 @@ class InviteGroup extends Component {
 
   render() {
     return (
-      <div className="InviteGroup">
-        <label htmlFor="searchUser">Search user</label>
-        <input
-          id="searchUser"
-          type="text"
-          onChange={this.searchUserIdWithHashHandler}
-        />
-        <form onSubmit={this.submitHandler}>
-          <div>
-            <select
-              name="selectedGroup"
-              onChange={this.onChangeHandler}
-              required
-            >
-              <option>none</option>
-              {_.map(this.props.groupNames, group => (
-                <option key={group} name="groups">
-                  {group}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <strong>Suggested users</strong>
-          </div>
-          <div>
-            {this.state.suggestedUserIds.map(suggestedUserId => {
-              // TODO ignore if suggestedUserId is current user's ID
-              if (suggestedUserId === this.props.userId) return null
+      <Aux styleName="InviteGroup">
+        <div className="wrap">
+          <form onSubmit={this.submitHandler}>
+            <div className="content">
+              <span className="title">Target group</span>
+              <span className="separator">|</span>
+              <select
+                name="selectedGroup"
+                onChange={this.onChangeHandler}
+                required
+              >
+                <option>none</option>
+                {_.map(this.props.groupNames, group => (
+                  <option key={group} name="groups">
+                    {group}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-              return (
-                <label key={`${suggestedUserId}_label`}>
-                  {suggestedUserId}
-                  <input
-                    type="checkbox"
-                    key={suggestedUserId}
-                    name={suggestedUserId}
-                    onChange={this.valueCheckedHandler}
-                  />
-                </label>
-              )
-            })}
-          </div>
-          <div>
-            <textarea rows="20" cols="70" name="comment" />
-          </div>
-          <Button
-            buttonType="submit"
-            buttonDisabled={this.state.checkedUsers.length === 0}
-          >
-            INVITE TO GROUP
-          </Button>
-          <span>{this.state.errMessage}</span>
-        </form>
-      </div>
+            <div className="content">
+              <span className="title">Target user</span>
+              <span className="separator">|</span>
+              <input
+                id="searchUser"
+                type="text"
+                onChange={this.searchUserIdWithHashHandler}
+              />
+            </div>
+
+            <div className="content">
+              <span className="title">Searched Users</span>
+              <span className="separator">|</span>
+              <div>
+                {this.state.suggestedUserIds.map(suggestedUserId => {
+                  // TODO is this enough?
+                  if (suggestedUserId === this.props.userId) return null
+
+                  return (
+                    <div key={`${suggestedUserId}_label`} className="ck-button">
+                      <label>
+                        <input
+                          type="checkbox"
+                          key={suggestedUserId}
+                          name={suggestedUserId}
+                          onChange={this.valueCheckedHandler}
+                        />
+                        <span>{suggestedUserId}</span>
+                      </label>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+
+            <div className="content">
+              <span className="title">Message</span>
+              <span className="separator">|</span>
+              <div className="comment-wrap">
+                <textarea name="comment" />
+              </div>
+            </div>
+
+            <div className="btn">
+              <Button
+                buttonType="submit"
+                buttonDisabled={this.state.checkedUsers.length === 0}
+              >
+                INVITE TO GROUP
+              </Button>
+            </div>
+          </form>
+        </div>
+      </Aux>
     )
   }
 }

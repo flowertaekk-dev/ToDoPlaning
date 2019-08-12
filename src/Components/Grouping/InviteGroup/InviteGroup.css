@@ -1,6 +1,81 @@
 .InviteGroup {
-  position: absolute;
-  top: 100px;
-  left: 50%;
-  margin-left: -100px;
+  /* position: absolute; */
+  /* top: 100px; */
+  /* left: 50%; */
+  /* margin-left: -100px; */
+
+  /* margin-top: 52px; */
+  display: inline-block;
+  width: 100%;
 }
+
+.InviteGroup .wrap {
+  width: 80%;
+  margin: 16px auto;
+  border: 1px solid #e2e4e6;
+  border-radius: 4px;
+}
+.InviteGroup .wrap .content {
+  border-bottom: 1px solid #e2e4e6;
+  line-height: 32px;
+}
+
+.InviteGroup .wrap .content span.title {
+  display: inline-block;
+  width: 14%;
+  margin-right: 32px;
+  padding-left: 8px;
+  font-weight: bold;
+}
+
+.InviteGroup .wrap .content span.separator {
+  display: inline-block;
+  margin-right: 8px;
+  color: #ebecee;
+}
+
+.InviteGroup .wrap .content .comment-wrap {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.InviteGroup .wrap .content .comment-wrap textarea {
+  width: 100%;
+  height: 80px;
+}
+
+/************************** 
+           Checkbox
+**************************/
+.InviteGroup .wrap .content .ck-button {
+  display: inline-block;
+  margin: 4px;
+  border-radius: 4px;
+  border: 1px solid #d0d0d0;
+  overflow: auto;
+  width: 10%;
+}
+
+.InviteGroup .wrap .content .ck-button:hover {
+  background-color: #ebecee;
+  cursor: pointer;
+}
+
+.InviteGroup .wrap .content .ck-button label span {
+  text-align: center;
+  display: block;
+}
+
+.InviteGroup .wrap .content .ck-button label input {
+  position: absolute;
+  top: -20px;
+}
+
+.InviteGroup .wrap .content .ck-button input:checked + span {
+  background-color: #7bcdde;
+  color: #fff;
+}
+
+/************************** 
+          /Checkbox
+**************************/

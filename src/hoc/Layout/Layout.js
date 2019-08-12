@@ -15,6 +15,13 @@ const Layout = props => {
   //   console.log(props.location.pathname)
   // }, [props.location.pathname])
 
+  /**
+   * checks current path is '/todoList'
+   */
+  const isCurrentPath_todoList = () => {
+    return props.history.location.pathname === "/todoList"
+  }
+
   return (
     <Aux styleName="Layout">
       {/* HEADER */}
@@ -22,14 +29,25 @@ const Layout = props => {
 
       {/* BODY */}
       {/* もっといい方法があるかな…？ */}
-      {props.showToDoDetail && props.location.pathname === "/todoList" ? (
+      {props.showToDoDetail && isCurrentPath_todoList() ? (
         <ToDoDetail />
       ) : (
-        <main>{props.children}</main>
+        <main
+          style={
+            !isCurrentPath_todoList()
+              ? {
+                  width: "100%"
+                }
+              : null
+          }
+        >
+          {props.children}
+        </main>
       )}
 
       {/* ASIDE */}
-      {props.userId && !props.showToDoDetail && (
+      {/* if we are able to redirect to '/Login' when user has not logged in, this code might be simplier */}
+      {props.userId && !props.showToDoDetail && isCurrentPath_todoList() && (
         <aside>
           <Calendar />
           <div className="groupNameList">
