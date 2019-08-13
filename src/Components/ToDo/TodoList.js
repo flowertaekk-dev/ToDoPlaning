@@ -2,23 +2,33 @@ import React, { Component } from "react"
 import { connect } from "react-redux"
 
 import * as _ from "../../Utils/_"
+import { fetchTodosByGroupId } from "../../store/actions/todoActions"
+import { fetchGroupListAsync } from "../../store/actions/groupActions"
 import { fetchTodosById } from "../../store/actions/todoActions"
-import { fetchGroupList } from "../../store/actions/groupActions"
 import Todo from "./ToDo/ToDo"
 import firebase from "../../Utils/Config/firebase"
 import Aux from "../../hoc/Auxiliary/Auxiliary"
+import Button from "../../UI/Button/Button"
 import "./TodoList.css"
 
 // flowertaekk.dev
 class TodoList extends Component {
+  state = {
+    todoList: null
+  }
+
   componentDidMount() {
     this.hasMounted = true
-    this.props.fetchTodosById(this.props.userId)
-    this.props.fetchGroupList(this.props.userId)
+    this.props.fetchGroupListAsync(this.props.userId)
   }
 
   componentWillUnmount() {
     this.hasMounted = false
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('test', this.props.todoList)
+    return true
   }
 
   filterWithDate = deadLine => {
@@ -99,23 +109,59 @@ class TodoList extends Component {
     todoRef.remove()
   }
 
+  getTodoList() {
+    const selectedGroupVal = this.refs.groupRef.value
+
+    if (selectedGroupVal !== "unSelected") {
+      this.props.fetchTodosByGroupId(selectedGroupVal)
+    } else {
+      this.props.fetchTodosById(this.props.userId)
+    }
+    // this.setState({
+    //   todoList: this.props.todoList
+    // })
+  }
+
   render() {
+    const selectBox = (
+      <select name="todoListGroup" ref="groupRef" required>
+        <option key="none" value="unSelected">
+          none
+        </option>
+        {_.map(this.props.groupNamesAsync, groupName => (
+          <option key={groupName} value={groupName}>
+            {groupName}
+          </option>
+        ))}
+      </select>
+    )
+
+    const getTodoListButton = (
+      <Button clicked={this.getTodoList.bind(this)}>getTodoList</Button>
+    )
+
     return (
       <Aux styleName="TodoList">
-        {this.sortByPriority().map(todo => {
-          if (this.filterWithDate(todo.deadLine)) {
-            return null
-          }
+        {this.props.todoList
+          ? this.sortByPriority().map(todo => {
+              if (this.filterWithDate(todo.deadLine)) {
+                return null
+              }
 
-          return (
-            <Todo
-              key={todo.id}
-              {...todo}
-              deleteClicked={() => this.deleteToDoHandler(todo.id)}
-              updateTodo={() => this.updateTodoHandler(todo.id)}
-            />
-          )
-        })}
+              return (
+                <Todo
+                  key={todo.id}
+                  {...todo}
+                  deleteClicked={() => this.deleteToDoHandler(todo.id)}
+                  updateTodo={() => this.updateTodoHandler(todo.id)}
+                />
+              )
+            })
+          : null}
+        <div>
+          {selectBox}
+          {getTodoListButton}
+        </div>
       </Aux>
     )
   }
@@ -127,11 +173,12 @@ const mapStateToProps = state => {
     todoList: state.todo.todoList,
     year: state.common.date.year,
     month: state.common.date.month + 1,
-    date: state.common.date.date
+    date: state.common.date.date,
+    groupNamesAsync: state.group.groupNamesAsync
   }
 }
 
 export default connect(
   mapStateToProps,
-  { fetchTodosById, fetchGroupList }
+  { fetchTodosById, fetchTodosByGroupId, fetchGroupListAsync }
 )(TodoList)

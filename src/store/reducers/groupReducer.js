@@ -19,6 +19,8 @@ const groupReducer = (state = init, action) => {
       return state
     case actionTypes.FETCH_GROUP_NAMES:
       return { ...state, groupNames: action.payload.groupNames }
+    case actionTypes.FETCH_GROUP_NAMES_ASYNC:
+      return { ...state, groupNamesAsync: action.payload.groupNamesAsync }
     case actionTypes.GET_MEMBERS_BY_GROUP:
       return { ...state, membersByGroup: action.payload.membersByGroup }
     default:

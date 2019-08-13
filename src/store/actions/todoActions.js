@@ -2,12 +2,13 @@ import firebase from "../../Utils/Config/firebase"
 import * as actionTypes from "../Actiontypes/actionTypes"
 
 /**
- * fetches list of todos by userID
+ * fetches list of todos by userID, groupId
  * @param {string} userId : userID
  */
 export const fetchTodosById = userId => dispatch => {
   const rootRef = firebase.database().ref()
   const todosRef = rootRef.child("todos")
+
   todosRef
     .orderByChild("manager")
     .equalTo(userId)
@@ -17,6 +18,27 @@ export const fetchTodosById = userId => dispatch => {
         payload: { todosById: snap.val() }
       })
     })
+}
+
+export const fetchTodosByGroupId = groupId => async dispatch => {
+  const rootRef = firebase.database().ref()
+  const todosRef = rootRef.child("todos")
+
+  await todosRef
+    .orderByChild("group")
+    .equalTo(groupId)
+    .once("value")
+    .then(res => {
+      const todosByGroupId = { ...res.val() }
+      
+      dispatch({
+        type: actionTypes.FETCH_TODOS_BY_GROUPID,
+        payload: {
+          todoList: todosByGroupId
+        }
+      })
+    })
+    .catch(err => console.error(err))
 }
 
 /**

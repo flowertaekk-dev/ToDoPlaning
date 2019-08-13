@@ -12,6 +12,23 @@ export const fetchGroupList = userId => dispatch => {
   })
 }
 
+export const fetchGroupListAsync = userId => dispatch => {
+  const rootRef = firebase.database().ref()
+  const usersRef = rootRef.child("users/" + userId)
+
+  usersRef.child("group").once("value")
+    .then(snap => {
+      const groupNames = { ...snap.val() }
+      dispatch({
+        type: actionTypes.FETCH_GROUP_NAMES_ASYNC,
+        payload: {
+          groupNamesAsync: groupNames
+        }
+      })
+    })
+    .catch(err => console.error(err))
+}
+
 export const addGroup = (userId, groupName) => async dispatch => {
   const rootRef = firebase.database().ref()
   const groupsRef = rootRef.child("group")
