@@ -1,4 +1,35 @@
 .AddTodo {
-  position: absolute;
+  /* position: absolute; */
   top: 100px;
+}
+
+.AddTodo .wrap {
+  width: 80%;
+  margin: 16px auto;
+  border: 1px solid #e2e4e6;
+  border-radius: 4px;
+}
+
+.AddTodo .wrap .content {
+  border-bottom: 1px solid #e2e4e6;
+  line-height: 32px;
+}
+
+.AddTodo .wrap .content span.title {
+  display: inline-block;
+  width: 14%;
+  margin-right: 32px;
+  padding-left: 8px;
+  font-weight: bold;
+}
+
+.AddTodo .wrap .content span.separator {
+  display: inline-block;
+  margin-right: 8px;
+  color: #ebecee;
+}
+
+.AddTodo .wrap .content input,
+.AddTodo .wrap .content textarea {
+  width: 70%;
 }
