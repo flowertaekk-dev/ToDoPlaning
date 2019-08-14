@@ -33,3 +33,11 @@
 .AddTodo .wrap .content textarea {
   width: 70%;
 }
+
+.AddTodo .wrap .content h2 {
+  border-bottom: 1px solid #f4f5f6;
+  background-color: #f4f5f6;
+  padding-left: 8px;
+  font-size: 1.5em;
+  line-height: 48px;
+}
