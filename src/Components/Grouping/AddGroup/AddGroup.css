@@ -1,4 +1,48 @@
 .AddGroup {
+  /* position: absolute; */
+  top: 100px;
+}
+
+.AddGroup .wrap {
+  width: 80%;
+  margin: 16px auto;
+  border: 1px solid #e2e4e6;
+  border-radius: 4px;
+}
+
+.AddGroup .wrap .content {
+  border-bottom: 1px solid #e2e4e6;
+  line-height: 32px;
+}
+
+.AddGroup .wrap .content span.title {
+  display: inline-block;
+  width: 14%;
+  margin-right: 32px;
+  padding-left: 8px;
+  font-weight: bold;
+}
+
+.AddGroup .wrap .content span.separator {
+  display: inline-block;
+  margin-right: 8px;
+  color: #ebecee;
+}
+
+.AddGroup .wrap .content input,
+.AddGroup .wrap .content textarea {
+  width: 70%;
+}
+
+.AddGroup .wrap .content h2 {
+  border-bottom: 1px solid #f4f5f6;
+  background-color: #f4f5f6;
+  padding-left: 8px;
+  font-size: 1.5em;
+  line-height: 48px;
+}
+
+/* .AddGroup {
   position: absolute;
   top: 200px;
   width: 100%;
@@ -6,4 +50,4 @@
 }
 .AddGroup form {
   text-align: center;
-}
+} */

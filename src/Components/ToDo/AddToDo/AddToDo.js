@@ -125,195 +125,123 @@ class AddToDo extends Component {
   }
 
   render() {
-    const date = (
-      <tr>
-        <td>
-          <label htmlFor="date">Date</label>
-        </td>
-        <td>
-          <p style={this._floatLeft}>
-            <input
-              type="date"
-              id="date"
-              name="selectedDate"
-              value={this.props.selectedDate}
-              onChange={this.editSelectedDateHandler}
-            />
-          </p>
-        </td>
-        <ErrorMessage msg={this.props.dateMessage} />
-      </tr>
-    )
-
-    const todo = (
-      <tr>
-        <td>
-          <label htmlFor="todo">To do</label>
-        </td>
-        <td>
-          <p style={this._floatLeft}>
-            <input type="type" id="todo" name="todo" placeholder="TODO" />
-          </p>
-        </td>
-        <ErrorMessage msg={this.state.todoMessage} />
-      </tr>
-    )
-
-    const completeRate = (
-      <tr>
-        <td>
-          <label htmlFor="completeRate">CompleteRate</label>
-        </td>
-        <td>
-          <p style={this._floatLeft}>
-            {/* <input
-              type="text"
-              id="completeRate"
-              name="completeRate"
-              placeholder="Please input completeRate"
-              required
-            /> */}
-            <select
-              id="completeRate"
-              name="completeRate"
-              placeholder="Please input completeRate"
-              required
-            >
-              {lodash.range(1, 101).map(value => (
-                <option key={value} value={value}>
-                  {value}
-                </option>
-              ))}
-            </select>
-          </p>
-        </td>
-        <ErrorMessage msg={this.state.completeMessage} />
-      </tr>
-    )
-
-    const deadLine = (
-      <tr>
-        <td>
-          <label htmlFor="deadLine">Dead-line</label>
-        </td>
-        <td>
-          <p style={this._floatLeft}>
-            <input
-              type="date"
-              id="deadLine"
-              name="deadLine"
-              value={this.props.deadLine}
-              onChange={this.editSelectedDateHandler}
-            />
-          </p>
-        </td>
-        <ErrorMessage msg={this.state.deadLineMessage} />
-      </tr>
-    )
-
-    const priority = (
-      <tr>
-        <td>
-          <label htmlFor="priority">Priority</label>
-        </td>
-        <td>
-          <div style={this._floatLeft} className="select-style">
-            <select defaultValue="normal" id="priority" name="priority">
-              <option value="urgent">urgent</option>
-              <option value="normal">normal</option>
-              <option value="notHurry">not in a hurry</option>
-            </select>
-          </div>
-        </td>
-      </tr>
-    )
-
-    const taskDetail = (
-      <tr>
-        <td>
-          <p>Task detail</p>
-        </td>
-        <td>
-          <textarea name="taskDetail" />
-        </td>
-      </tr>
-    )
-
-    const group = (
-      <tr>
-        <td>
-          <p>Group</p>
-        </td>
-        <td>
-          <select name="group" onChange={this.editSelectedDateHandler}>
-            <option key="none" value="none">
-              none
-            </option>
-            {_.map(this.props.groupNames, groupName => (
-              <option key={groupName} value={groupName}>
-                {groupName}
-              </option>
-            ))}
-          </select>
-        </td>
-      </tr>
-    )
-
-    const manager = (
-      <tr>
-        <td>Manager</td>
-        <td>
-          <select
-            name="manager"
-            disabled={!this.state.group || this.state.group === "none"}
-          >
-            <option key="defaultManager" value="defaultManager">
-              Select User
-            </option>
-            {_.map(this.props.membersByGroup, member => (
-              <option key={member} value={member}>
-                {member}
-              </option>
-            ))}
-          </select>
-        </td>
-      </tr>
-    )
-
-    const submitBtn = (
-      <tr>
-        <td colSpan="2" className="td-button-center">
-          <Button buttonType="submit">Add</Button>
-          <Button clicked={this.cancelHandler}>CANCEL</Button>
-        </td>
-      </tr>
-    )
-
     return (
       <div className="AddTodo">
-        <form onSubmit={this.onSubmitHandler}>
-          <table>
-            <caption>AddTodo</caption>
-            <thead>
-              <tr>
-                <th scope="col">Information</th>
-                <th scope="col">Inputs</th>
-                <th scope="col">Error</th>
-              </tr>
-            </thead>
-            <tbody>
-              {date}
-              {todo}
-              {completeRate}
-              {deadLine}
-              {priority}
-              {taskDetail}
-              {group}
-              {manager}
-              {submitBtn}
-            </tbody>
-          </table>
-        </form>
+        <div className="wrap">
+          <form onSubmit={this.onSubmitHandler}>
+            <div className="content">
+              <h2>Add ToDo</h2>
+            </div>
+            <div className="content">
+              <span className="title">Date</span>
+              <span className="separator">|</span>
+              <input
+                type="date"
+                id="date"
+                name="selectedDate"
+                value={this.props.selectedDate}
+                onChange={this.editSelectedDateHandler}
+              />
+              {/* ERROR */}
+            </div>
+
+            <div className="content">
+              <span className="title">ToDo</span>
+              <span className="separator">|</span>
+              <input type="type" id="todo" name="todo" placeholder="TODO" />
+              {/* ERROR */}
+            </div>
+
+            <div className="content">
+              <span className="title">Complete rate</span>
+              <span className="separator">|</span>
+              <select
+                id="completeRate"
+                name="completeRate"
+                placeholder="Please input completeRate"
+                required
+              >
+                {lodash.range(1, 101).map(value => (
+                  <option key={value} value={value}>
+                    {value}
+                  </option>
+                ))}
+              </select>
+              {/* ERROR */}
+            </div>
+
+            <div className="content">
+              <span className="title">Deadline</span>
+              <span className="separator">|</span>
+              <input
+                type="date"
+                id="deadLine"
+                name="deadLine"
+                value={this.props.deadLine}
+                onChange={this.editSelectedDateHandler}
+              />
+              {/* ERROR */}
+            </div>
+
+            <div className="content">
+              <span className="title">Priority</span>
+              <span className="separator">|</span>
+              <select defaultValue="normal" id="priority" name="priority">
+                <option value="urgent">urgent</option>
+                <option value="normal">normal</option>
+                <option value="notHurry">not in a hurry</option>
+              </select>
+              {/* ERROR */}
+            </div>
+
+            <div className="content">
+              <span className="title">Detail</span>
+              <span className="separator">|</span>
+              <textarea name="taskDetail" />
+              {/* ERROR */}
+            </div>
+
+            <div className="content">
+              <span className="title">Group</span>
+              <span className="separator">|</span>
+              <select name="group" onChange={this.editSelectedDateHandler}>
+                <option key="none" value="none">
+                  none
+                </option>
+                {_.map(this.props.groupNames, groupName => (
+                  <option key={groupName} value={groupName}>
+                    {groupName}
+                  </option>
+                ))}
+              </select>
+              {/* ERROR */}
+            </div>
+
+            <div className="content">
+              <span className="title">Manager</span>
+              <span className="separator">|</span>
+              <select
+                name="manager"
+                disabled={!this.state.group || this.state.group === "none"}
+              >
+                <option key="defaultManager" value="defaultManager">
+                  Select User
+                </option>
+                {_.map(this.props.membersByGroup, member => (
+                  <option key={member} value={member}>
+                    {member}
+                  </option>
+                ))}
+              </select>
+              {/* ERROR */}
+            </div>
+
+            <div className="btn">
+              <Button buttonType="submit">Add</Button>
+              <Button clicked={this.cancelHandler}>Cancel</Button>
+            </div>
+          </form>
+        </div>
       </div>
     )
   }
@@ -326,9 +254,9 @@ export const ErrorMessage = props => {
   }
 
   return (
-    <td>
+    <div>
       <span style={_errStyle}>{props.msg}</span>
-    </td>
+    </div>
   )
 }
 

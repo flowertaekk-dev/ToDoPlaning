@@ -23,7 +23,7 @@ class AddGroup extends Component {
     if (this.state.errMessage) {
     } else {
       this.props.addGroup(this.props.userId, groupName)
-      this.props.history.goBack()
+      this.props.history.replace("/")
     }
   }
 
@@ -49,25 +49,36 @@ class AddGroup extends Component {
   }
 
   render() {
-    let error = null
-    if (this.state.errMessage) {
-      error = (
-        <p>
-          <strong>{this.state.errMessage}</strong>
-        </p>
-      )
-    }
+    // let error = null
+    // if (this.state.errMessage) {
+    //   error = (
+    //     <p>
+    //       <strong>{this.state.errMessage}</strong>
+    //     </p>
+    //   )
+    // }
 
     return (
       <div className="AddGroup">
-        <form onSubmit={this.submitHandler}>
-          <input type="text" placeholder="Group name" name="groupName" />
-          <div>
-            <Button buttonType="submit">ADD GROUP</Button>
-            <Button clicked={this.cancelHandler}>CANCEL</Button>
-          </div>
-          {error}
-        </form>
+        <div className="wrap">
+          <form onSubmit={this.submitHandler}>
+            <div className="content">
+              <h2>Add group</h2>
+            </div>
+
+            <div className="content">
+              <span className="title">Group name</span>
+              <span className="separator">|</span>
+              <input type="text" placeholder="Group name" name="groupName" />
+              {/* ERROR */}
+            </div>
+
+            <div className="btn">
+              <Button buttonType="submit">ADD GROUP</Button>
+              <Button clicked={this.cancelHandler}>CANCEL</Button>
+            </div>
+          </form>
+        </div>
       </div>
     )
   }
