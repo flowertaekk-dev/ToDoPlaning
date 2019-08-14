@@ -43,8 +43,11 @@ class UserUpdate extends Component {
     })
   }
 
-  // update user data to firebase
+  /**
+   ********* JuYoung, it seems better to place it in Action(Redux) *********
+   */
   _updateUser = async e => {
+    // update user data to firebase
     e.preventDefault()
 
     const { userEmail, userPassword } = e.target
