@@ -1,8 +1,51 @@
-.User-update{position: relative; top:68px; width: 100%; text-align: center}
+.User-update {
+  /* position: absolute; */
+  top: 100px;
+}
+
+.User-update .wrap {
+  width: 80%;
+  margin: 16px auto;
+  border: 1px solid #e2e4e6;
+  border-radius: 4px;
+}
+
+.User-update .wrap .content {
+  border-bottom: 1px solid #e2e4e6;
+  line-height: 32px;
+}
+
+.User-update .wrap .content span.title {
+  display: inline-block;
+  width: 14%;
+  margin-right: 32px;
+  padding-left: 8px;
+  font-weight: bold;
+}
+
+.User-update .wrap .content span.separator {
+  display: inline-block;
+  margin-right: 8px;
+  color: #ebecee;
+}
+
+.User-update .wrap .content h2 {
+  border-bottom: 1px solid #f4f5f6;
+  background-color: #f4f5f6;
+  padding-left: 8px;
+  font-size: 1.5em;
+  line-height: 48px;
+}
+
+.User-update .wrap .content p {
+  display: inline-block;
+}
+
+/* .User-update{position: relative; top:68px; width: 100%; text-align: center}
 .User-update form {width: 50%; margin: 0 auto; padding: 16px 0 ; border: 1px solid #eee; box-shadow: 0 1px 2px #ccc}
 .User-update form h1 {color: #555;}
 .User-update form div.title {margin-bottom: 10px}
 .User-update form div {margin: 4px 0}
 .User-update form div input {border: 1px solid #eee; box-shadow: 0 1px 2px #ccc}
 .User-update div button {border: 1px solid #eee; box-shadow: 0 1px 1px #ccc; padding: 6px; background-color: white; margin-right: 4px}
-.User-update form div.btn-container {margin-top: 10px}
+.User-update form div.btn-container {margin-top: 10px} */

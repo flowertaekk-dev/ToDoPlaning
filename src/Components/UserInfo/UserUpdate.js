@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react"
+import React, { Component } from "react"
 import { withRouter } from "react-router-dom"
 import { connect } from "react-redux"
 
@@ -99,18 +99,33 @@ class UserUpdate extends Component {
 
   render() {
     return (
-      <Fragment>
-        <div className="User-update">
+      <div className="User-update">
+        <div className="wrap">
           <form onSubmit={this._updateUser}>
-            <div className="title">
-              <h1>User update</h1>
+            <div className="content">
+              <h2>User update</h2>
             </div>
 
-            <div className="updateId">
+            <div className="content">
+              <span className="title">ID</span>
+              <span className="separator">|</span>
               <p>{this.props.userId}</p>
             </div>
 
-            <div>
+            {/* 
+              JuYoung, please update code here as below.
+              would like to add some more data to be upated.
+              1. Manager
+              2. Group
+              3. Priority
+              4. Completion rate
+              5. Deadline
+              6. Detail
+            */}
+
+            <div className="content">
+              <span className="title">e-mail</span>
+              <span className="separator">|</span>
               <input
                 type="email"
                 name="userEmail"
@@ -118,19 +133,33 @@ class UserUpdate extends Component {
                 value={this.state.userEmail}
                 onChange={this.dataChangeHandler}
               />
-              <ErrorMessage msg={this.state.emailMessage} />
+              {/* ERROR */}
             </div>
 
-            <div>
+            {/* 
+              JuYoung, please update code here as below.
+
+              PW! 
+              want to check
+                1. current PW
+                  1.1. If it is wrong, stop updaing user data.
+                2. PW that will be set
+                3. checks PW that will be set once more
+                  3.1. If it is different from the PW from 'number 2', stop updaing.
+            */}
+
+            <div className="content">
+              <span className="title">PW</span>
+              <span className="separator">|</span>
               <input
                 type="password"
                 name="userPassword"
                 placeholder="password"
               />
-              <ErrorMessage msg={this.state.passwordMessage} />
+              {/* ERROR */}
             </div>
 
-            <div className="btn-container">
+            <div className="btn">
               <Button buttonType="submit">Update</Button>
               <Button
                 buttonType="button"
@@ -143,7 +172,7 @@ class UserUpdate extends Component {
             </div>
           </form>
         </div>
-      </Fragment>
+      </div>
     )
   }
 }
