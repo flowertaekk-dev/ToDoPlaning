@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom"
 import { connect } from "react-redux"
 
 import Aux from "../Auxiliary/Auxiliary"
+import { fetchTodosByGroupId } from "../../store/actions/todoActions"
 import Header from "../../Components/Header/Header"
 import NavigationItems from "../../Components/NavigationItems/NavigationItems"
 import ToDoDetail from "../../Components/ToDo/ToDoDetail/ToDoDetail"
@@ -53,7 +54,12 @@ const Layout = props => {
           <div className="groupNameList">
             <ul>
               {_.map(props.groupNames, groupName => (
-                <li key={groupName} /** onClicked={fetchTodosByGroupName} */>
+                <li
+                  key={groupName}
+                  onClick={() => {
+                    props.fetchTodosByGroupId(groupName)
+                  }}
+                >
                   {groupName}
                 </li>
               ))}
@@ -77,8 +83,12 @@ const mapStateToProps = state => {
     isMenuOn: state.common.menuClicked,
     userId: state.user.userId,
     groupNames: state.group.groupNames,
-    showToDoDetail: state.todo.showToDoDetail
+    showToDoDetail: state.todo.showToDoDetail,
+    todoList: state.todo.todoList
   }
 }
 
-export default connect(mapStateToProps)(withRouter(Layout))
+export default connect(
+  mapStateToProps,
+  { fetchTodosByGroupId }
+)(withRouter(Layout))
