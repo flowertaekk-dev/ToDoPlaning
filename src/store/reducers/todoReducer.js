@@ -22,7 +22,6 @@ const todoReducer = (state = init, action) => {
     // fetches list of todos by GROUPID
     case actionTypes.FETCH_TODOS_BY_GROUPID:
       clonedState.todoList = action.payload.todoList
-      console.log('reducer', clonedState)
       return clonedState
     // adds todo
     case actionTypes.ADD_TODO:

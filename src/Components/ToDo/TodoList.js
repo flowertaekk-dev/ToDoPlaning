@@ -2,13 +2,11 @@ import React, { Component } from "react"
 import { connect } from "react-redux"
 
 import * as _ from "../../Utils/_"
-import { fetchTodosByGroupId } from "../../store/actions/todoActions"
-import { fetchGroupListAsync } from "../../store/actions/groupActions"
-import { fetchTodosById } from "../../store/actions/todoActions"
+import { fetchTodosByGroupId, fetchTodosById } from "../../store/actions/todoActions"
+import { fetchGroupListAsync, fetchGroupList } from "../../store/actions/groupActions"
 import Todo from "./ToDo/ToDo"
 import firebase from "../../Utils/Config/firebase"
 import Aux from "../../hoc/Auxiliary/Auxiliary"
-import Button from "../../UI/Button/Button"
 import "./TodoList.css"
 
 // flowertaekk.dev
@@ -19,7 +17,8 @@ class TodoList extends Component {
 
   componentDidMount() {
     this.hasMounted = true
-    this.props.fetchGroupListAsync(this.props.userId)
+    this.props.fetchTodosById(this.props.userId)
+    this.props.fetchGroupList(this.props.userId)
   }
 
   componentWillUnmount() {
@@ -27,7 +26,6 @@ class TodoList extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    console.log('test', this.props.todoList)
     return true
   }
 
@@ -117,28 +115,10 @@ class TodoList extends Component {
     } else {
       this.props.fetchTodosById(this.props.userId)
     }
-    // this.setState({
-    //   todoList: this.props.todoList
-    // })
+
   }
 
   render() {
-    const selectBox = (
-      <select name="todoListGroup" ref="groupRef" required>
-        <option key="none" value="unSelected">
-          none
-        </option>
-        {_.map(this.props.groupNamesAsync, groupName => (
-          <option key={groupName} value={groupName}>
-            {groupName}
-          </option>
-        ))}
-      </select>
-    )
-
-    const getTodoListButton = (
-      <Button clicked={this.getTodoList.bind(this)}>getTodoList</Button>
-    )
 
     return (
       <Aux styleName="TodoList">
@@ -159,8 +139,8 @@ class TodoList extends Component {
             })
           : null}
         <div>
-          {selectBox}
-          {getTodoListButton}
+          {/* {selectBox}
+          {getTodoListButton} */}
         </div>
       </Aux>
     )
@@ -180,5 +160,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { fetchTodosById, fetchTodosByGroupId, fetchGroupListAsync }
+  { fetchTodosById, fetchTodosByGroupId, fetchGroupListAsync, fetchGroupList }
 )(TodoList)
