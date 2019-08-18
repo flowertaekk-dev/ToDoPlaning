@@ -10,6 +10,7 @@ import AddGroup from "../../Components/Grouping/AddGroup/AddGroup"
 import AddTodo from "../../Components/ToDo/AddToDo/AddToDo"
 import InviteGroup from "../../Components/Grouping/InviteGroup/InviteGroup"
 import Messages from "../../Components/Messages/Messages"
+import UpdateToDo from "../../Components/UpdateToDo/UpdateToDo"
 import { getCurrentDate } from "../../Utils/_"
 import "./App.css"
 
@@ -38,6 +39,7 @@ class App extends PureComponent {
         />
         <Route path="/inviteToGroup" render={() => <InviteGroup />} />
         <Route path="/addGroup" render={() => <AddGroup />} />
+        <Route path="/UpdateToDo" render={() => <UpdateToDo />} />
         <Route exact path="/" render={() => <Login />} />
       </Layout>
     )
