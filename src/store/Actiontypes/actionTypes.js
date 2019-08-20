@@ -11,6 +11,7 @@ export const SELECT_DATE = "SELECT_DATE"
 
 // USER
 export const SAVE_USER_ID = "SAVE_USER_ID"
+export const GET_USER_PASSWORD = "GET_USER_PASSWORD"
 export const DELETE_USER_ID = "DELETE_USER_ID"
 export const UPDATE_USER = "UPDATE_USER"
 
