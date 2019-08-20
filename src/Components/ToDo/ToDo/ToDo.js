@@ -1,9 +1,8 @@
 import React, { Component, Fragment } from "react"
-import { withRouter } from "react-router-dom"
+import { Route, withRouter } from "react-router-dom"
 import { connect } from "react-redux"
-
 import { showToDoDetail } from "../../../store/actions/todoActions"
-import UpdateToDo from "../UpdateToDo/UpdateToDo"
+import UpdateToDo from "../../UpdateToDo/UpdateToDo"
 import Button from "../../../UI/Button/Button"
 import "./ToDo.css"
 
@@ -125,14 +124,15 @@ class ToDo extends Component {
           <tbody>
             {todoTitle}
             {this.state.isUpdate ? (
-              <UpdateToDo
-                id={this.props.id}
-                deadLine={this.state.deadLine}
-                taskDetails={this.state.details}
-                updateTodoContents={this.changeDataHandler}
-                cancelClicked={this.cancelUpdateHandler}
-                saveClicked={this.saveUpdatedDataHandler}
-              />
+              <Route path="../UpdateToDo/UpdateToDo" render={() => <UpdateToDo />} />
+              // <UpdateToDo
+              //   id={this.props.id}
+              //   deadLine={this.state.deadLine}
+              //   taskDetails={this.state.details}
+              //   updateTodoContents={this.changeDataHandler}
+              //   cancelClicked={this.cancelUpdateHandler}
+              //   saveClicked={this.saveUpdatedDataHandler}
+              // />
             ) : (
               todoComponent
             )}
