@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import { withRouter } from "react-router-dom"
 import { connect } from "react-redux"
+import { getPassword } from "../../store/actions/userActions"
 
 import firebase from "../../Utils/Config/firebase"
 import Button from "../../UI/Button/Button"
@@ -21,7 +22,7 @@ class UserUpdate extends Component {
   }
 
   // validates inputs
-  _emptyInputValidator = (email, password) => {
+  _emptyInputValidator = (email, password, changePW, confirmPW) => {
     let result = true
 
     this.setState({
@@ -29,7 +30,17 @@ class UserUpdate extends Component {
       passwordMessage: password ? "" : "Enter Password"
     })
 
-    if (!email || !password) {
+    const originPassword = this.props.userInfo.password
+    const encodingPassword = Base64.encode(password)
+
+    if (
+      !email ||
+      !password ||
+      !changePW ||
+      !confirmPW ||
+      originPassword !== encodingPassword ||
+      changePW !== confirmPW
+    ) {
       result = false
     }
 
@@ -50,16 +61,29 @@ class UserUpdate extends Component {
     // update user data to firebase
     e.preventDefault()
 
-    const { userEmail, userPassword } = e.target
+    const {
+      userEmail,
+      userPassword,
+      changePassword,
+      confirmPassword
+    } = e.target
 
-    if (!this._emptyInputValidator(userEmail.value, userPassword.value)) return
+    if (
+      !this._emptyInputValidator(
+        userEmail.value,
+        userPassword.value,
+        changePassword.value,
+        confirmPassword.value
+      )
+    )
+      return
 
     const rootRef = firebase.database().ref()
     const usersRef = rootRef.child("users")
     const userRef = usersRef.child(this.props.userId)
 
     // update user data to firebase
-    this._updateDataToDB(userRef, userEmail, userPassword)
+    this._updateDataToDB(userRef, userEmail, changePassword)
 
     // after sign up, moves to "To Do List" page
     this.props.history.replace("/todoList", true)
@@ -68,6 +92,7 @@ class UserUpdate extends Component {
   componentDidMount() {
     this.hasMounted = true
     this.readUserData()
+    this.props.getPassword(this.props.userId)
   }
 
   componentWillUnmount() {
@@ -115,17 +140,6 @@ class UserUpdate extends Component {
               <p>{this.props.userId}</p>
             </div>
 
-            {/* 
-              JuYoung, please update code here as below.
-              would like to add some more data to be upated.
-              1. Manager
-              2. Group
-              3. Priority
-              4. Completion rate
-              5. Deadline
-              6. Detail
-            */}
-
             <div className="content">
               <span className="title">e-mail</span>
               <span className="separator">|</span>
@@ -162,6 +176,28 @@ class UserUpdate extends Component {
               {/* ERROR */}
             </div>
 
+            <div className="content">
+              <span className="title">ChangePW</span>
+              <span className="separator">|</span>
+              <input
+                type="password"
+                name="changePassword"
+                placeholder="changePassword"
+              />
+              {/* ERROR */}
+            </div>
+
+            <div className="content">
+              <span className="title">ChangePWConfirm</span>
+              <span className="separator">|</span>
+              <input
+                type="password"
+                name="confirmPassword"
+                placeholder="confirmPassword"
+              />
+              {/* ERROR */}
+            </div>
+
             <div className="btn">
               <Button buttonType="submit">Update</Button>
               <Button
@@ -180,23 +216,14 @@ class UserUpdate extends Component {
   }
 }
 
-// it should be component.. I guess it is copied from somewhere??
-export const ErrorMessage = props => {
-  const _errStyle = {
-    color: "red"
-  }
-
-  return (
-    <p>
-      <span style={_errStyle}>{props.msg}</span>
-    </p>
-  )
-}
-
 const mapStateToProps = state => {
   return {
-    userId: state.user.userId
+    userId: state.user.userId,
+    userInfo: state.user.password
   }
 }
 
-export default connect(mapStateToProps)(withRouter(UserUpdate))
+export default connect(
+  mapStateToProps,
+  { getPassword }
+)(withRouter(UserUpdate))
