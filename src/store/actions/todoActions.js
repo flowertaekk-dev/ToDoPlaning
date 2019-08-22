@@ -103,3 +103,35 @@ export const deleteToDo = todoId => dispatch => {
 
   dispatch({ type: actionTypes.DELETE_TODO })
 }
+
+
+/**
+ * update a certain todo
+ * @param {string} todoId : the target Id to be removed
+ */
+export const updateExcute = todoId => dispatch => {
+    const rootRef = firebase.database().ref()
+    const todosRef = rootRef.child("todos")
+    const todoRef = todosRef.child(todoId.id)
+
+    todoRef.update({
+        manager: todoId.manager,
+        priority: todoId.priority,
+        completeRate: todoId.completeRate,
+        deadLine: todoId.deadLine,
+        details: todoId.details
+      })
+      .then(res => {
+        todoId.saveClicked()
+      })
+      .catch(err => console.error(err)
+      )
+      dispatch({ type: actionTypes.UPDATE_EXCUTE })
+}
+/**
+ * exits todo update page
+ */
+export const exitToDoUpdate = () => dispatch => {
+  dispatch({ type: actionTypes.EXIT_TODO_UPDATE})
+
+}

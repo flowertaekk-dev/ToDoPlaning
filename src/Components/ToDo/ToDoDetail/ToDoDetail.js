@@ -12,6 +12,13 @@ const todoDetail = props => {
     props.deleteToDo(props.todoInfo.id)
     props.history.go("/")
   }
+
+  const updateToDo = () => {
+    // move to UpdateToDo component
+    // props.updateToDo(props.todoInfo.id)
+    props.history.replace("/updateToDo")
+  }
+
   return (
     <Aux styleName="ToDoDetail">
       <div className="wrap">
@@ -75,6 +82,7 @@ const todoDetail = props => {
           </div>
         </div>
         <div className="btn">
+          <Button clicked={updateToDo}>Update</Button>
           <Button clicked={deleteToDo}>Delete</Button>
           <Button clicked={props.exitToDoDetail}>Return</Button>
         </div>
