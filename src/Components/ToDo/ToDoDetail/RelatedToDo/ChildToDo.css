@@ -1,0 +1,6 @@
+.ToDoDetail .ChildToDo {
+  margin: 4px auto;
+  width: 90%;
+  border: 1px solid #e2e4e6;
+  border-radius: 5px;
+}

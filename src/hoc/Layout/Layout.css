@@ -3,7 +3,7 @@
 } */
 
 .Layout .menu {
-  position: absolute;
+  position: fixed;
   margin-top: 32px;
   top: 48px;
   left: 0;

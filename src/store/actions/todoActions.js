@@ -1,5 +1,6 @@
 import firebase from "../../Utils/Config/firebase"
 import * as actionTypes from "../Actiontypes/actionTypes"
+import * as _ from "../../Utils/_"
 
 /**
  * fetches list of todos by userID, groupId
@@ -30,47 +31,11 @@ export const fetchTodosByGroupId = groupId => async dispatch => {
     .once("value")
     .then(res => {
       const todosByGroupId = { ...res.val() }
-      
+
       dispatch({
         type: actionTypes.FETCH_TODOS_BY_GROUPID,
         payload: {
           todoList: todosByGroupId
-        }
-      })
-    })
-    .catch(err => console.error(err))
-}
-
-/**
- * gets members data from firebase according to selected group
- * @param {Object} e : event object
- */
-export const getMembersBySelectedGroup = e => dispatch => {
-  const selectedGroup = e.target.value
-  if (!selectedGroup) return
-  if (selectedGroup === "none") {
-    dispatch({
-      type: actionTypes.ADD_TODO,
-      payload: {
-        selectedGroup: "none",
-        membersBySelectedGroup: ["Select group"]
-      }
-    })
-    return
-  }
-
-  const rootRef = firebase.database().ref()
-  const groupRef = rootRef.child("group/" + selectedGroup)
-  const memberRef = groupRef.child("member")
-  memberRef
-    .once("value")
-    .then(res => {
-      const membersBySelectedGroup = { ...res.val() }
-      dispatch({
-        type: actionTypes.ADD_TODO,
-        payload: {
-          selectedGroup: selectedGroup,
-          membersBySelectedGroup: membersBySelectedGroup
         }
       })
     })
@@ -95,15 +60,20 @@ export const exitToDoDetail = () => dispatch => {
  * deletes a certain todo
  * @param {string} todoId : the target Id to be removed
  */
-export const deleteToDo = todoId => dispatch => {
+export const deleteToDo = (todoId, superToDo) => dispatch => {
   const rootRef = firebase.database().ref()
   const todosRef = rootRef.child("todos")
+
+  // deletes child-todo info from super-todo
+  const superTodoRef = todosRef.child(superToDo)
+  superTodoRef.child("childToDo").update({ [todoId]: null })
+
+  // deletes ToDo
   const todoRef = todosRef.child(todoId)
   todoRef.remove()
 
   dispatch({ type: actionTypes.DELETE_TODO })
 }
-
 
 /**
  * update a certain todo
@@ -133,5 +103,36 @@ export const updateExcute = todoId => dispatch => {
  */
 export const exitToDoUpdate = () => dispatch => {
   dispatch({ type: actionTypes.EXIT_TODO_UPDATE})
+}
 
+/**
+ * adds new todo
+ * @param {Object} newToDo
+ */
+export const addToDo = newToDo => dispatch => {
+  const rootRef = firebase.database().ref()
+  const todosRef = rootRef.child("todos")
+  const key = todosRef.push().key
+  const todoRef = todosRef.child(key)
+
+  // adds id property
+  newToDo.id = key
+
+  todoRef.update(newToDo)
+
+  if (_.requireNonNull(newToDo.superToDo)) {
+    addChildToDoKeyToSuperToDo(Object.keys(newToDo.superToDo)[0], {
+      [key]: newToDo.todo
+    })
+  }
+
+  dispatch({ type: actionTypes.ADD_TODO })
+}
+
+const addChildToDoKeyToSuperToDo = (superToDoKey, childToDoKey) => {
+  const rootRef = firebase.database().ref()
+  const todosRef = rootRef.child("todos")
+  const todoRef = todosRef.child(superToDoKey)
+
+  todoRef.child("childToDo").update(childToDoKey)
 }

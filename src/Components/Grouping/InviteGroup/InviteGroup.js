@@ -61,7 +61,7 @@ class InviteGroup extends Component {
         Object.values(users.group).indexOf(this.state.selectedGroup) === -1
     ) // filters users who is not in selected group
       .map(user => user.id) // maps only userId
-      .filter(userId => userId.includes(input)) // filters userIds whose contain 'input' string
+      .filter(userId => userId.includes(input)) // filters userIds whose userId contains 'input' string
 
     this.setState({ suggestedUserIds: suggestedUserIds })
   }

@@ -31,7 +31,7 @@ export function mapWithKeys(obj) {
   let keys = _keys(obj)
   for (let i = 0; i < keys.length; i++) {
     // wanted to set "key" as a key value but, it seems to be a reserved word..
-    result.push({ index: keys[i], ...obj[keys[i]] })
+    result.push({ index: keys[i], value: obj[keys[i]] })
   }
   return result
 }
@@ -42,6 +42,18 @@ export function replaceHyphen(str) {
 
 function _keys(obj) {
   return typeof obj === "object" && !!obj ? Object.keys(obj) : []
+}
+
+/**
+ * returns Object if it is not null. otherwise returns null
+ * @param {Any} obj
+ */
+export function requireNonNull(obj) {
+  if (!!obj) {
+    return obj
+  } else {
+    return null
+  }
 }
 
 /* help functions */

@@ -8,20 +8,19 @@ import lodash from "lodash"
 import "./UpdateToDo.css"
 
 const updateToDo = props => {
-
   const exitToDoUpdate = () => {
     props.exitToDoUpdate(props.todoInfo.id)
     props.history.replace("/")
   }
 
-  const updateExcute  = e => {
+  const updateExcute = e => {
     const updatedTodo = {
-      id : props.todoInfo.id,
-      manager : e.target.manager.value,
-      priority : e.target.priority.value,
-      completeRate : e.target.completeRate.value,
-      deadLine : e.target.deadLine.value,
-      details : e.target.details.value
+      id: props.todoInfo.id,
+      manager: e.target.manager.value,
+      priority: e.target.priority.value,
+      completeRate: e.target.completeRate.value,
+      deadLine: e.target.deadLine.value,
+      details: e.target.details.value
     }
     props.updateExcute(updatedTodo)
     props.history.replace("/todoList")
@@ -46,7 +45,11 @@ const updateToDo = props => {
           <th scope="row">Priority</th>
           <td>
             <div>
-              <select defaultValue={props.todoInfo.priority} id="priority" name="priority">
+              <select
+                defaultValue={props.todoInfo.priority}
+                id="priority"
+                name="priority"
+              >
                 <option value="urgent">urgent</option>
                 <option value="normal">normal</option>
                 <option value="notHurry">not in a hurry</option>
@@ -57,16 +60,13 @@ const updateToDo = props => {
         <tr>
           <th scope="row">completeRate</th>
           <td>
-            <select
-              id="completeRate"
-              name="completeRate"
-            >
+            <select id="completeRate" name="completeRate">
               {lodash.range(1, 101).map(value => (
                 <option key={value} value={value}>
                   {value}
                 </option>
               ))}
-            </select> 
+            </select>
           </td>
         </tr>
         <tr>
@@ -104,12 +104,12 @@ const updateToDo = props => {
 }
 
 const mapStateToProps = state => {
-    return {
-      todoInfo: state.todo.currentToDo
-    }
+  return {
+    todoInfo: state.todo.currentToDo
   }
+}
 
-  export default connect(
-    mapStateToProps,
-    { exitToDoUpdate, updateExcute }
-  )(withRouter(updateToDo))
+export default connect(
+  mapStateToProps,
+  { exitToDoUpdate, updateExcute }
+)(withRouter(updateToDo))
