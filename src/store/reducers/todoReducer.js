@@ -40,6 +40,12 @@ const todoReducer = (state = init, action) => {
     case actionTypes.DELETE_TODO:
       // do nothing
       return clonedState
+    case actionTypes.UPDATE_EXCUTE:
+      clonedState.showToDoDetail = false
+      return clonedState
+    case actionTypes.EXIT_TODO_UPDATE:
+      clonedState.showToDoDetail = false
+      return clonedState
     default:
       return state
   }
