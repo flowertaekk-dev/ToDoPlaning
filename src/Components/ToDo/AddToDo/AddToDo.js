@@ -1,22 +1,23 @@
 import React, { Component } from "react"
 import { withRouter } from "react-router-dom"
 import { connect } from "react-redux"
-import lodash from "lodash"
 
-import { fetchTodosById } from "../../../store/actions/todoActions"
+import lodash from "lodash"
+import { fetchTodosById, addToDo } from "../../../store/actions/todoActions"
 import { fetchMemberByGroup } from "../../../store/actions/groupActions"
-import firebase from "../../../Utils/Config/firebase"
 import Button from "../../../UI/Button/Button"
+import Content from "../../../UI/Content/Content"
+import SuperToDo from "./SuperToDo/SuperToDo"
 import * as _ from "../../../Utils/_"
+import firebase from "../../../Utils/Config/firebase"
 import "./AddToDo.css"
 
 // flowertaekk.dev
 class AddToDo extends Component {
   // TODO need to do refactoring maybe later??
-  constructor(props) {
-    super(props)
-
-    this.state = {}
+  state = {
+    searchedTask: {},
+    selectedSuperToDo: null
   }
 
   // TODO it can be replaced with redux
@@ -35,24 +36,20 @@ class AddToDo extends Component {
     } = e.target
 
     if (
-      !this._emptyInputValidator(
+      !this.emptyInputValidator(
         selectedDate.value,
         todo.value,
         completeRate.value,
         deadLine.value
       )
-    )
+    ) {
       return
+    }
 
     // TODO need to check whether or not its userId really exists???
 
-    const rootRef = firebase.database().ref()
-    const todosRef = rootRef.child("todos")
-    const key = todosRef.push().key
-    const todoRef = todosRef.child(key)
-
     const updateTodo = {
-      id: key,
+      // id: key ( added in todoAction.js )
       author: this.props.userId,
       date: selectedDate.value,
       todo: todo.value,
@@ -63,16 +60,16 @@ class AddToDo extends Component {
       group: group.value === "none" ? null : group.value,
       manager:
         manager.value === "defaultManager" ? this.props.userId : manager.value,
-      subTodo: [] // TODO 未実装
+      superToDo: _.requireNonNull(this.state.selectedSuperToDo)
     }
 
-    todoRef.update(updateTodo)
+    this.props.addToDo(updateTodo)
 
-    this._initializeInputs(e)
+    this.initializeInputs(e)
     this.props.history.replace("/todoList")
   }
 
-  _initializeInputs = e => {
+  initializeInputs = e => {
     const { selectedDate, todo, deadLine, priority, taskDetail } = e.target
 
     selectedDate.value = ""
@@ -82,7 +79,7 @@ class AddToDo extends Component {
     taskDetail.value = ""
   }
 
-  _emptyInputValidator = (selectedDate, todo, completeRate, deadLine) => {
+  emptyInputValidator = (selectedDate, todo, completeRate, deadLine) => {
     let result = true
 
     // other inputs are optional
@@ -124,6 +121,28 @@ class AddToDo extends Component {
     this.props.history.replace("/todoList")
   }
 
+  retrieveTasksByInput = e => {
+    // when there is no input, no suggestion
+    if (!e.target.value) {
+      this.setState({ searchedTask: {} })
+      return
+    }
+
+    const rootRef = firebase.database().ref()
+    const todosRef = rootRef.child("todos")
+    todosRef
+      .orderByChild("todo")
+      .startAt(e.target.value)
+      .endAt(e.target.value + "\uf8ff")
+      .once("value", snap => {
+        this.setState({ searchedTask: snap.val() })
+      })
+  }
+
+  superToDoClicked = todoInfo => {
+    this.setState({ selectedSuperToDo: todoInfo })
+  }
+
   render() {
     return (
       <div className="AddTodo">
@@ -132,9 +151,8 @@ class AddToDo extends Component {
             <div className="content">
               <h2>Add ToDo</h2>
             </div>
-            <div className="content">
-              <span className="title">Date</span>
-              <span className="separator">|</span>
+
+            <Content title="Date">
               <input
                 type="date"
                 id="date"
@@ -143,18 +161,14 @@ class AddToDo extends Component {
                 onChange={this.editSelectedDateHandler}
               />
               {/* ERROR */}
-            </div>
+            </Content>
 
-            <div className="content">
-              <span className="title">ToDo</span>
-              <span className="separator">|</span>
+            <Content title="ToDo">
               <input type="type" id="todo" name="todo" placeholder="TODO" />
               {/* ERROR */}
-            </div>
+            </Content>
 
-            <div className="content">
-              <span className="title">Complete rate</span>
-              <span className="separator">|</span>
+            <Content title="Complete rate">
               <select
                 id="completeRate"
                 name="completeRate"
@@ -168,11 +182,9 @@ class AddToDo extends Component {
                 ))}
               </select>
               {/* ERROR */}
-            </div>
+            </Content>
 
-            <div className="content">
-              <span className="title">Deadline</span>
-              <span className="separator">|</span>
+            <Content title="Deadline">
               <input
                 type="date"
                 id="deadLine"
@@ -181,29 +193,23 @@ class AddToDo extends Component {
                 onChange={this.editSelectedDateHandler}
               />
               {/* ERROR */}
-            </div>
+            </Content>
 
-            <div className="content">
-              <span className="title">Priority</span>
-              <span className="separator">|</span>
+            <Content title="Priority">
               <select defaultValue="normal" id="priority" name="priority">
                 <option value="urgent">urgent</option>
                 <option value="normal">normal</option>
                 <option value="notHurry">not in a hurry</option>
               </select>
               {/* ERROR */}
-            </div>
+            </Content>
 
-            <div className="content">
-              <span className="title">Detail</span>
-              <span className="separator">|</span>
+            <Content title="Detail">
               <textarea name="taskDetail" />
               {/* ERROR */}
-            </div>
+            </Content>
 
-            <div className="content">
-              <span className="title">Group</span>
-              <span className="separator">|</span>
+            <Content title="Group">
               <select name="group" onChange={this.editSelectedDateHandler}>
                 <option key="none" value="none">
                   none
@@ -215,11 +221,9 @@ class AddToDo extends Component {
                 ))}
               </select>
               {/* ERROR */}
-            </div>
+            </Content>
 
-            <div className="content">
-              <span className="title">Manager</span>
-              <span className="separator">|</span>
+            <Content title="Manager">
               <select
                 name="manager"
                 disabled={!this.state.group || this.state.group === "none"}
@@ -234,7 +238,36 @@ class AddToDo extends Component {
                 ))}
               </select>
               {/* ERROR */}
-            </div>
+            </Content>
+
+            <Content title="Parent task">
+              <input
+                className="search-super-task"
+                type="text"
+                name="searchTask"
+                placeholder="Search task with task name"
+                onChange={this.retrieveTasksByInput}
+              />
+              <div>
+                {_.map(this.state.searchedTask, task => {
+                  let superToDo = null
+                  if (_.requireNonNull(this.state.selectedSuperToDo)) {
+                    superToDo = Object.keys(this.state.selectedSuperToDo)[0]
+                  }
+
+                  return (
+                    <SuperToDo
+                      {...task}
+                      key={task.id}
+                      selected={superToDo === task.id}
+                      clicked={() =>
+                        this.superToDoClicked({ [task.id]: task.todo })
+                      }
+                    />
+                  )
+                })}
+              </div>
+            </Content>
 
             <div className="btn">
               <Button buttonType="submit">Add</Button>
@@ -257,5 +290,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { fetchTodosById, fetchMemberByGroup }
+  { fetchTodosById, fetchMemberByGroup, addToDo }
 )(withRouter(AddToDo))

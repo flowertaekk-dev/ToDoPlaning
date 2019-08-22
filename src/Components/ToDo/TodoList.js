@@ -84,8 +84,7 @@ class TodoList extends Component {
     if (deadLineT === insertTimeT) {
       result = completeRate / 100 + priorityConstant
     } else {
-      result =
-        (deadLineT - insertTimeT) / (completeRate / 100) + priorityConstant
+      result = (deadLineT - insertTimeT) / (completeRate / 100) + priorityConstant
     }
 
     return result
@@ -115,11 +114,9 @@ class TodoList extends Component {
     } else {
       this.props.fetchTodosById(this.props.userId)
     }
-
   }
 
   render() {
-
     return (
       <Aux styleName="TodoList">
         {this.props.todoList
@@ -138,10 +135,6 @@ class TodoList extends Component {
               )
             })
           : null}
-        <div>
-          {/* {selectBox}
-          {getTodoListButton} */}
-        </div>
       </Aux>
     )
   }

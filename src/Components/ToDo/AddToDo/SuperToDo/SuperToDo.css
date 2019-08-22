@@ -1,0 +1,25 @@
+.AddTodo .SuperToDo {
+  /* display: inline-block; */
+  margin: 8px auto;
+  padding: 8px;
+  border: 1px solid #e2e4e6;
+  border-radius: 4px;
+  width: 90%;
+}
+.AddTodo .SuperToDo:active,
+.AddTodo .SuperToDo:hover {
+  background-color: #ebecee;
+}
+
+.AddTodo .SuperToDo .content .title {
+  width: 5% !important;
+}
+
+.AddTodo .SuperToDo .content,
+.AddTodo .SuperToDo .content p {
+  font-size: 0.9em;
+}
+
+.AddTodo .SuperToDo .content p {
+  display: inline-block;
+}

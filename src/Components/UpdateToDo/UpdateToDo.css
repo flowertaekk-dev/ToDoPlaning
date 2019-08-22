@@ -1,4 +1,43 @@
-/* .UpdateToDo {
-  position: absolute;
+.UpdateToDo {
+  /* position: absolute; */
   top: 100px;
-} */
+}
+
+.UpdateToDo .wrap {
+  width: 80%;
+  margin: 16px auto;
+  border: 1px solid #e2e4e6;
+  border-radius: 4px;
+}
+
+.UpdateToDo .wrap .content {
+  border-bottom: 1px solid #e2e4e6;
+  line-height: 32px;
+}
+
+.UpdateToDo .wrap .content span.title {
+  display: inline-block;
+  width: 14%;
+  margin-right: 32px;
+  padding-left: 8px;
+  font-weight: bold;
+}
+
+.UpdateToDo .wrap .content span.separator {
+  display: inline-block;
+  margin-right: 8px;
+  color: #ebecee;
+}
+
+.UpdateToDo .wrap .content input,
+.UpdateToDo .wrap .content textarea {
+  width: 70%;
+}
+
+.UpdateToDo .wrap .content h2 {
+  border-bottom: 1px solid #f4f5f6;
+  background-color: #f4f5f6;
+  padding-left: 8px;
+  font-size: 1.5em;
+  line-height: 48px;
+}

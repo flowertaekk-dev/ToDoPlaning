@@ -5,11 +5,14 @@ import { connect } from "react-redux"
 import { exitToDoDetail, deleteToDo } from "../../../store/actions/todoActions"
 import Aux from "../../../hoc/Auxiliary/Auxiliary"
 import Button from "../../../UI/Button/Button"
+import SuperToDo from "./RelatedToDo/SuperToDo"
+import ChildToDo from "./RelatedToDo/ChildToDo"
+import * as _ from "../../../Utils/_"
 import "./ToDoDetail.css"
 
 const todoDetail = props => {
   const deleteToDo = () => {
-    props.deleteToDo(props.todoInfo.id)
+    props.deleteToDo(props.todoInfo.id, props.todoInfo.superToDo)
     props.history.go("/")
   }
 
@@ -45,12 +48,6 @@ const todoDetail = props => {
             </div>
           )}
 
-          {/* <div className="content">
-            <span className="title">ID</span>
-            <span className="separator">|</span>
-            <p>{props.todoInfo.id}</p>
-          </div> */}
-
           <div className="content">
             <span className="title">Priority</span>
             <span className="separator">|</span>
@@ -74,6 +71,35 @@ const todoDetail = props => {
             <span className="separator">|</span>
             <p>{props.todoInfo.deadLine}</p>
           </div>
+
+          {props.todoInfo.superToDo && (
+            <div className="content">
+              <span className="title">Super ToDo</span>
+              <span className="separator">|</span>
+              {/* If there is any better way... */}
+              <SuperToDo
+                id={Object.keys(props.todoInfo.superToDo)[0]}
+                title={Object.values(props.todoInfo.superToDo)[0]}
+              />
+            </div>
+          )}
+
+          {props.todoInfo.childToDo && (
+            <div className="content">
+              <span className="title">Child ToDo</span>
+              <span className="separator">|</span>
+              {/* If there is any better way... */}
+              {_.mapWithKeys(props.todoInfo.childToDo).map(childToDo => {
+                return (
+                  <ChildToDo
+                    key={childToDo.index}
+                    id={childToDo.index}
+                    title={childToDo.value}
+                  />
+                )
+              })}
+            </div>
+          )}
 
           <div className="content">
             <span className="title">Details</span>

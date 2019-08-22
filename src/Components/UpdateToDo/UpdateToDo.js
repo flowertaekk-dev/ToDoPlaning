@@ -1,115 +1,132 @@
-import React, { Fragment } from "react"
+import React, { useState, useEffect } from "react"
 import { withRouter } from "react-router-dom"
 import { connect } from "react-redux"
 
-import { exitToDoUpdate, updateExcute } from "../../store/actions/todoActions"
+import { exitToDoUpdate, updateExecute } from "../../store/actions/todoActions"
+import { fetchMemberByGroup } from "../../store/actions/groupActions"
 import Button from "../../UI/Button/Button"
+import Aux from "../../hoc/Auxiliary/Auxiliary"
+import * as _ from "../../Utils/_"
+import Content from "../../UI/Content/Content"
 import lodash from "lodash"
 import "./UpdateToDo.css"
 
 const updateToDo = props => {
+  const [todoInfo, setTodoInfo] = useState({
+    author: props.todoInfo.author,
+    childToDo: props.todoInfo.childToDo,
+    completeRate: props.todoInfo.completeRate,
+    date: props.todoInfo.date,
+    deadLine: props.todoInfo.deadLine,
+    details: props.todoInfo.details,
+    group: props.todoInfo.group,
+    id: props.todoInfo.id,
+    manager: props.todoInfo.manager,
+    priority: props.todoInfo.priority,
+    superToDo: props.todoInfo.superToDo,
+    todo: props.todoInfo.todo
+  })
+
+  const [membersByGroup, setMembersByGroup] = useState({})
+
+  useEffect(() => {
+    props.fetchMemberByGroup(props.todoInfo.group)
+  }, [])
+
+  useEffect(() => {
+    setMembersByGroup(props.membersByGroup)
+  }, [props.membersByGroup])
 
   const exitToDoUpdate = () => {
     props.exitToDoUpdate(props.todoInfo.id)
-    props.history.replace("/")
+    props.history.push("/")
   }
 
-  const updateExcute  = e => {
-    const updatedTodo = {
-      id : props.todoInfo.id,
-      manager : e.target.manager.value,
-      priority : e.target.priority.value,
-      completeRate : e.target.completeRate.value,
-      deadLine : e.target.deadLine.value,
-      details : e.target.details.value
-    }
-    props.updateExcute(updatedTodo)
-    props.history.replace("/todoList")
+  const updateExecute = e => {
+    e.preventDefault()
+
+    props.updateExecute(todoInfo)
+    props.history.push("/")
+  }
+
+  const updateInput = e => {
+    setTodoInfo({ ...todoInfo, [e.target.name]: e.target.value })
   }
 
   return (
-    <Fragment>
-      <form onSubmit={updateExcute}>
-        <tr>
-          <th scope="row">Manager</th>
-          <td>
-            <input
-              type="type"
-              name="manager"
-              defaultValue={props.todoInfo.manager}
-              value={props.manager}
-              onChange={props.updateTodoContents}
-            />
-          </td>
-        </tr>
-        <tr>
-          <th scope="row">Priority</th>
-          <td>
-            <div>
-              <select defaultValue={props.todoInfo.priority} id="priority" name="priority">
-                <option value="urgent">urgent</option>
-                <option value="normal">normal</option>
-                <option value="notHurry">not in a hurry</option>
-              </select>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <th scope="row">completeRate</th>
-          <td>
+    <Aux styleName="UpdateToDo">
+      <div className="wrap">
+        <form onSubmit={updateExecute}>
+          <Content title="Manager">
+            <select name="manager" value={todoInfo.manager} onChange={updateInput}>
+              {_.map(membersByGroup, member => (
+                <option key={member} value={member}>
+                  {member}
+                </option>
+              ))}
+            </select>
+          </Content>
+
+          <Content title="Priority">
+            <select defaultValue={todoInfo.priority} id="priority" name="priority">
+              <option value="urgent">urgent</option>
+              <option value="normal">normal</option>
+              <option value="notHurry">not in a hurry</option>
+            </select>
+          </Content>
+
+          <Content title="Complete rate">
             <select
+              defaultValue={todoInfo.completeRate}
               id="completeRate"
               name="completeRate"
+              onChange={updateInput}
             >
               {lodash.range(1, 101).map(value => (
                 <option key={value} value={value}>
                   {value}
                 </option>
               ))}
-            </select> 
-          </td>
-        </tr>
-        <tr>
-          <th scope="row">Dead-line</th>
-          <td>
+            </select>
+          </Content>
+
+          <Content title="Deadline">
             <input
               type="date"
               name="deadLine"
-              value={props.managerdeadLine}
-              onChange={props.updateTodoContents}
+              value={todoInfo.deadLine}
+              onChange={updateInput}
             />
-          </td>
-        </tr>
-        <tr>
-          <th scope="row">Details</th>
-          <td>
+          </Content>
+
+          <Content title="detail">
             <textarea
               name="details"
               rows="10"
               cols="50"
-              value={props.taskDetails}
-              onChange={props.updateTodoContents}
+              value={todoInfo.details}
+              onChange={updateInput}
             />
-          </td>
-        </tr>
-        <tr>
-          <td colSpan="2" className="btn">
+          </Content>
+
+          <div className="btn">
             <Button buttonType="submit">Save</Button>
             <Button clicked={exitToDoUpdate}>Return</Button>
-          </td>
-        </tr>
-      </form>
-    </Fragment>
+          </div>
+        </form>
+      </div>
+    </Aux>
   )
 }
 
 const mapStateToProps = state => {
-    return {
-      todoInfo: state.todo.currentToDo
-    }
+  return {
+    todoInfo: state.todo.currentToDo,
+    membersByGroup: state.group.membersByGroup
   }
+}
 
-  export default connect(
-    mapStateToProps,
-    { exitToDoUpdate, updateExcute }
-  )(withRouter(updateToDo))
+export default connect(
+  mapStateToProps,
+  { exitToDoUpdate, updateExecute, fetchMemberByGroup }
+)(withRouter(updateToDo))

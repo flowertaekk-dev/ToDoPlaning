@@ -16,7 +16,9 @@ export const fetchGroupListAsync = userId => dispatch => {
   const rootRef = firebase.database().ref()
   const usersRef = rootRef.child("users/" + userId)
 
-  usersRef.child("group").once("value")
+  usersRef
+    .child("group")
+    .once("value")
     .then(snap => {
       const groupNames = { ...snap.val() }
       dispatch({
