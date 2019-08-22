@@ -77,32 +77,32 @@ export const deleteToDo = (todoId, superToDo) => dispatch => {
 
 /**
  * update a certain todo
- * @param {string} todoId : the target Id to be removed
+ * @param {string} todoInfo : the target information to be removed
  */
-export const updateExcute = todoId => dispatch => {
-    const rootRef = firebase.database().ref()
-    const todosRef = rootRef.child("todos")
-    const todoRef = todosRef.child(todoId.id)
+export const updateExecute = todoInfo => dispatch => {
+  const rootRef = firebase.database().ref()
+  const todosRef = rootRef.child("todos")
+  const todoRef = todosRef.child(todoInfo.id)
 
-    todoRef.update({
-        manager: todoId.manager,
-        priority: todoId.priority,
-        completeRate: todoId.completeRate,
-        deadLine: todoId.deadLine,
-        details: todoId.details
-      })
-      .then(res => {
-        todoId.saveClicked()
-      })
-      .catch(err => console.error(err)
-      )
-      dispatch({ type: actionTypes.UPDATE_EXCUTE })
+  todoRef
+    .update({
+      manager: todoInfo.manager,
+      priority: todoInfo.priority,
+      completeRate: todoInfo.completeRate,
+      deadLine: todoInfo.deadLine,
+      details: todoInfo.details
+    })
+    .then(res => {
+      // todoInfo.saveClicked()
+    })
+    .catch(err => console.error(err))
+  dispatch({ type: actionTypes.UPDATE_EXCUTE })
 }
 /**
  * exits todo update page
  */
 export const exitToDoUpdate = () => dispatch => {
-  dispatch({ type: actionTypes.EXIT_TODO_UPDATE})
+  dispatch({ type: actionTypes.EXIT_TODO_UPDATE })
 }
 
 /**

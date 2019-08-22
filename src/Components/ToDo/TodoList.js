@@ -135,8 +135,6 @@ class TodoList extends Component {
               )
             })
           : null}
-        <div>{/* {selectBox}
-          {getTodoListButton} */}</div>
       </Aux>
     )
   }

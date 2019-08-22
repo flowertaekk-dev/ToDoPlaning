@@ -1,58 +1,11 @@
 import React, { Component, Fragment } from "react"
-import { Route, withRouter } from "react-router-dom"
+import { withRouter } from "react-router-dom"
 import { connect } from "react-redux"
 import { showToDoDetail } from "../../../store/actions/todoActions"
-import UpdateToDo from "../../UpdateToDo/UpdateToDo"
-import Button from "../../../UI/Button/Button"
 import "./ToDo.css"
 
 // flowertaekk.dev
 class ToDo extends Component {
-  state = {
-    isUpdate: false
-  }
-
-  componentDidMount() {
-    // init
-    this.setState({
-      ...this.state,
-      todo: this.props.todo,
-      deadLine: this.props.deadLine,
-      priority: this.props.priority,
-      completeRate: this.props.completeRate,
-      details: this.props.details
-    })
-  }
-
-  // moves to Update mode
-  updateBtnClickedHandler = () => {
-    this.setState({
-      ...this.state,
-      isUpdate: !this.state.isUpdate
-    })
-  }
-
-  cancelUpdateHandler = () => {
-    this.setState({
-      ...this.state,
-      isUpdate: !this.state.isUpdate
-    })
-  }
-
-  saveUpdatedDataHandler = () => {
-    this.setState({
-      ...this.state,
-      isUpdate: !this.state.isUpdate
-    })
-  }
-
-  changeDataHandler = e => {
-    this.setState({
-      ...this.state,
-      [e.target.name]: e.target.value
-    })
-  }
-
   toggleShowDetail = () => {
     const {
       author,
@@ -113,11 +66,6 @@ class ToDo extends Component {
           <th scope="row">Details</th>
           <td>{this.props.details}</td>
         </tr>
-        <tr>
-          <td colSpan="2" className="btn-container">
-            <Button clicked={this.updateBtnClickedHandler}>Update</Button>
-          </td>
-        </tr>
       </Fragment>
     )
 
@@ -127,19 +75,7 @@ class ToDo extends Component {
           <caption>ToDo</caption>
           <tbody>
             {todoTitle}
-            {this.state.isUpdate ? (
-              <Route path="../UpdateToDo/UpdateToDo" render={() => <UpdateToDo />} />
-              // <UpdateToDo
-              //   id={this.props.id}
-              //   deadLine={this.state.deadLine}
-              //   taskDetails={this.state.details}
-              //   updateTodoContents={this.changeDataHandler}
-              //   cancelClicked={this.cancelUpdateHandler}
-              //   saveClicked={this.saveUpdatedDataHandler}
-              // />
-            ) : (
-              todoComponent
-            )}
+            {todoComponent}
           </tbody>
         </table>
       </li>
