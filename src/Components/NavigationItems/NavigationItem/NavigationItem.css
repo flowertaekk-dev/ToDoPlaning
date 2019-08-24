@@ -8,8 +8,8 @@ nav.menu ul li {
   transition: background-color 0.3s;
 }
 
-nav.menu ul li:hover,
-nav.menu ul li:active {
+nav.menu ul li.NavigationItem:hover,
+nav.menu ul li.NavigationItem:active {
   background-color: orange;
   /* border-bottom: 2px solid orange; */
 }

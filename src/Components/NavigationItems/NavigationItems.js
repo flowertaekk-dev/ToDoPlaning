@@ -25,10 +25,7 @@ const navigationItems = props => {
   if (!props.userId) {
     beforeSignIn = (
       <NavigationItem>
-        <NavLink
-          to="/signUp"
-          activeStyle={{ color: "lightBlue", fontWeight: "bold" }}
-        >
+        <NavLink to="/signUp" activeStyle={{ color: "lightBlue", fontWeight: "bold" }}>
           SIGN UP
         </NavLink>
       </NavigationItem>
@@ -57,10 +54,7 @@ const navigationItems = props => {
         )}
 
         <NavigationItem>
-          <NavLink
-            to="/addTodo"
-            activeStyle={{ color: "lightBlue", fontWeight: "bold" }}
-          >
+          <NavLink to="/addTodo" activeStyle={{ color: "lightBlue", fontWeight: "bold" }}>
             ADD TODO
           </NavLink>
         </NavigationItem>
@@ -85,7 +79,7 @@ const navigationItems = props => {
 
         <NavigationItem clicked={signOutHandler}>SIGN OUT</NavigationItem>
 
-        <li>
+        <li className="greeting">
           <p>
             <strong>Hello, {props.userId}</strong>
           </p>
