@@ -41,6 +41,12 @@ class ToDo extends Component {
   }
 
   render() {
+    // if urgent, set red color
+    let classNames = ["ToDo"]
+    if (this.props.priority === "urgent") {
+      classNames.push("urgent")
+    }
+
     const todoTitle = (
       <tr className="title">
         <th scope="row">TODO</th>
@@ -70,7 +76,7 @@ class ToDo extends Component {
     )
 
     return (
-      <li className="ToDo" onClick={this.toggleShowDetail}>
+      <li className={classNames.join(" ")} onClick={this.toggleShowDetail}>
         <table>
           <caption>ToDo</caption>
           <tbody>
