@@ -17,7 +17,9 @@ class AddToDo extends Component {
   // TODO need to do refactoring maybe later??
   state = {
     searchedTask: {},
-    selectedSuperToDo: null
+    selectedSuperToDo: null,
+    selectedDate: _.getCurrentDate(),
+    deadLine: _.getCurrentDate()
   }
 
   // TODO it can be replaced with redux
@@ -58,8 +60,7 @@ class AddToDo extends Component {
       priority: priority.value,
       details: taskDetail.value,
       group: group.value === "none" ? null : group.value,
-      manager:
-        manager.value === "defaultManager" ? this.props.userId : manager.value,
+      manager: manager.value === "defaultManager" ? this.props.userId : manager.value,
       superToDo: _.requireNonNull(this.state.selectedSuperToDo)
     }
 
@@ -90,10 +91,7 @@ class AddToDo extends Component {
     })
 
     const getCompleteRate = parseInt(completeRate)
-    if (
-      !isNaN(getCompleteRate) &&
-      (getCompleteRate < 0 || getCompleteRate > 100)
-    ) {
+    if (!isNaN(getCompleteRate) && (getCompleteRate < 0 || getCompleteRate > 100)) {
       this.setState({
         completeMessage: "Please enter a number between 0 and 100"
       })
@@ -157,7 +155,7 @@ class AddToDo extends Component {
                 type="date"
                 id="date"
                 name="selectedDate"
-                value={this.props.selectedDate}
+                value={this.state.selectedDate}
                 onChange={this.editSelectedDateHandler}
               />
               {/* ERROR */}
@@ -177,7 +175,7 @@ class AddToDo extends Component {
               >
                 {lodash.range(1, 101).map(value => (
                   <option key={value} value={value}>
-                    {value}
+                    {value}%
                   </option>
                 ))}
               </select>
@@ -189,7 +187,7 @@ class AddToDo extends Component {
                 type="date"
                 id="deadLine"
                 name="deadLine"
-                value={this.props.deadLine}
+                value={this.state.deadLine}
                 onChange={this.editSelectedDateHandler}
               />
               {/* ERROR */}
@@ -260,9 +258,7 @@ class AddToDo extends Component {
                       {...task}
                       key={task.id}
                       selected={superToDo === task.id}
-                      clicked={() =>
-                        this.superToDoClicked({ [task.id]: task.todo })
-                      }
+                      clicked={() => this.superToDoClicked({ [task.id]: task.todo })}
                     />
                   )
                 })}

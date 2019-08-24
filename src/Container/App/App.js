@@ -29,14 +29,10 @@ class App extends PureComponent {
         redoGetGroupList={this.readGroupListByUser}
       >
         <Route exact path="/userUpdate" render={() => <UserUpdate />} />
-
         <Route path="/messages" render={() => <Messages />} />
         <Route path="/todoList" render={() => <TodoList />} />
         <Route path="/signUp" render={() => <SignUp />} />
-        <Route
-          path="/addTodo"
-          render={() => <AddTodo selectedDate={getCurrentDate()} />}
-        />
+        <Route path="/addTodo" render={() => <AddTodo />} />} />
         <Route path="/inviteToGroup" render={() => <InviteGroup />} />
         <Route path="/addGroup" render={() => <AddGroup />} />
         <Route path="/UpdateToDo" render={() => <UpdateToDo />} />
