@@ -15,11 +15,16 @@
 }
 
 .Calendar table td.active {
+  background-color: #90dabf;
+}
+
+.Calendar table td.today {
   background-color: #bdc3c7;
 }
 
 .Calendar table td:active,
 .Calendar table td:hover {
+  cursor: pointer;
   background-color: #bdc3c7;
 }
 

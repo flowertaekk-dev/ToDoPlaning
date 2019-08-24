@@ -10,6 +10,7 @@ import {
   nextMonth
 } from "../../store/actions/commonActions"
 import Button from "../Button/Button"
+import * as _ from "../../Utils/_"
 import "./Calendar.css"
 
 const calendar = props => {
@@ -48,11 +49,23 @@ const calendar = props => {
             } else if (date > daysInMonth()) {
               return <td key={col} />
             } else {
+              // changes color for selected date
+              let classNames = ["days"]
+              if (props.date === date) {
+                classNames.push("active")
+              }
+
+              // fix color for today
+              console.log(props.date, _.getDayFromDate(_.getCurrentDate()))
+              if (date === _.getDayFromDate(_.getCurrentDate())) {
+                classNames.push("today")
+              }
+
               return (
                 <td
                   key={col}
-                  className={`backgroundColor: 
-                ${props.date === date ? "active" : ""}`}
+                  className={classNames.join(" ")}
+                  // className={`backgroundColor: ${props.date === date ? "active" : ""}`}
                   data-value={date}
                   onClick={selectedDateHandler}
                 >

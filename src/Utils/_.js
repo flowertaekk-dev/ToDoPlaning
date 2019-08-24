@@ -63,12 +63,22 @@ export function getCurrentDate() {
 
   const year = today.getFullYear()
   const month =
-    today.getMonth() + 1 < 10
-      ? "0" + (today.getMonth() + 1)
-      : today.getMonth() + 1
+    today.getMonth() + 1 < 10 ? "0" + (today.getMonth() + 1) : today.getMonth() + 1
   const date = today.getDate() < 10 ? "0" + today.getDate() : today.getDate()
 
   return year + "-" + month + "-" + date
+}
+
+/**
+ * it receives string 'date' data like yyyy-MM-dd, and extracts and returns 'dd' part
+ *
+ * @param {string} date its format should be yyyy-MM-dd
+ * @returns 'dd' date from yyyy-MM-dd. if argument type is not string, returns null
+ */
+export function getDayFromDate(date) {
+  if (typeof date !== "string") return null
+
+  return parseInt(date.substring(8))
 }
 
 /**
