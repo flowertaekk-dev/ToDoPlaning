@@ -46,6 +46,7 @@
 .Layout .groupNameList li:active,
 .Layout .groupNameList li:hover {
   cursor: pointer;
+  background-color: #bdc3c7;
 }
 
 .Layout aside:after {
