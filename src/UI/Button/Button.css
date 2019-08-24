@@ -1,0 +1,11 @@
+button.Button {
+  background-color: #fff;
+  border: 1px solid #e2e4e6;
+  padding: 8px 8px;
+  margin: 0 8px;
+}
+
+button.Button:active,
+button.Button:hover {
+  background-color: #e2e4e6;
+}

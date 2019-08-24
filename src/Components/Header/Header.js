@@ -1,6 +1,7 @@
 import React from "react"
-import { Link } from "react-router-dom"
+import { connect } from "react-redux"
 
+import { fetchTodosById } from "../../store/actions/todoActions"
 import HamburgerButton from "../../UI/HamburgerButton/HamburgerButton"
 import "./Header.css"
 
@@ -9,18 +10,24 @@ const header = props => {
     <div className="Header">
       <div className="title">
         <h1>
-          <Link to="/todoList" replace={true}>
-            It's ToDoPlanning!
-          </Link>
+          <p onClick={() => props.fetchTodosById(props.userId)}>Let's TodoPlanning</p>
         </h1>
       </div>
 
       <div>
         <HamburgerButton />
-        {/* <NavigationItems /> */}
       </div>
     </div>
   )
 }
 
-export default header
+const mapStateToProps = state => {
+  return {
+    userId: state.user.userId
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  { fetchTodosById }
+)(header)

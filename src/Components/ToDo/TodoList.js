@@ -25,10 +25,6 @@ class TodoList extends Component {
     this.hasMounted = false
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return true
-  }
-
   filterWithDate = deadLine => {
     return (
       deadLine <
