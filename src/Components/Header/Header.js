@@ -1,16 +1,22 @@
 import React from "react"
 import { connect } from "react-redux"
+import { withRouter } from "react-router-dom"
 
 import { fetchTodosById } from "../../store/actions/todoActions"
 import HamburgerButton from "../../UI/HamburgerButton/HamburgerButton"
 import "./Header.css"
 
 const header = props => {
+  const titleClicked = () => {
+    props.history.push("/")
+    props.fetchTodosById(props.userId)
+  }
+
   return (
     <div className="Header">
       <div className="title">
         <h1>
-          <p onClick={() => props.fetchTodosById(props.userId)}>Let's TodoPlanning</p>
+          <p onClick={titleClicked}>Let's TodoPlanning</p>
         </h1>
       </div>
 
@@ -30,4 +36,4 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   { fetchTodosById }
-)(header)
+)(withRouter(header))
