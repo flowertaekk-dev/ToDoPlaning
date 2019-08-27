@@ -25,15 +25,19 @@ class TodoList extends Component {
     this.hasMounted = false
   }
 
-  filterWithDate = deadLine => {
-    return (
-      deadLine <
-      [
-        this.props.year,
-        _.withLeadingZero(this.props.month),
-        _.withLeadingZero(this.props.date)
-      ].join("-")
-    )
+  /**
+   * filters data
+   */
+  filterWithDate = (issue, deadLine) => {
+    const selectedDate = [
+      this.props.year,
+      _.withLeadingZero(this.props.month),
+      _.withLeadingZero(this.props.date)
+    ].join("-")
+
+    if (selectedDate < issue) return true
+
+    if (deadLine < selectedDate) return true
   }
 
   sortByPriority = () => {
@@ -117,7 +121,7 @@ class TodoList extends Component {
       <Aux styleName="TodoList">
         {this.props.todoList
           ? this.sortByPriority().map(todo => {
-              if (this.filterWithDate(todo.deadLine)) {
+              if (this.filterWithDate(todo.date, todo.deadLine)) {
                 return null
               }
 
