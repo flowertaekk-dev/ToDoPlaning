@@ -41,3 +41,35 @@
   font-size: 1.5em;
   line-height: 48px;
 }
+
+/* ********
+
+SUPERTODO 
+
+******** */
+
+.UpdateToDo .SuperToDo {
+  /* display: inline-block; */
+  margin: 8px auto;
+  padding: 8px;
+  border: 1px solid #e2e4e6;
+  border-radius: 4px;
+  width: 90%;
+}
+.UpdateToDo .SuperToDo:active,
+.UpdateToDo .SuperToDo:hover {
+  background-color: #ebecee;
+}
+
+.UpdateToDo .SuperToDo .content .title {
+  width: 5% !important;
+}
+
+.UpdateToDo .SuperToDo .content,
+.UpdateToDo .SuperToDo .content p {
+  font-size: 0.9em;
+}
+
+.UpdateToDo .SuperToDo .content p {
+  display: inline-block;
+}

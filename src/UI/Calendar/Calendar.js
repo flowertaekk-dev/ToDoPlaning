@@ -56,7 +56,6 @@ const calendar = props => {
               }
 
               // fix color for today
-              console.log(props.date, _.getDayFromDate(_.getCurrentDate()))
               if (date === _.getDayFromDate(_.getCurrentDate())) {
                 classNames.push("today")
               }

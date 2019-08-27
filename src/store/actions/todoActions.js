@@ -90,7 +90,8 @@ export const updateExecute = todoInfo => dispatch => {
       priority: todoInfo.priority,
       completeRate: todoInfo.completeRate,
       deadLine: todoInfo.deadLine,
-      details: todoInfo.details
+      details: todoInfo.details,
+      superToDo: todoInfo.superToDo
     })
     .then(res => {
       // todoInfo.saveClicked()

@@ -6,6 +6,7 @@ import { exitToDoUpdate, updateExecute } from "../../store/actions/todoActions"
 import { fetchMemberByGroup } from "../../store/actions/groupActions"
 import Button from "../../UI/Button/Button"
 import Aux from "../../hoc/Auxiliary/Auxiliary"
+import SuperToDo from "../ToDo/AddToDo/SuperToDo/SuperToDo"
 import * as _ from "../../Utils/_"
 import firebase from "../../Utils/Config/firebase"
 import Content from "../../UI/Content/Content"
@@ -24,12 +25,11 @@ const updateToDo = props => {
     id: props.todoInfo.id,
     manager: props.todoInfo.manager,
     priority: props.todoInfo.priority,
-    superToDo: props.todoInfo.superToDo,
+    superToDo: _.requireNonNull(props.todoInfo.superToDo),
     todo: props.todoInfo.todo
   })
 
   const [searchedTask, setSearchedTask] = useState({})
-  const [selectedSuperToDo, setSelectedSuperToDo] = useState(null)
 
   const [membersByGroup, setMembersByGroup] = useState({})
 
@@ -49,6 +49,8 @@ const updateToDo = props => {
   const updateExecute = e => {
     e.preventDefault()
 
+    console.log("[TEST]", todoInfo)
+
     props.updateExecute(todoInfo)
     props.history.push("/")
   }
@@ -60,7 +62,7 @@ const updateToDo = props => {
   const retrieveTasksByInput = e => {
     // when there is no input, no suggestion
     if (!e.target.value) {
-      this.setState({ searchedTask: {} })
+      setSearchedTask({})
       return
     }
 
@@ -126,14 +128,18 @@ const updateToDo = props => {
               className="search-super-task"
               type="text"
               name="searchTask"
-              placeholder="Search task with task name"
+              placeholder={
+                _.requireNonNull(todoInfo.superToDo)
+                  ? Object.values(todoInfo.superToDo)[0]
+                  : ""
+              }
               onChange={retrieveTasksByInput}
             />
             <div>
               {_.map(searchedTask, task => {
                 let superToDo = null
-                if (_.requireNonNull(selectedSuperToDo)) {
-                  superToDo = Object.keys(selectedSuperToDo)[0]
+                if (_.requireNonNull(todoInfo.superToDo)) {
+                  superToDo = Object.keys(todoInfo.superToDo)[0]
                 }
 
                 return (
@@ -141,7 +147,9 @@ const updateToDo = props => {
                     {...task}
                     key={task.id}
                     selected={superToDo === task.id}
-                    clicked={() => this.superToDoClicked({ [task.id]: task.todo })}
+                    clicked={() =>
+                      setTodoInfo({ ...todoInfo, superToDo: { [task.id]: task.todo } })
+                    }
                   />
                 )
               })}
