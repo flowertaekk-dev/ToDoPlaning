@@ -7,6 +7,7 @@ import { fetchMemberByGroup } from "../../store/actions/groupActions"
 import Button from "../../UI/Button/Button"
 import Aux from "../../hoc/Auxiliary/Auxiliary"
 import * as _ from "../../Utils/_"
+import firebase from "../../Utils/Config/firebase"
 import Content from "../../UI/Content/Content"
 import lodash from "lodash"
 import "./UpdateToDo.css"
@@ -26,6 +27,9 @@ const updateToDo = props => {
     superToDo: props.todoInfo.superToDo,
     todo: props.todoInfo.todo
   })
+
+  const [searchedTask, setSearchedTask] = useState({})
+  const [selectedSuperToDo, setSelectedSuperToDo] = useState(null)
 
   const [membersByGroup, setMembersByGroup] = useState({})
 
@@ -51,6 +55,24 @@ const updateToDo = props => {
 
   const updateInput = e => {
     setTodoInfo({ ...todoInfo, [e.target.name]: e.target.value })
+  }
+
+  const retrieveTasksByInput = e => {
+    // when there is no input, no suggestion
+    if (!e.target.value) {
+      this.setState({ searchedTask: {} })
+      return
+    }
+
+    const rootRef = firebase.database().ref()
+    const todosRef = rootRef.child("todos")
+    todosRef
+      .orderByChild("todo")
+      .startAt(e.target.value)
+      .endAt(e.target.value + "\uf8ff")
+      .once("value", snap => {
+        setSearchedTask(snap.val())
+      })
   }
 
   return (
@@ -84,7 +106,7 @@ const updateToDo = props => {
             >
               {lodash.range(1, 101).map(value => (
                 <option key={value} value={value}>
-                  {value}
+                  {value}%
                 </option>
               ))}
             </select>
@@ -97,6 +119,33 @@ const updateToDo = props => {
               value={todoInfo.deadLine}
               onChange={updateInput}
             />
+          </Content>
+
+          <Content title="Parent task">
+            <input
+              className="search-super-task"
+              type="text"
+              name="searchTask"
+              placeholder="Search task with task name"
+              onChange={retrieveTasksByInput}
+            />
+            <div>
+              {_.map(searchedTask, task => {
+                let superToDo = null
+                if (_.requireNonNull(selectedSuperToDo)) {
+                  superToDo = Object.keys(selectedSuperToDo)[0]
+                }
+
+                return (
+                  <SuperToDo
+                    {...task}
+                    key={task.id}
+                    selected={superToDo === task.id}
+                    clicked={() => this.superToDoClicked({ [task.id]: task.todo })}
+                  />
+                )
+              })}
+            </div>
           </Content>
 
           <Content title="detail">
