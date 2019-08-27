@@ -37,6 +37,7 @@ const todoReducer = (state = init, action) => {
       return clonedState
     // deletes todo
     case actionTypes.DELETE_TODO:
+      action.payload.history.go("/")
       return clonedState
     case actionTypes.UPDATE_EXCUTE:
       clonedState.showToDoDetail = false

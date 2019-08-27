@@ -12,8 +12,7 @@ import "./ToDoDetail.css"
 
 const todoDetail = props => {
   const deleteToDo = () => {
-    props.deleteToDo(props.todoInfo.id, props.todoInfo.superToDo)
-    props.history.go("/")
+    props.deleteToDo(props.todoInfo.id, props.todoInfo.superToDo, props.history)
   }
 
   const updateToDo = () => {

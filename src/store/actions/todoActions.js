@@ -60,19 +60,21 @@ export const exitToDoDetail = () => dispatch => {
  * deletes a certain todo
  * @param {string} todoId : the target Id to be removed
  */
-export const deleteToDo = (todoId, superToDo) => dispatch => {
+export const deleteToDo = (todoId, superToDo, history) => dispatch => {
   const rootRef = firebase.database().ref()
   const todosRef = rootRef.child("todos")
 
   // deletes child-todo info from super-todo
-  const superTodoRef = todosRef.child(superToDo)
-  superTodoRef.child("childToDo").update({ [todoId]: null })
+  if (superToDo) {
+    const superTodoRef = todosRef.child(Object.keys(superToDo)[0])
+    superTodoRef.child("childToDo").update({ [todoId]: null })
+  }
 
   // deletes ToDo
   const todoRef = todosRef.child(todoId)
   todoRef.remove()
 
-  dispatch({ type: actionTypes.DELETE_TODO })
+  dispatch({ type: actionTypes.DELETE_TODO, payload: { history } })
 }
 
 /**
